@@ -2,6 +2,9 @@
 var express = require('express');
 var app = express();  //use express js module
 
+// Static files to not be parsed by Node
+app.use('/files', express.static(__dirname + '/files'));
+
 //add handlebars view engine
 var handlebars = require('express3-handlebars')
 	.create({defaultLayout: 'main'});  //default handlebars layout page
@@ -20,8 +23,6 @@ app.use(function(req,res){  //express catch middleware if page doesn't exist
 	res.status(404);  //respond with status code
 	res.render('404'); //respond with 404 page
 });
-
-app.use(express.static('views/images')); 
 
 app.listen(app.get('port'), function(){ //start express server
 	console.log( 'Express Server Started on http://localhost');
