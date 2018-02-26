@@ -13,7 +13,7 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars'); //sets express view engine to handlebars
 
 
-app.set('port', process.env.PORT || 80);  //sets port 80
+app.set('port', process.env.PORT || 8080);  //sets port 8080
 
 app.get('/', function(req,res){ 
 	res.render('index');  //respond with homepage
