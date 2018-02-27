@@ -20,6 +20,9 @@ app.set('port', process.env.PORT || 8080);  //sets port 8080
 app.get('/', function(req,res){ 
 	res.render('index');  //respond with homepage
 });
+app.get('/event', function(req,res){ 
+	res.render('event');  //respond with event page
+});
 
 app.use(function(req,res){  //express catch middleware if page doesn't exist
 	res.status(404);  //respond with status code
