@@ -25,5 +25,26 @@ app.use(function(req,res){  //express catch middleware if page doesn't exist
 });
 
 app.listen(app.get('port'), function(){ //start express server
-	console.log( 'Express Server Started on http://localhost');
+	console.log( 'Express Server Started on http://localhost:8080');
+});
+
+var mysql = require('mysql'); // use MySQL for our database
+
+// MySQL default authentication/configuration
+var connection = mysql.createConnection({
+	host: "localhost",
+	user: "root",
+	password: "",
+    database: "EventManagement"
+});
+
+connection.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+    // Still need to add columns Start Date, End Date, Creation Date, and Price. (consider moment.js for dates)
+    var sql = "CREATE TABLE Events (id INT AUTO_INCREMENT PRIMARY KEY, HashTag VARCHAR(255), Name VARCHAR(255), Description VARCHAR(255), Creator VARCHAR(255), Location VARCHAR(255))";
+    connection.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Event Table Created!");
+    });
 });
