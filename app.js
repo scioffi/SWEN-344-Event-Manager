@@ -9,6 +9,9 @@ app.use('/files', express.static(__dirname + '/files'));
 var handlebars = require('express3-handlebars')
 	.create({defaultLayout: 'main'});  //default handlebars layout page
 
+// add backend-routing for api calls
+var apis = require('./backend-routing.js')(app);
+
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars'); //sets express view engine to handlebars
 
