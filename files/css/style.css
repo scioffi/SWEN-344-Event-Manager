@@ -1,0 +1,10 @@
+.carousel{
+    object-fit: none; 
+    object-position: center; 
+    width: 100%;
+    max-height: 375px;
+}
+
+#page-content{
+    margin-top: 80px;
+}
