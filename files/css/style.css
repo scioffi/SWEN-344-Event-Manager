@@ -4,3 +4,7 @@
     width: 100%;
     max-height: 375px;
 }
+
+#page-content{
+    margin-top: 80px;
+}
