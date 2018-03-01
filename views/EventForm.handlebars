@@ -5,11 +5,11 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="event_title" class="control-label">Event Title</label>
-                    <input type="text" class="form-control input-lg" name="event_title" id="event_title" placeholder="Event Title">
+                    <input type="text" class="form-control input-lg" name="event_title" id="event_title" placeholder="Event Title" required>
                 </div>
                 <div class="form-group">
                     <label for="event_desc" class="control-label">Event Description</label>
-                    <textarea class="form-control" name="event_desc" id="event_desc" placeholder="Event Description" rows="4" cols="100%"></textarea>
+                    <textarea class="form-control" name="event_desc" id="event_desc" placeholder="Event Description" rows="4" cols="100%" required></textarea>
                 </div>
             </div>
         </div>
@@ -19,14 +19,14 @@
                     <label for="event_location">Location</label>
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
-                        <input type="text" class="form-control" name="event_location" id="event_location" placeholder="Event Location">
+                        <input type="text" class="form-control" name="event_location" id="event_location" placeholder="Event Location" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="event_hashtag" class="control-label">Give your event a hashtag</label>
+                    <label for="event_tag" class="control-label">Give your event a tag</label>
                     <div class="input-group">
-                        <span class="input-group-addon">#</span>
-                        <input type="text" class="form-control" name="event_hashtag" id="event_hashtag" placeholder="Event Hashtag">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+                        <input type="text" class="form-control" name="event_tag" id="event_tag" placeholder="Event Tag" required>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label for="event_start_time" class="control-label">Start Time</label>
                     <div class="input-group date form_datetime" data-date-format="MM dd yyyy - HH:ii p" data-link-field="event_start_time">
-                        <input class="form-control" name="event_start_time" size="16" type="text" value="" readonly>
+                        <input class="form-control" name="event_start_time" size="16" type="text" value="" readonly required>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
                     <input type="hidden" id="event_start_time" value="" />
@@ -42,7 +42,7 @@
                 <div class="form-group">
                     <label for="event_end_time" class="control-label">End Time</label>
                     <div class="input-group date form_datetime" data-date-format="MM dd yyyy - HH:ii p" data-link-field="event_start_time">
-                        <input class="form-control" name="event_end_time" size="16" type="text" value="" readonly>
+                        <input class="form-control" name="event_end_time" size="16" type="text" value="" readonly required>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                     </div>
                     <input type="hidden" id="event_end_time" value="" />
@@ -51,7 +51,7 @@
                     <label for="event_price" class="control-label">Event Price</label>
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input type="text" class="form-control" name="event_price" id="event_price" placeholder="Event Price">
+                        <input type="text" class="form-control" name="event_price" id="event_price" placeholder="Event Price" required>
                     </div>
                 </div>
             </div>
