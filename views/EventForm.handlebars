@@ -1,6 +1,11 @@
+{{#section 'head'}}
+    <!-- stuff that goes in head...example: -->
+    <title>Create an Event | Event Manager</title>
+{{/section}}
+
 <div id="page-event-form">
     <h1>Create a new Event</h1>
-    <form method="post" action="/api/newevent/" id="event-form">
+    <form method="post" action="/api/createEvent/" id="event-form">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -9,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label for="event_desc" class="control-label">Event Description</label>
-                    <textarea class="form-control" name="event_desc" id="event_desc" placeholder="Event Description" rows="4" cols="100%" required></textarea>
+                    <textarea class="form-control" name="event_desc" id="event_desc" placeholder="Event Description" rows="3" cols="100%" required></textarea>
                 </div>
             </div>
         </div>
@@ -27,6 +32,13 @@
                     <div class="input-group">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
                         <input type="text" class="form-control" name="event_tag" id="event_tag" placeholder="Event Tag" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="event_image" class="control-label">Event Image (URL) [Optional]</label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-picture"></span></span>
+                        <input type="text" class="form-control" name="event_image" id="event_image" placeholder="Event Image (URL)">
                     </div>
                 </div>
             </div>
