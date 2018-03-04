@@ -1,7 +1,3 @@
-/**
- * Created by kylescagnelli on 2/26/18.
- */
- 
 var users = [{"userId" : 1, "username" :"jdoe1234" , "name" : "John Doe", "email" : "jdoe1234@rit.edu", "permission" : "user"},
 			 {"userId" : 2, "username" :"jsmith1234" , "name" : "John Smith", "email" : "jsmith1234@rit.edu", "permission" : "user"},
 			 {"userId" : 3, "username" :"rmoore1234" , "name" : "Ryan Moore", "email" : "rmoore1234@rit.edu", "permission" : "user"},

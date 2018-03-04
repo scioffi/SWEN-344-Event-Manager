@@ -6,9 +6,6 @@ var get_user_url = base_url + "/getUser"
 var get_events_url = base_url + "/getEvents"
 var get_event_url = base_url + "/getEvent"
 
-// var TestApiHelper = require('./helper/TestApiHelper.js');
-// var testMyApi = new TestApiHelper();
-
 // Jasmine test example 
 describe("An example suite", function() {
   it("contains spec with an expectation", function() {
