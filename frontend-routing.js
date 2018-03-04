@@ -1,5 +1,5 @@
 function getData(url){
-    fetch(url, {
+    window.fetch(url, {
     	method: "get",
 		credentials: "include"
 	})
