@@ -2,6 +2,8 @@
  * Created by kylescagnelli on 2/26/18.
  */
  
+const API_PATH = "/api";
+
 var users = [{"userId" : 1, "username" :"jdoe1234" , "name" : "John Doe", "email" : "jdoe1234@rit.edu", "permission" : "user"},
 			 {"userId" : 2, "username" :"jsmith1234" , "name" : "John Smith", "email" : "jsmith1234@rit.edu", "permission" : "user"},
 			 {"userId" : 3, "username" :"rmoore1234" , "name" : "Ryan Moore", "email" : "rmoore1234@rit.edu", "permission" : "user"},
@@ -15,10 +17,10 @@ var attendees = [{"name" : "John Doe", "eventId" : 1},
 				 
 var orders = [{"userId" : 1, "eventId" : 1, "price" : 0, "currency" : "BTC"},
 			  {"userId" : 2, "eventId" : 2, "price" : 25, "currency" : "USD"},
-			  {"userId" : 3, "eventId" : 2, "price" : 25, "currency" : "GBP"}]
+              {"userId" : 3, "eventId" : 2, "price" : 25, "currency" : "GBP"}]
  
 module.exports = function(app) {
-    app.get('/getUser', (req, res) => {
+    app.get(API_PATH + '/getUser', (req, res) => {
         var userId = req.query.userId;
         if (nullOrEmpty(userId)) {
             res.status(400);
@@ -28,11 +30,11 @@ module.exports = function(app) {
         }
     })
 	
-	app.get('/getUsers', (req, res) => {        
+	app.get(API_PATH + '/getUsers', (req, res) => {        
             res.send(users);
     })
 	
-	app.get('/createUser', (req, res) => {
+	app.get(API_PATH + '/createUser', (req, res) => {
         var username = req.query.username;
 		var name = req.query.name;
 		var email = req.query.email;
@@ -45,7 +47,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/deleteUser', (req, res) => {
+    app.get(API_PATH + '/deleteUser', (req, res) => {
         var userId = req.query.userId;
         if (nullOrEmpty(userId)) {
             res.status(400);
@@ -55,7 +57,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/getEvent', (req, res) => {
+    app.get(API_PATH + '/getEvent', (req, res) => {
         var eventId = req.query.eventId;
         if (nullOrEmpty(eventId)) {
             res.status(400);
@@ -65,11 +67,11 @@ module.exports = function(app) {
         }
     })
 	
-	app.get('/getEvents', (req, res) => {        
+	app.get(API_PATH + '/getEvents', (req, res) => {        
             res.send(events);
     })
 
-    app.get('/createEvent', (req, res) => {
+    app.get(API_PATH + '/createEvent', (req, res) => {
         var title = req.query.title;
 		var startTime = req.query.startTime;
         var endTime = req.query.endTime;
@@ -86,7 +88,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/deleteEvent', (req, res) => {
+    app.get(API_PATH + '/deleteEvent', (req, res) => {
         var eventId = req.query.eventId;
         if (nullOrEmpty(eventId)) {
             res.status(400);
@@ -96,7 +98,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/expireEvent', (req, res) => {
+    app.get(API_PATH + '/expireEvent', (req, res) => {
         var eventId = req.query.eventId;
         if (nullOrEmpty(eventId)) {
             res.status(400);
@@ -106,7 +108,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/getAttendee', (req, res) => {
+    app.get(API_PATH + '/getAttendee', (req, res) => {
         var eventId = req.query.eventId;
         if (nullOrEmpty(eventId)) {
             res.status(400);
@@ -116,11 +118,11 @@ module.exports = function(app) {
         }
     })
 	
-	app.get('/getAttendees', (req, res) => {        
+	app.get(API_PATH + '/getAttendees', (req, res) => {        
             res.send(attendees);
     })
 
-    app.get('/addAttendee', (req, res) => {
+    app.get(API_PATH + '/addAttendee', (req, res) => {
         var userId = req.query.userId;
 		var name = req.query.name;
 		
@@ -132,7 +134,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/deleteAttendee', (req, res) => {
+    app.get(API_PATH + '/deleteAttendee', (req, res) => {
         var eventId = req.query.eventId;
         if (nullOrEmpty(userId)) {
             res.status(400);
@@ -142,7 +144,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/getOrder', (req, res) => {
+    app.get(API_PATH + '/getOrder', (req, res) => {
         var userId = req.query.userId;
         var eventId = req.query.eventId;
         if (nullOrEmpty(eventId) || nullOrEmpty(userId)) {
@@ -153,11 +155,11 @@ module.exports = function(app) {
         }
     })
 	
-	app.get('/getOrders', (req, res) => {        
+	app.get(API_PATH + '/getOrders', (req, res) => {        
             res.send(orders);
     })
 
-    app.get('/createOrder', (req, res) => {
+    app.get(API_PATH + '/createOrder', (req, res) => {
         var userId = req.query.userId;
 		var eventId = req.query.eventId;
         var price = req.query.price;
@@ -171,7 +173,7 @@ module.exports = function(app) {
         }
     })
 
-    app.get('/deleteOrder', (req, res) => {
+    app.get(API_PATH + '/deleteOrder', (req, res) => {
         var userId = req.query.userId;
         var eventId = req.query.eventId;
         if (nullOrEmpty(eventId) || nullOrEmpty(userId)) {
