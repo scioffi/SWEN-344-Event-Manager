@@ -1,12 +1,14 @@
+var fetch = require("node-fetch");
+
 function getData(url){
-    window.fetch(url, {
+    fetch(url, {
     	method: "get",
 		credentials: "include"
 	})
 	.then(function(response) {
 		return response.json();
 	})
-	.error(function(e) {
+	.catch(function(e) {
 		console.error(e);
 		return {error: e}
 	});
