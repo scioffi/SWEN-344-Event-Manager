@@ -31,14 +31,4 @@ app.listen(app.get('port'), function(){ //start express server
 	console.log( 'Express Server Started on http://localhost');
 });
 
-var TestApiHelper = require('./spec/helper/TestApiHelper.js');
-var testMyApi = new TestApiHelper();
-var responseArray = testMyApi.getUserFromPromise();
-responseArray.then(function (v) {
-    console.log(v);
-});
 
-
-// console.log(responseArray);
-// console.log(testMyApi.test());
-// console.log(testMyApi.getData("http://localhost:8080/getUser"));

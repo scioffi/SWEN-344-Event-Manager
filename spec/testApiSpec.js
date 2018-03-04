@@ -1,46 +1,56 @@
-var request = require("request") 
+var request = require("request");
 
-var base_url = "http://localhost:8080/getUser"
-var TestApiHelper = require('./helper/TestApiHelper.js');
-var testMyApi = new TestApiHelper();
+var base_url = "http://localhost:8080"
+var get_user_url = "http://localhost:8080/getUser"
 
-describe("A suite", function() {
+// var TestApiHelper = require('./helper/TestApiHelper.js');
+// var testMyApi = new TestApiHelper();
+
+// Jasmine test example 
+describe("An example suite", function() {
   it("contains spec with an expectation", function() {
     expect(true).toBe(true);
   });
 });
 
-// describe("Another suite", function(){
-//   it("contains spec with an expectation", function() {
-//     expect(testMyApi.getUserFromPromise()).toBe("This will be the JSON.......");
-//   });
-// });
 
+// Test Local Server 
+describe("Test Event Manager on Local Server", function(){
 
-// describe("A suite", function() {
-//   it("contains spec with an expectation", function() {
-//     console.log("Heya!");
-//     console.log(testMyApi.getUser);
-       
+  // Test Base URL  http://localhost:8080
+  describe("GET Base URL /", function(){
+    it("returns  status code 200", function(){
+      request.get(base_url, function(error, response, body){
+        console.log(response.statusCode);
+        expect(response.statusCode).toBe(200);
+        // done();
+      });
+    });
+  });
+});
 
-//     expect(testMyApi.getUser).toBe("{'userId' : 1, 'username' : 'jdoe1234' , 'name' : 'John Doe', 'email' : 'jdoe1234@rit.edu', 'permission' : 'user'}");
-//   });
-// });
+  // Test /getUser endpoint 
+  describe("GET /getUser", function() {
+    it("returns status code 200", function(done) {                  
+      request.get(get_user_url, function(error, response, body) {
+        console.log(body);
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+    });
 
-
-
-
-
-// describe("Hello World Server", function() {
-//   describe("GET /", function() {
-//     it("returns user", function(done) {
-//       request.get("http://localhost:8080/getUser", function(error, response, body) {
-//         expect("{userId' : 1, 'username' : 'jdoe1234' , 'name' : 'John Doe', 'email' : 'jdoe1234@rit.edu', 'permission' : 'user'}").toBe(JSON.stringify({'userId' : 1, 'username' : 'jdoe1234' , 'name' : 'John Doe', 'email' : 'jdoe1234@rit.edu', 'permission' : 'user'}));
-//         done();
-//       });
-//     });
-//   });
-// });
+    it("returns user JSON", function(done) {
+      request.get(get_user_url, function(error, response, body) {
+        let json = JSON.parse(body)
+        expect(body).toBe('{"userId":1,"username":"jdoe1234","name":"John Doe","email":"jdoe1234@rit.edu","permission":"user"}');
+        expect(json["userId"]).toBe(1);
+        expect(json["username"]).toBe("jdoe1234");
+        expect(json["name"]).toBe("John Doe");
+        expect(json["permission"]).toBe("user");
+        done();
+      });
+    });
+  });
 
 
 
