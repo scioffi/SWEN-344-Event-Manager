@@ -8,7 +8,7 @@ Event Manager's API documentation. No authentication is required to call the API
 GET `/api/getUsers` will return all the users in the system
 
 ### Request:
-**Base URL**: ```http://localhost:8080/getUsers```
+**Base URL**: ```http://localhost:8080/api/getUsers```
 **Params**: `None`
 **Method**: `GET `
 
@@ -55,7 +55,7 @@ This should return something like:
 GET `/api/getUsers` will return all the users in the system
 
 ### Request:
-**Base URL**: ```http://localhost:8080/getUser```
+**Base URL**: ```http://localhost:8080/api/getUser```
 **Method**: `GET`
 **Params**: `userId=<user identification number>`
 
@@ -77,6 +77,61 @@ The above request will return something like:
   "permission": "user"
  }
  ```
+ 
+ ## Get all the events
 
+GET `/api/getEvents` will return all the events regiestered in the system
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/getEvents```
+**Params**: `None`
+**Method**: `GET `
+
+### Sample Request: 
+```http://localhost:8080/api/getEvents```
+This should return something like: 
+
+### Response: 
+ ```
+ [
+  {
+    "eventId": 1,
+    "title": "RIT Spring Fest",
+    "description": "RIT annual event",
+    "creationDate": "2-27-2017",
+    "startTime": "8am",
+    "endTime": "5pm",
+    "author": "Chris Vuong",
+    "location": "RIT campus",
+    "price": 0,
+    "hashtag": "#RITSpringFest",
+    "status": "open"
+  },
+  {
+    "eventId": 2,
+    "title": "RIT Drinking Party",
+    "description": "RIT daily event",
+    "creationDate": "3-1-2018",
+    "startTime": "8am",
+    "endTime": "5pm",
+    "author": "Chris Vuong",
+    "location": "RIT campus",
+    "price": 25,
+    "hashtag": "#RITDrinkingParty",
+    "status": "open"
+  }
+]
+
+ ```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
