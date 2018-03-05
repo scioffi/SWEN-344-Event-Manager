@@ -3,8 +3,6 @@
 ## Overview
 Talk here about what is events manager? 
 
-## GET ALL THE USERS: ```GET /api/getUsers```
-### URL : /api/getUsers
 ### Request : ```http://localhost:8080/getUsers```
 ### Response: 
 
