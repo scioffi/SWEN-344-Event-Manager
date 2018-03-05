@@ -231,7 +231,7 @@ The above request will return something like:
   
  ```
  
-  ## Get Attendes
+  ## Get Attendees
 
 GET `/api/getAttendees` will get all the attendees across all events in the system
 
