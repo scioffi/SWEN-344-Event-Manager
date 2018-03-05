@@ -1,7 +1,7 @@
 # API Documentation : Event Management System
 
 ## Overview
-Welcome to Event Manager's official API documentation. No authentication is required to call the API at the moment. You can simple call the specified endpoints as represented below.
+Welcome to Event Manager's official API documentation. No authentication is required to call the API at the moment. You can simply call the specified endpoints as represented below.
 
 ## Get All Users
 
