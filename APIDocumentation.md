@@ -15,9 +15,11 @@ GET `/api/getUsers` will return all the users in the system
 This should return something like: 
 
 ### Sample Request: 
+Let's get a user whose id = 1
 
 ```http://localhost:8080/getUser?userId=1                                   ```
 
+The above request will return something like: 
 ### Response: 
  ```
  [
