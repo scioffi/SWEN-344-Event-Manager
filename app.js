@@ -33,21 +33,34 @@ app.listen(app.get('port'), function(){ //start express server
 
 var mysql = require('mysql'); // use MySQL for our database
 
-// MySQL default authentication/configuration
-var connection = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "",
+// connect to the mysql server on the vm
+var con = mysql.createConnection({
+    host: "webeng.stephencioffi.com",
+    user: "events",
+    password: "dANiScOOL",
     database: "EventManagement"
 });
 
-connection.connect(function(err) {
+// begin making queries
+con.connect(function(err) {
     if (err) throw err;
-    console.log("Connected!");
-    // Still need to add columns Start Date, End Date, Creation Date, and Price. (consider moment.js for dates)
-    var sql = "CREATE TABLE Events (id INT AUTO_INCREMENT PRIMARY KEY, HashTag VARCHAR(255), Name VARCHAR(255), Description VARCHAR(255), Creator VARCHAR(255), Location VARCHAR(255))";
-    connection.query(sql, function (err, result) {
+    console.log("Database Connected!");
+    con.query("INSERT INTO User (username, first_name, last_name, email) VALUES ('dankrutz344', 'Dan', 'Krutz', 'daniscool@inyourdreams.com')", function (err, result) {
         if (err) throw err;
-        console.log("Event Table Created!");
+        console.log("Dan Krutz record inserted into User Table!");
+    });
+    con.query("SELECT * FROM User", function (err, result, fields) {
+        if (err) throw err;
+        console.log("With Krutz Added:");
+        console.log(result);
+    });
+    con.query("DELETE FROM User WHERE username = 'dankrutz344'", function (err, result) {
+        if (err) throw err;
+        console.log("Dan Krutz record deleted from User Table!");
+    });
+    con.query("SELECT * FROM User", function (err, result, fields) {
+        if (err) throw err;
+        console.log("With Krutz Deleted:");
+        console.log(result);
     });
 });
