@@ -1,13 +1,17 @@
 # API Documentation : Event Management System
 
 ## Overview
-Event Manager's API documentation.
+Event Manager's API documentation. No authentication is required to call the API at the moment. You can simple call the specified endpoints as represented below.
 
 
-### Get Users /getUsers
+### GET Users /api/getUsers
+
+GET /api/getUsers will return all the users in the system
 
 ### Request:
 **URL**: ```http://localhost:8080/getUsers```
+**Method**: `GET `
+
 
 This should return something like: 
 ### Response: 
