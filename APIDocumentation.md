@@ -6,7 +6,7 @@ Event Manager's API documentation. No authentication is required to call the API
 
 ### GET Users /api/getUsers
 
-GET /api/getUsers will return all the users in the system
+GET `/api/getUsers` will return all the users in the system
 
 ### Request:
 **URL**: ```http://localhost:8080/getUsers```
