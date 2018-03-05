@@ -247,7 +247,16 @@ GET `/api/getAttendees` will get all the attendees across all events in the syst
 This should return something like: 
 ### Response: 
  ```
- Successfully created event
+[
+  {
+    "name": "John Doe",
+    "eventId": 1
+  },
+  {
+    "name": "Dan Krutz",
+    "eventId": 2
+  }
+]
  ```
  
   CURL Example:
