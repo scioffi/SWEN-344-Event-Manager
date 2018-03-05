@@ -1,14 +1,14 @@
-# EVENTS MANAGER API DOCUMENTATION 
+# Event Management System: API DOCUMENTATION
 
 ## Overview
-Talk here about what is events manager? 
+Event Manager's API documentation.
+
 
 ### Get Users /getUsers
 
 ### Request:
 ```http://localhost:8080/getUsers```
 ### Response: 
-
  ```
  [
   {
