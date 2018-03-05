@@ -1,4 +1,4 @@
-# API Documentation
+# API Documentation : Event Management System
 
 ## Overview
 Event Manager's API documentation.
