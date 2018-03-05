@@ -4,7 +4,7 @@
 Event Manager's API documentation. No authentication is required to call the API at the moment. You can simple call the specified endpoints as represented below.
 
 
-### GET Users /api/getUsers
+## Get All Users
 
 GET `/api/getUsers` will return all the users in the system
 
