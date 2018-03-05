@@ -215,6 +215,12 @@ The above request will return something like:
 ### Response: 
  ```
  Successfully created event
+ ```
+ 
+ ### Error Response: 
+ 
+ ```
+ Invalid url parameters
  
  ```
   CURL Example:
@@ -223,7 +229,7 @@ The above request will return something like:
   curl -XGET http://localhost:8080/api/createEvent?
   
  ```
- 
+
  
  
  
