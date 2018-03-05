@@ -50,6 +50,12 @@ This should return something like:
 
  ```
  
+ CURL Example:
+ 
+ ```
+  curl -XGET 'http://localhost:8080/getUsers
+ ```
+ 
  ## 2.  Get an User by UserId
 
 GET `/api/getUsers` will return all the users in the system
