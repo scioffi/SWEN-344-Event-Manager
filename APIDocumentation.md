@@ -190,11 +190,12 @@ GET `/api/createEvent` will create an event
 **Base URL**: ```http://localhost:8080/api/createEvent```
 **Method**: `GET`
 **Params**: 
+
 Title: `title=<string>`
 
-StartTime: `startTime=<timestamp>`
+StartTime: `startTime=<>`
 
-endTime : `endTime=<timestamp>`
+endTime : `endTime=<>`
 
 Author : `author=<string>`
 
