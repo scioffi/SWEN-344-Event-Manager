@@ -190,19 +190,19 @@ GET `/api/createEvent` will create an event
 **Base URL**: ```http://localhost:8080/api/createEvent```
 **Method**: `GET`
 **Params**: 
-`title`
+Title: `title=<string>`
 
-`startTime`
+StartTime: `startTime=<timestamp>`
 
-`endTime`
+endTime : `endTime=<timestamp>`
 
-`author`
+Author : `author=<string>`
 
-`location`
+Location: `location=<string>`
 
-`price`
+Price : `price=<double>`
 
-`hashtag`
+Hashtag : `hashtag=<string>`
 
 This should return something like: 
 
