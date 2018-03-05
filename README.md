@@ -1,9 +1,12 @@
 # SWEN-344-Event-Manager
 Group 7 - Krutz"R"Us: Event Management System
 
-Welcome to the Event Management System
+Hey there! Welcome to theThese instructions will help you get the project up and running on your local machine for development and testing purposes.
 
-## Getting Started
-You can find the API Documentation to our site below:
+## API Documentation
 
-* [API Documentation](/APIDocumentation.md) : `GET /`
+A complete API Documentation to the site can be found below:
+
+* [API Documentation](/APIDocumentation.md) 
+
+Enjoy :) 
