@@ -7,7 +7,9 @@ Event Manager's API documentation.
 ### Get Users /getUsers
 
 ### Request:
-```http://localhost:8080/getUsers```
+**URL**: ```http://localhost:8080/getUsers```
+
+This should return something like: 
 ### Response: 
  ```
  [
