@@ -84,6 +84,13 @@ The above request will return something like:
  }
  ```
  
+  CURL Example:
+ 
+ ```
+  curl -XGET 'http://localhost:8080/getUser?userId=1
+ ```
+ 
+ 
  ## 3. Get all the events
 
 GET `/api/getEvents` will return all the events regiestered in the system
@@ -130,6 +137,12 @@ This should return something like:
 
  ```
  
+  CURL Example:
+ 
+ ```
+  curl -XGET 'http://localhost:8080/getEvents
+ ```
+ 
  ## 4.  Get an Event by EventId
 
 GET `/api/getUsers` will return all the users in the system
@@ -163,7 +176,11 @@ The above request will return something like:
   "status": "open"
 }
  ```
+  CURL Example:
  
+ ```
+  curl -XGET 'http://localhost:8080/getEvent?eventId=1
+ ```
  
  
  
