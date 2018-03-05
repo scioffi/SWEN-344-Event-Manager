@@ -50,7 +50,7 @@ This should return something like:
 
  ```
  
- ## 2.  Get a User by UserId
+ ## 2.  Get an User by UserId
 
 GET `/api/getUsers` will return all the users in the system
 
@@ -124,7 +124,39 @@ This should return something like:
 
  ```
  
- 
+ ## 4.  Get an Event by EventId
+
+GET `/api/getUsers` will return all the users in the system
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/getEvent```
+**Method**: `GET`
+**Params**: `eventId=<event identification number>`
+
+This should return something like: 
+
+### Sample Request: 
+Let's get an event with id = 1
+
+```http://localhost:8080/api/getEvent?eventId=1                                   ```
+
+The above request will return something like: 
+### Response: 
+ ```
+{
+  "eventId": 1,
+  "title": "RIT Spring Fest",
+  "description": "RIT annual event",
+  "creationDate": "2-27-2017",
+  "startTime": "8am",
+  "endTime": "5pm",
+  "author": "Chris Vuong",
+  "location": "RIT campus",
+  "price": 0,
+  "hashtag": "#RITSpringFest",
+  "status": "open"
+}
+ ```
  
  
  
