@@ -4,6 +4,8 @@
 Talk here about what is events manager? 
 
 ### Get Users /getUsers
+
+### Request:
 ```http://localhost:8080/getUsers```
 ### Response: 
 
