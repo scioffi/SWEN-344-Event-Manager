@@ -15,7 +15,7 @@ app.set('view engine', 'handlebars'); //sets express view engine to handlebars
 
 app.set('port', process.env.PORT || 8080);  //sets port 8080
 
-var apis = require('./frontend-routing.js')(app);
+var apis = require('./backend-routing.js')(app);
 
 app.use(function(req,res){  //express catch middleware if page doesn't exist
 	res.status(404);  //respond with status code
