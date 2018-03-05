@@ -53,7 +53,7 @@ This should return something like:
  CURL Example:
  
  ```
-  curl -XGET 'http://localhost:8080/getUsers
+  curl -XGET http://localhost:8080/api/getUsers
  ```
  
  ## 2.  Get an User by UserId
@@ -87,7 +87,7 @@ The above request will return something like:
   CURL Example:
  
  ```
-  curl -XGET 'http://localhost:8080/getUser?userId=1
+  curl -XGET http://localhost:8080/api/getUser?userId=1
  ```
  
  
@@ -140,7 +140,7 @@ This should return something like:
   CURL Example:
  
  ```
-  curl -XGET 'http://localhost:8080/getEvents
+  curl -XGET http://localhost:8080/api/getEvents
  ```
  
  ## 4.  Get an Event by EventId
@@ -179,7 +179,7 @@ The above request will return something like:
   CURL Example:
  
  ```
-  curl -XGET 'http://localhost:8080/getEvent?eventId=1
+  curl -XGET http://localhost:8080/api/getEvent?eventId=1
  ```
  
  
