@@ -268,7 +268,13 @@ This should return something like:
 
  
  
+ ## Create an USER
  
+ CURL EXAMPLE: 
+ 
+ ```
+ curl -d "username=something&name=something&email=something" -X POST http://localhost:8080/api/createUser
+ ```
  
  
 
