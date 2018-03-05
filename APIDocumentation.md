@@ -230,6 +230,33 @@ The above request will return something like:
   curl -XGET http://localhost:8080/api/createEvent?
   
  ```
+ 
+  ## Get Attendes
+
+GET `/api/getAttendees` will create an event 
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/createEvent```
+**Method**: `GET`
+**Params**: `None`
+
+### Sample Request: 
+Let's get an event with id = 1
+
+```http://localhost:8080/api/getAttendees                            ```
+
+This should return something like: 
+### Response: 
+ ```
+ Successfully created event
+ ```
+ 
+  CURL Example:
+ 
+ ```
+  curl -XGET http://localhost:8080/api/getAttendees
+  
+ ```
 
  
  
