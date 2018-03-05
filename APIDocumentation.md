@@ -14,9 +14,9 @@ GET `/api/getUsers` will return all the users in the system
 
 This should return something like: 
 
-Sample Request: 
+### Sample Request: 
 
-```http://localhost:8080/getUser?userId=1```
+```http://localhost:8080/getUser?userId=1                                   ```
 
 ### Response: 
  ```
