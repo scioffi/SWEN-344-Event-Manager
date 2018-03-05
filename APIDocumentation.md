@@ -191,11 +191,17 @@ GET `/api/createEvent` will create an event
 **Method**: `GET`
 **Params**: 
 `title`
+
 `startTime`
+
 `endTime`
+
 `author`
+
 `location`
+
 `price`
+
 `hashtag`
 
 This should return something like: 
