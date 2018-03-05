@@ -6,8 +6,16 @@ var moment = require('moment');
 app.use('/files', express.static(__dirname + '/files'));
 
 //add handlebars view engine
-var handlebars = require('express3-handlebars')
-	.create({defaultLayout: 'main'});  //default handlebars layout page
+var handlebars = require('express3-handlebars').create({
+	defaultLayout: 'main',
+    helpers: {
+        section: function(name, options){
+            if(!this._sections) this._sections = {};
+            this._sections[name] = options.fn(this);
+            return null;
+        }
+    }
+});
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars'); //sets express view engine to handlebars
