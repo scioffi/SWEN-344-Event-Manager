@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "express3-handlebars": "^0.5.2",
     "fullcalendar": "^3.8.2"

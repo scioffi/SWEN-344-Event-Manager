@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();  //use express js module
 var moment = require('moment');
+var cors = require('cors');
 
 // Static files to not be parsed by Node
 app.use('/files', express.static(__dirname + '/files'));
+app.use(cors());
 
 //add handlebars view engine
 var handlebars = require('express3-handlebars')

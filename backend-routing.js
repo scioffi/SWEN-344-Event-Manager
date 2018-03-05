@@ -30,7 +30,7 @@ module.exports = function(app) {
         }
     })
 	
-	app.get(API_PATH + '/getUsers', (req, res) => {        
+	app.get(API_PATH + '/getUsers', (req, res) => {    
             res.send(users);
     })
 	
