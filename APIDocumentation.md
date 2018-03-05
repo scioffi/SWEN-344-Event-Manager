@@ -9,8 +9,11 @@ GET `/api/getUsers` will return all the users in the system
 
 ### Request:
 **Base Url**: ```http://localhost:8080/getUser```
+
 **Parameters**: ```userId=<user identification number>```
+
 **Method**: `GET `
+
 This should return something like: 
 
 Sample Request: 
