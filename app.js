@@ -2,10 +2,15 @@ var express = require('express');
 var app = express();  //use express js module
 var moment = require('moment');
 var cors = require('cors');
+var bodyParser = require('body-parser')
 
 // Static files to not be parsed by Node
 app.use('/files', express.static(__dirname + '/files'));
 app.use(cors());
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
 
 //add handlebars view engine
 var handlebars = require('express3-handlebars')
