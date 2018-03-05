@@ -233,15 +233,14 @@ The above request will return something like:
  
   ## Get Attendes
 
-GET `/api/getAttendees` will create an event 
+GET `/api/getAttendees` will get all the attendees across all events in the system
 
 ### Request:
-**Base URL**: ```http://localhost:8080/api/createEvent```
+**Base URL**: ```http://localhost:8080/api/getAttendees```
 **Method**: `GET`
 **Params**: `None`
 
 ### Sample Request: 
-Let's get an event with id = 1
 
 ```http://localhost:8080/api/getAttendees                            ```
 
