@@ -3,7 +3,7 @@
 ## Overview
 Welcome to Event Manager's official API documentation. No authentication is required to call the API at the moment. You can simply call the specified endpoints as represented below.
 
-## Get All Users
+## 1. Get All Users
 
 GET `/api/getUsers` will return all the users in the system
 
@@ -50,7 +50,7 @@ This should return something like:
 
  ```
  
- ## Get a User by UserId
+ ## 2.  Get a User by UserId
 
 GET `/api/getUsers` will return all the users in the system
 
@@ -78,7 +78,7 @@ The above request will return something like:
  }
  ```
  
- ## Get all the events
+ ## 3. Get all the events
 
 GET `/api/getEvents` will return all the events regiestered in the system
 
