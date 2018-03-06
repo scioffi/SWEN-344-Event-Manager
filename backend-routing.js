@@ -11,8 +11,8 @@ var users = [{"userId" : 1, "username" :"jdoe1234" , "name" : "John Doe", "email
 			 {"userId" : 3, "username" :"rmoore1234" , "name" : "Ryan Moore", "email" : "rmoore1234@rit.edu", "permission" : "user"},
 			 {"userId" : 4, "username" :"dkrutz1234" , "name" : "Dan Krutz", "email" : "dkrutz1234@rit.edu", "permission" : "admin"}]
 			 
-var events = [{"eventId" : 1, "title" : "RIT Spring Fest", "description" : "RIT annual event", "creationDate" : "2-27-2017", "startTime" : "8am", "endTime" : "5pm", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 0, "hashtag" : "#RITSpringFest", "status" : "open"},
-			  {"eventId" : 2, "title" : "RIT Drinking Party", "description" : "RIT daily event", "creationDate" : "3-1-2018", "startTime" : "8am", "endTime" : "5pm", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 25, "hashtag" : "#RITDrinkingParty", "status" : "open"}]
+var events = [{"eventId" : 1, "title" : "RIT Spring Fest", "description" : "RIT annual event", "creationDate" : "1520295410", "startTime" : "1523523600", "endTime" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 0, "hashtag" : "RITSpringFest", "status" : "open"},
+			  {"eventId" : 2, "title" : "RIT Drinking Party", "description" : "RIT daily event", "creationDate" : "1520295000", "startTime" : "1523523600", "endTime" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 25, "hashtag" : "RITDrinkingParty", "status" : "open"}]
 			  
 var attendees = [{"name" : "John Doe", "eventId" : 1},
 				 {"name" : "Dan Krutz", "eventId" : 2}]
