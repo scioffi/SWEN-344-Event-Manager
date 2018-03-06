@@ -270,6 +270,29 @@ This should return something like:
  
  ## Create an USER
  
+ POST `/api/createUser` will create a user with the supplied username, name and email
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/createUser```
+**Method**: `POST`
+**Params**: 
+Username: `username=<something>`
+
+Name: `name=<something>`
+
+Email : `email=<something@nothing.com>`
+
+### Sample Request: 
+
+```http://localhost:8080/api/createUser                            ```
+
+ 
+ ### Sample Response: 
+ 
+ ```
+ Successfully created User
+ ```
+ 
  CURL EXAMPLE: 
  
  ```
