@@ -1,10 +1,10 @@
 var request = require("request");
 
-var base_url = "http://localhost:8080/api"
-var get_users_url = base_url + "/getUsers" 
-var get_user_url = base_url + "/getUser"
-var get_events_url = base_url + "/getEvents"
-var get_event_url = base_url + "/getEvent"
+var base_url = "http://localhost:8080"
+var get_users_url = base_url + "/api/getUsers" 
+var get_user_url = base_url + "/api/getUser"
+var get_events_url = base_url + "/api/getEvents"
+var get_event_url = base_url + "/api/getEvent"
 
 // Jasmine test example 
 describe("An example suite", function() {
@@ -33,7 +33,8 @@ describe("Test Event Manager's Local Server", function(){
   // Test getUsers endpoint
   describe("GET /getUsers", function() {
     console.log("Testing : " + get_users_url)
-    it("returns status code 200", function(done) {              
+    it("returns status code 200", function(done) {       
+      console.log(get_users_url)       
       request.get(get_users_url, function(error, response, body) {
         expect(response.statusCode).toBe(200);
         done();
