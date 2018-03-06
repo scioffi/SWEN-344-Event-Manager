@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 node_modules/
 .DS_Store
 .idea/
 files/.DS_Store
-=======
-node_modules/
-.idea/
->>>>>>> 154f1ad8fbfd9ee14c7c6967aa1c852f13effd9b
+

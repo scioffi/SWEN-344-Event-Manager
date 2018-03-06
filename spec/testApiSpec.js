@@ -31,7 +31,7 @@ describe("Test Event Manager's Local Server", function(){
 });
 
   // Test getUsers endpoint
-  describe("GET /getUsers", function() {
+  describe("GET /api/getUsers", function() {
     console.log("Testing : " + get_users_url)
     it("returns status code 200", function(done) {       
       console.log(get_users_url)       
@@ -70,7 +70,7 @@ describe("Test Event Manager's Local Server", function(){
 
 
   // Test /getUser endpoint where id = 1
-  describe("GET /getUser id = 1", function() {
+  describe("GET /api/getUser id = 1", function() {
     var get_user_1 = get_user_url + "?userId=1"   
     console.log("Testing : " + get_user_1)
     it("returns status code 200", function(done) {              
