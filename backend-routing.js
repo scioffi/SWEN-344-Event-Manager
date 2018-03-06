@@ -12,7 +12,7 @@ var users = [{"userId" : 1, "username" :"jdoe1234" , "name" : "John Doe", "email
 			 {"userId" : 4, "username" :"dkrutz1234" , "name" : "Dan Krutz", "email" : "dkrutz1234@rit.edu", "permission" : "admin"}]
 			 
 var events = [{"eventId" : 1, "title" : "RIT Spring Fest", "description" : "RIT annual event", "creationDate" : "1520295410", "startTime" : "1523523600", "endTime" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 0, "hashtag" : "RITSpringFest", "status" : "open"},
-			  {"eventId" : 2, "title" : "RIT Drinking Party", "description" : "RIT daily event", "creationDate" : "1520295000", "startTime" : "1523523600", "endTime" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 25, "hashtag" : "RITDrinkingParty", "status" : "open"}]
+			  {"eventId" : 2, "title" : "Trip to the Planetarium", "description" : "RIT daily event", "creationDate" : "1520295000", "startTime" : "1523523600", "endTime" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 25, "hashtag" : "StevesBirthday", "status" : "open"}]
 			  
 var attendees = [{"name" : "John Doe", "eventId" : 1},
 				 {"name" : "Dan Krutz", "eventId" : 2}]
