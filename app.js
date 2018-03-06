@@ -1,4 +1,3 @@
-
 var express = require('express');
 var app = express();  //use express js module
 
@@ -9,18 +8,13 @@ app.use('/files', express.static(__dirname + '/files'));
 var handlebars = require('express3-handlebars')
 	.create({defaultLayout: 'main'});  //default handlebars layout page
 
-// add backend-routing for api calls
-var apis = require('./backend-routing.js')(app);
-
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars'); //sets express view engine to handlebars
 
 
 app.set('port', process.env.PORT || 8080);  //sets port 8080
 
-app.get('/', function(req,res){ 
-	res.render('index');  //respond with homepage
-});
+var apis = require('./backend-routing.js')(app);
 
 app.use(function(req,res){  //express catch middleware if page doesn't exist
 	res.status(404);  //respond with status code
@@ -28,7 +22,5 @@ app.use(function(req,res){  //express catch middleware if page doesn't exist
 });
 
 app.listen(app.get('port'), function(){ //start express server
-	console.log( 'Express Server Started on http://localhost');
+	console.log( 'Express Server Started on http://localhost:8080');
 });
-
-

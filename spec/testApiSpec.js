@@ -1,6 +1,6 @@
 var request = require("request");
 
-var base_url = "http://localhost:8080"
+var base_url = "http://localhost:8080/api"
 var get_users_url = base_url + "/getUsers" 
 var get_user_url = base_url + "/getUser"
 var get_events_url = base_url + "/getEvents"
