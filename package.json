@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "express3-handlebars": "^0.5.2",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "mysql": "^2.15.0"
   },
   "devDependencies": {
     "jasmine": "^3.1.0"
