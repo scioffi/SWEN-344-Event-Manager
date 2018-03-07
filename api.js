@@ -38,7 +38,7 @@ module.exports = function(app) {
                 res.send({"GBP" : amount*gbpRate, "INR" : amount*inrRate, "EUR" : amount*eurRate, "BTC" : amount*btcRate, "CAD" : amount*cadRate});
             })
             .catch(error => {
-                console.log(error);
+                res.send(error);
             })
     })
 
