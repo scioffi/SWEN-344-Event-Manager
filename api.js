@@ -68,6 +68,18 @@ module.exports = function(app) {
         }
     })
 
+    app.post(API_PATH + '/editUser', (req, res) => {
+        var username = req.body.username;
+		var name = req.body.name;
+		var email = req.body.email;
+        if (nullOrEmpty(username) || nullOrEmpty(name) || nullOrEmpty(email)) {
+            res.status(400);
+            res.send("Invalid url parameters");
+        } else {
+            res.send("Successfully edited user");
+        }
+    })
+
     app.post(API_PATH + '/deleteUser', (req, res) => {
         var userId = req.body.userId;
         if (nullOrEmpty(userId)) {
@@ -106,6 +118,23 @@ module.exports = function(app) {
             res.send("Invalid url parameters");
         } else {
             res.send("Successfully created event");
+        }
+    })
+
+    app.post(API_PATH + '/editEvent', (req, res) => {
+        var title = req.body.title;
+		var startTime = req.body.startTime;
+        var endTime = req.body.endTime;
+        var author = req.body.author;
+        var location = req.body.location;
+        var price = req.body.price;
+        var hashtag = req.body.hashtag;
+		
+        if (nullOrEmpty(title) || nullOrEmpty(startTime) || nullOrEmpty(endTime) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
+            res.status(400);
+            res.send("Invalid url parameters");
+        } else {
+            res.send("Successfully edited event");
         }
     })
 
