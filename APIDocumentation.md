@@ -415,4 +415,193 @@ The request requires post data, please see sample curl request below:
 curl -d "title=something&startTime=1234&endTime=1234&author=Chris&location=RIT&price=10&hashtag=test" -XPOST http://localhost:8080/api/createEvent
  ```
  
+  
+ ## 11. Delete an Event
+ 
+ POST `/api/deleteEvent` will delete an event, given an event id
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/deleteEvent```
+**Method**: `POST`
+**Params/Post Data**: 
+EventId: `eventId=<event identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see the sample curl request below: 
+```http://localhost:8080/api/deleteEvent                            ```
+
+ ### Sample Response: 
+ 
+ ```
+ Successfully deleted event
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -XPOST http://localhost:8080/api/deleteEvent -d "eventId=1" 
+
+```
+
+## 12. Add an attendee
+ 
+ POST `/api/addAttendee` will add an attendee to an event
+ 
+### Request:
+**Base URL**: ```http://localhost:8080/api/createUser```
+**Method**: `POST`
+**Params/Post Data**: 
+UserId: `userId=<user identification number>`
+
+Name: `name=<someone>`
+
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+
+```http://localhost:8080/api/addAttendee                            ```
+
+ 
+ ### Sample Response: 
+ 
+ ```
+ Successfully added attendee
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+ ```
+curl -d "userId=1&name=John" -X POST http://localhost:8080/api/addAttendee
+ ```
+ 
+ 
+ 
+ ## 13. Delete an attendee
+ 
+ POST `/api/deleteAttendee` will delete an attendee, given a attendee/user id 
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/deleteAttendee```
+**Method**: `POST`
+**Params/Post Data**: 
+UserId: `userId=<user identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/deleteAttendee                            ```
+
+ ### Sample Response: 
+ 
+ ```
+ Successfully deleted attendee
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -XPOST http://localhost:8080/api/deleteAttendee -d "userId=1" 
+
+```
+
+
+ ## 14. Create an order
+ 
+ POST `/api/createOrder` will create an order given userid, eventid, price, and currency
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/reateOrder```
+**Method**: `POST`
+**Params**: 
+UserId: `userId=<>`
+
+Event Id : `eventId=<>`
+
+Price : `Price=<int>`
+
+Currency : `currency=<>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/createOrder                            ```
+
+ 
+ ### Sample Response: 
+ 
+ ```
+ Successfully created order
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+ ```
+ curl -d "userId=1&eventId=2&price=10&currency=USD" -XPOST http://localhost:8080/api/createOrder
+ 
+ ```
+
+## 15. Delete an order
+ 
+ POST `/api/deleteOrder` will delete an order, given a event and user id
+### Request:
+**Base URL**: ```http://localhost:8080/api/deleteOrder```
+**Method**: `POST`
+**Params/Post Data**: 
+Event Id: `eventId=<event identification number>`
+
+User Id: `userId=<user identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/deleteOrder                            ```
+
+ ### Sample Response: 
+ 
+ ```
+ Successfully deleted order
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -d "eventId=1&userId=2" -XPOST http://localhost:8080/api/deleteOrder
+
+```
+
+ 
+  ## 16. Get Attendees
+
+GET `/api/getCurrencyConversion` will return all the conversion values for different currencies
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/getCurrencyConversion```
+**Method**: `GET`
+**Params**: `None`
+
+### Sample Request: 
+
+```http://localhost:8080/api/getCurrencyConversion                            ```
+
+This should return something like: 
+### Response: 
+ ```
+{
+  "GBP": 0.71981,
+  "INR": 64.879997,
+  "EUR": 0.805199,
+  "BTC": 9.3e-05,
+  "CAD": 1.292302
+}
+ ```
+ 
+  CURL Example:
+ 
+ ```
+  curl -XGET http://localhost:8080/api/getCurrencyConversion
+  
+ ```
+
 
