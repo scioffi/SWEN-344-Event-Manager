@@ -210,7 +210,7 @@ This should return something like:
 ### Sample Request: 
 Let's get an event with id = 1
 
-```http://localhost:8080/api/createEvent?                              ```
+```curl -d "title=something&startTime=1234&endTime=1234&author=Chris&location=RIT&price=10&hashtag=test" -XPOST http://localhost:8080/api/createEvent                  ```
 
 The above request will return something like: 
 ### Response: 
