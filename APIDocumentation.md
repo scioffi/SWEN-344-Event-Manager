@@ -231,7 +231,7 @@ The above request will return something like:
   
  ```
  
-  ## Get Attendees
+  ## 6. Get Attendees
 
 GET `/api/getAttendees` will get all the attendees across all events in the system
 
@@ -268,7 +268,7 @@ This should return something like:
 
  
  
- ## Create an USER
+ ## 7. Create an USER
  
  POST `/api/createUser` will create a user with the supplied username, name and email
 
@@ -284,6 +284,7 @@ Email : `email=<something@nothing.com>`
 
 ### Sample Request: 
 
+The request requires post data, please see sample curl request below: 
 ```http://localhost:8080/api/createUser                            ```
 
  
@@ -296,7 +297,7 @@ Email : `email=<something@nothing.com>`
  CURL EXAMPLE: 
  
  ```
- curl -d "username=something&name=something&email=something" -X POST http://localhost:8080/api/createUser
+ curl -XPOST http://localhost:8080/api/createUser -d "username=something&name=something&email=something" 
  ```
  
  
