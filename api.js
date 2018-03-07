@@ -11,8 +11,8 @@ var users = [{"userId" : 1, "username" :"jdoe1234" , "name" : "John Doe", "email
 			 {"userId" : 3, "username" :"rmoore1234" , "name" : "Ryan Moore", "email" : "rmoore1234@rit.edu", "permission" : "user"},
 			 {"userId" : 4, "username" :"dkrutz1234" , "name" : "Dan Krutz", "email" : "dkrutz1234@rit.edu", "permission" : "admin"}]
 			 
-var events = [{"eventId" : 1, "title" : "RIT Spring Fest", "description" : "RIT annual event", "creationDate" : "1520295410", "startTime" : "1523523600", "endTime" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 0, "hashtag" : "RITSpringFest", "status" : "open"},
-			  {"eventId" : 2, "title" : "Trip to the Planetarium", "description" : "RIT daily event", "creationDate" : "1520295000", "startTime" : "1523523600", "endTime" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 25, "hashtag" : "StevesBirthday", "status" : "open"}]
+var events = [{"eventId" : 1, "title" : "RIT Spring Fest", "description" : "RIT annual event", "creationDate" : "1520295410", "start_time" : "1523523600", "end_time" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 0, "hashtag" : "RITSpringFest", "status" : "open"},
+			  {"eventId" : 2, "title" : "Trip to the Planetarium", "description" : "RIT daily event", "creationDate" : "1520295000", "start_time" : "1523523600", "end_time" : "1523541600", "author" : "Chris Vuong", "location" : "RIT campus", "price" : 25, "hashtag" : "StevesBirthday", "status" : "open"}]
 			  
 var attendees = [{"name" : "John Doe", "eventId" : 1},
 				 {"name" : "Dan Krutz", "eventId" : 2}]
@@ -68,6 +68,18 @@ module.exports = function(app) {
         }
     })
 
+    app.post(API_PATH + '/editUser', (req, res) => {
+        var username = req.body.username;
+		var name = req.body.name;
+		var email = req.body.email;
+        if (nullOrEmpty(username) || nullOrEmpty(name) || nullOrEmpty(email)) {
+            res.status(400);
+            res.send("Invalid url parameters");
+        } else {
+            res.send("Successfully edited user");
+        }
+    })
+
     app.post(API_PATH + '/deleteUser', (req, res) => {
         var userId = req.body.userId;
         if (nullOrEmpty(userId)) {
@@ -94,18 +106,36 @@ module.exports = function(app) {
 
     app.post(API_PATH + '/createEvent', (req, res) => {
         var title = req.body.title;
-		var startTime = req.body.startTime;
-        var endTime = req.body.endTime;
+		var start_time = req.body.start_time;
+        var end_time = req.body.end_time;
+        var author = req.body.author;
+        var location = req.body.location;
+        var price = req.body.price;
+        var hashtag = req.body.hashtag;
+        // image link
+		
+        if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
+            res.status(400);
+            res.send("Invalid url parameters");
+        } else {
+            res.send("Successfully created event");
+        }
+    })
+
+    app.post(API_PATH + '/editEvent', (req, res) => {
+        var title = req.body.title;
+		var start_time = req.body.start_time;
+        var end_time = req.body.end_time;
         var author = req.body.author;
         var location = req.body.location;
         var price = req.body.price;
         var hashtag = req.body.hashtag;
 		
-        if (nullOrEmpty(title) || nullOrEmpty(startTime) || nullOrEmpty(endTime) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
+        if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
             res.status(400);
             res.send("Invalid url parameters");
         } else {
-            res.send("Successfully created event");
+            res.send("Successfully edited event");
         }
     })
 
