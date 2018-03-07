@@ -268,7 +268,7 @@ This should return something like:
 
  
  
- ## 7. Create an USER
+ ## 7. Create a User
  
  POST `/api/createUser` will create a user with the supplied username, name and email
 
@@ -301,5 +301,118 @@ The request requires post data, please see sample curl request below:
  ```
  
  
+ ## 8. Delete a User
+ 
+ POST `/api/deleteUser` will delete a user, given a user id 
 
+### Request:
+**Base URL**: ```http://localhost:8080/api/createUser```
+**Method**: `POST`
+**Params/Post Data**: 
+UserId: `userId=<user identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/deleteUser                            ```
+
+ ### Sample Response: 
+ 
+ ```
+ Successfully deleted User
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -XPOST http://localhost:8080/api/deleteUser -d "userId=1" 
+
+```
+
+ ## 9. Get Orders
+
+GET `/api/getOrders` will get all the orders in the system
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/getOrders```
+**Method**: `GET`
+**Params**: `None`
+
+### Sample Request: 
+
+```http://localhost:8080/api/getOrders                            ```
+
+This should return something like: 
+### Response: 
+ ```
+[
+  {
+    "userId": 1,
+    "eventId": 1,
+    "price": 0,
+    "currency": "BTC"
+  },
+  {
+    "userId": 2,
+    "eventId": 2,
+    "price": 25,
+    "currency": "USD"
+  },
+  {
+    "userId": 3,
+    "eventId": 2,
+    "price": 25,
+    "currency": "GBP"
+  }
+]
+ ```
+ 
+  CURL Example:
+ 
+ ```
+  curl -XGET http://localhost:8080/api/getOrders
+  
+ ```
+
+
+ ## 10. Create an event
+ 
+ POST `/api/createEvent` will create a user with the supplied username, name and email
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/createUser```
+**Method**: `POST`
+**Params/Post Data**: 
+Title: `title=<something>`
+
+StartTime: `startTime=<timestamp>`
+
+EndTime : `endTime=<timestamp>`
+
+Author : `author=<someone>`
+
+Location : `location=<somewhere>`
+
+Price : `price=<int>`
+
+HashTag : `hashtag=<test>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/createEvent                            ```
+
+ 
+ ### Sample Response: 
+ 
+ ```
+ Successfully created event
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+ ```
+curl -d "title=something&startTime=1234&endTime=1234&author=Chris&location=RIT&price=10&hashtag=test" -XPOST http://localhost:8080/api/createEvent
+ ```
+ 
 
