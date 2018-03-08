@@ -51,3 +51,4 @@ con.connect(function(err) {
         console.log(result);
     });
 });
+module.exports = app;
