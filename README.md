@@ -1,11 +1,20 @@
 # SWEN-344-Event-Manager
 **Group 7 - Krutz"R"Us: Event Management System**
 
-Hey there! Welcome to the Event Management System. Glad you're here. Assuming you're a fellow developer, these instructions will help you get the project up and running on your local machine for development and testing purposes. You can thank us later ;)
+Hey there! Welcome to the Event Management System. Glad you're here. 
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+
+### Prerequisites
+To be able to run this project locally, you'll need to have the following installed : 
+- `Node 8`
+- `npm`
 
 ## Running the tests
 
-To Run the tests you can simply run the following commands: 
+To run the test simply type the command below, in your project root directory:
 
 ```npm run test```
 
