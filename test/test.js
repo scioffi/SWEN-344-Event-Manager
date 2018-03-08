@@ -8,7 +8,7 @@ chai.use(require('chai-http'));
 const app = require('../app.js'); // Our app
  
 /**
- * TEST /api/getUsers
+ * Test GET /api/getUsers
  */
 describe('GET API endpoint api/getUsers', function() {  
   this.timeout(5000); // How long to wait for a response (ms)
@@ -28,7 +28,7 @@ describe('GET API endpoint api/getUsers', function() {
 
 
 /**
- * TEST /api/getUser?userId=1
+ * Test GET /api/getUser?userId=1
  */
 describe("GET API endpoint /getUser with param id = 1", function(){
   it('should return user with userId=1', function() {
@@ -43,9 +43,8 @@ describe("GET API endpoint /getUser with param id = 1", function(){
   });
 });
 
-
 /**
- * TEST /api/getEvents
+ * Test GET /api/getEvents
  */
 describe("GET API endpoint /getEvents", function(){
   it('should return all the events in the system', function() {
@@ -62,7 +61,7 @@ describe("GET API endpoint /getEvents", function(){
 
 
 /**
- * TEST /api/getEvent?eventId=1
+ * Test GET /api/getEvent?eventId=1
  */
 describe("GET API endpoint /getEvent with param id = 1", function(){
   it('should return event with id=1', function() {
@@ -80,7 +79,7 @@ describe("GET API endpoint /getEvent with param id = 1", function(){
 
 
 /**
- * TEST /api/getAttendees
+ * Test GET /api/getAttendees
  */
 describe("GET API endpoint /getAttendees", function(){
   it('should return all the attendees', function() {
@@ -98,7 +97,7 @@ describe("GET API endpoint /getAttendees", function(){
 
 
 /**
- * TEST /api/getOrders
+ * Test GET /api/getOrders
  */
 describe("GET API endpoint /getOrders", function(){
   it('should return all the orders ', function() {
@@ -108,7 +107,6 @@ describe("GET API endpoint /getOrders", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
-            console.log(res.body)
         // console.log(res.body[0]["userId"])
       });
   });
@@ -116,7 +114,7 @@ describe("GET API endpoint /getOrders", function(){
 
 
 /**
- * TEST /api/getCurrencyConversion
+ * Test GET /api/getCurrencyConversion
  */
 describe("GET API endpoint /getCurrencyConversion", function(){
   it('should respective currency conversion values', function() {
@@ -125,7 +123,54 @@ describe("GET API endpoint /getCurrencyConversion", function(){
         .then(function(res) {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
-            expect(res.body).to.be.an('array');
+            expect(res.body).to.be.an('object');
+            // console.log(res.body)
+        // console.log(res.body[0]["userId"])
+      });
+  });
+});
+
+
+/**
+ * Test POST /api/createUser
+ */
+describe("POST API endpoint /createUser", function(){
+  it('should create a user given username, name and email', function() {
+    return chai.request(app)
+        .post('/api/createUser')
+        .send({
+            username: 'someone',
+            name: 'John Doe',
+            email: 'johndoe@something.com'
+        })
+        .then(function(res) {
+            // expect(res).to.have.status(200);
+            // console.log(res.body)
+            // expect(res).to.be.json;
+            // expect(res.body).to.be.an('array');
+            // console.log(res.body)
+        // console.log(res.body[0]["userId"])
+      });
+  });
+});
+
+
+/**
+ * Test POST /api/deleteUser
+ */
+describe("POST API endpoint /deleteUser", function(){
+  it('should delete a user given a userid', function() {
+    return chai.request(app)
+        .post('/api/deleteUser')
+        .send({
+            userId: 1
+        })
+        .then(function(res) {
+            console.log(res.body)
+            // expect(res).to.have.status(200);
+            // console.log(res.body)
+            // expect(res).to.be.json;
+            // expect(res.body).to.be.an('array');
             // console.log(res.body)
         // console.log(res.body[0]["userId"])
       });
