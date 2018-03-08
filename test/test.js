@@ -212,7 +212,6 @@ describe("POST API endpoint /deleteUser", function(){
             userId: 1
         })
         .then(function(res) {
-            console.log(res.body)
             expect(res).to.have.status(200);
       });
   });
@@ -269,7 +268,6 @@ describe("POST API endpoint /editEvent", function(){
 });
 
 
-
 /**
  * Test POST /api/expireEvent
  */
@@ -309,7 +307,6 @@ describe("POST API endpoint /deleteEvent", function(){
             eventId: 1
         })
         .then(function(res) {
-            console.log(res.body)
             expect(res).to.have.status(200);
       });
   });
@@ -341,7 +338,6 @@ describe("POST API endpoint /deleteOrder", function(){
             userId:2
         })
         .then(function(res) {
-            console.log(res.body)
             expect(res).to.have.status(200);
       });
   });
@@ -391,6 +387,7 @@ describe("POST API endpoint /addAttendee", function(){
 
 });
 
+// This endpoint needs to be checked, we're returning wrong response in api.js
 
 // /**
 //  * Test POST /api/deleteAttendee
@@ -453,8 +450,3 @@ describe("POST API endpoint /createOrder", function(){
 
 });
 
-
-// curl -d "userId=1&eventId=2&price=10&currency=USD" -XPOST http://localhost:8080/api/createOrder
-
-// curl -d "eventId=1&userId=2" -XPOST http://localhost:8080/api/deleteOrder
-//  curl -d "userId=1&name=John" -X POST http://localhost:8080/api/addAttendee
