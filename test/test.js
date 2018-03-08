@@ -21,7 +21,6 @@ describe('GET API endpoint api/getUsers', function() {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
-        // console.log(res.body[0]["userId"])
       });
   });
 });
@@ -38,7 +37,6 @@ describe("GET API endpoint /getUser with param id = 1", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
-        // console.log(res.body[0]["userId"])
       });
   });
 });
@@ -54,7 +52,6 @@ describe("GET API endpoint /getEvents", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
-        // console.log(res.body[0]["userId"])
       });
   });
 });
@@ -71,8 +68,6 @@ describe("GET API endpoint /getEvent with param id = 1", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
-            // console.log(res.body)
-        // console.log(res.body[0]["userId"])
       });
   });
 });
@@ -89,8 +84,6 @@ describe("GET API endpoint /getAttendees", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
-            // console.log(res.body)
-        // console.log(res.body[0]["userId"])
       });
   });
 });
@@ -107,7 +100,6 @@ describe("GET API endpoint /getOrders", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
-        // console.log(res.body[0]["userId"])
       });
   });
 });
@@ -124,8 +116,6 @@ describe("GET API endpoint /getCurrencyConversion", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
-            // console.log(res.body)
-        // console.log(res.body[0]["userId"])
       });
   });
 });
@@ -144,12 +134,7 @@ describe("POST API endpoint /createUser", function(){
             email: 'johndoe@something.com'
         })
         .then(function(res) {
-            // expect(res).to.have.status(200);
-            // console.log(res.body)
-            // expect(res).to.be.json;
-            // expect(res.body).to.be.an('array');
-            // console.log(res.body)
-        // console.log(res.body[0]["userId"])
+            expect(res).to.have.status(200);
       });
   });
 });
@@ -167,12 +152,7 @@ describe("POST API endpoint /deleteUser", function(){
         })
         .then(function(res) {
             console.log(res.body)
-            // expect(res).to.have.status(200);
-            // console.log(res.body)
-            // expect(res).to.be.json;
-            // expect(res.body).to.be.an('array');
-            // console.log(res.body)
-        // console.log(res.body[0]["userId"])
+            expect(res).to.have.status(200);
       });
   });
 });
