@@ -58,7 +58,7 @@ This should return something like:
  
  ## 2.  Get an User by UserId
 
-GET `/api/getUsers` will return all the users in the system
+GET `/api/getUser` will return all the users in the system
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/getUser```
@@ -184,7 +184,7 @@ The above request will return something like:
  
   ## 5. Create an Event 
 
-GET `/api/createEvent` will create an event 
+POST `/api/createEvent` will create an event 
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/createEvent```
@@ -208,9 +208,7 @@ Hashtag : `hashtag=<string>`
 This should return something like: 
 
 ### Sample Request: 
-Let's get an event with id = 1
-
-```curl -d "title=something&startTime=1234&endTime=1234&author=Chris&location=RIT&price=10&hashtag=test" -XPOST http://localhost:8080/api/createEvent                  ```
+This requires a post request. Please, refer to the curl request, below 
 
 The above request will return something like: 
 ### Response: 
@@ -227,7 +225,7 @@ The above request will return something like:
   CURL Example:
  
  ```
-  curl -XGET http://localhost:8080/api/createEvent?
+curl -d "title=something&startTime=1234&endTime=1234&author=Chris&location=RIT&price=10&hashtag=test" -XPOST http://localhost:8080/api/createEvent  
   
  ```
  
