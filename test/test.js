@@ -290,17 +290,17 @@ describe("POST API endpoint /createEvent", function(){
     return chai.request(app)
         .post('/api/createEvent')
         .send({
-            title: 'something',
-            startTime: '1234',
-            endTime: '1234',
-            author: 'John',
-            location: 'RIT',
+            title: 'something1',
+            description: "yep",
+            start_time: '1244',
+            end_time: '1244',
+            author: 'Doe',
+            location: 'UR',
             price: 10,
-            hashtag: 'test'
-
+            tag: 'test'
         })
         .then(function(res) {
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(200);
       });
   });
 });
@@ -314,19 +314,20 @@ describe("POST API endpoint /editEvent", function(){
   // ERROR CASE
   it('should edit an event given title, startTime, endTime, author, location, price and hastag', function() {
     return chai.request(app)
-        .post('/api/createEvent')
+        .post('/api/editEvent')
         .send({
-            title: 'something1',
-            startTime: '1244',
-            endTime: '1244',
+            title: 'something',
+            description: "yep",
+            start_time: '1244',
+            end_time: '1244',
             author: 'Doe',
-            location: 'UR',
+            location: 'RIT',
             price: 10,
-            hashtag: 'test'
-
+            hashtag: 'test',
+            eventId: 1
         })
         .then(function(res) {
-            expect(res).to.have.status(400);
+            expect(res).to.have.status(200);
       });
   });
 });
