@@ -117,20 +117,20 @@ This should return something like:
     "author": "Chris Vuong",
     "location": "RIT campus",
     "price": 0,
-    "hashtag": "#RITSpringFest",
+    "hashtag": "RITSpringFest",
     "status": "open"
   },
   {
     "eventId": 2,
-    "title": "RIT Drinking Party",
+    "title": "Trip to the Planetarium",
     "description": "RIT daily event",
-    "creationDate": "3-1-2018",
-    "startTime": "8am",
-    "endTime": "5pm",
+    "creationDate": "1520295000",
+    "start_time": "1523523600",
+    "end_time": "1523541600",
     "author": "Chris Vuong",
     "location": "RIT campus",
     "price": 25,
-    "hashtag": "#RITDrinkingParty",
+    "hashtag": "StevesBirthday",
     "status": "open"
   }
 ]
@@ -172,7 +172,7 @@ The above request will return something like:
   "author": "Chris Vuong",
   "location": "RIT campus",
   "price": 0,
-  "hashtag": "#RITSpringFest",
+  "hashtag": "RITSpringFest",
   "status": "open"
 }
  ```
