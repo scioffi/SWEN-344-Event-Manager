@@ -186,10 +186,10 @@ module.exports = function(app) {
     })
 
     app.post(API_PATH + '/deleteAttendee', (req, res) => {
-        var eventId = req.body.eventId;
+        var userId = req.body.userId;
         if (nullOrEmpty(userId)) {
             res.status(400);
-            res.send("Missing eventId parameter");
+            res.send("Missing userId parameter");
         } else {
             res.send("Successfully deleted attendee");
         }
