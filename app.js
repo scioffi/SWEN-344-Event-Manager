@@ -21,12 +21,12 @@ app.listen(app.get('port'), function(){ //start express server
 var mysql = require('mysql'); // use MySQL for our database
 
 // connect to the mysql server on the vm
-var con = mysql.createConnection({
+/*var con = mysql.createConnection({
     host: "webeng.stephencioffi.com",
     user: "events",
     password: "dANiScOOL",
     database: "EventManagement"
-});
+});*/
 
 // DATABSE STUFF...
 // begin making queries
