@@ -12,6 +12,11 @@ To be able to run this project locally, you'll need to have the following instal
 - `Node 8`
 - `npm`
 
+## Running the server
+
+To run the server, type the command below in your project root directory:
+```npm run start```
+
 ## Running the tests
 
 To run the test simply type the command below, in your project root directory:
