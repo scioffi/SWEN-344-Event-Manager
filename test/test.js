@@ -46,7 +46,7 @@ describe("GET API endpoint /getUser with param id = 1", function(){
         .then(function(res) {
             expect(res).to.have.status(400);
       });
-  })
+  });
 });
 
 /**
@@ -86,7 +86,7 @@ describe("GET API endpoint /getEvent with param id = 1", function(){
         .then(function(res) {
             expect(res).to.have.status(400);
       });
-  })
+  });
 });
 
 
@@ -127,7 +127,7 @@ describe("GET API endpoint /getAttendee with event Id", function(){
         .then(function(res) {
             expect(res).to.have.status(400);
       });
-  })
+  });
 });
 
 
@@ -154,7 +154,7 @@ describe("GET API endpoint /getOrder with event id = 1 and user id = 2", functio
         .then(function(res) {
             expect(res).to.have.status(400);
       });
-  })
+  });
 
 });
 
@@ -217,8 +217,8 @@ describe("POST API endpoint /createUser", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 
 });
 
@@ -249,8 +249,8 @@ describe("POST API endpoint /editUser", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 });
 
 
@@ -277,8 +277,8 @@ describe("POST API endpoint /deleteUser", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 });
 
 
@@ -303,6 +303,17 @@ describe("POST API endpoint /createEvent", function(){
             expect(res).to.have.status(200);
       });
   });
+
+  // ERROR CASE 
+  it ('should return 400 if missing data', function(){
+    return chai.request(app)
+      .post('/api/createEvent')
+      .send({
+      })
+      .then(function(res) {
+          expect(res).to.have.status(400)
+      });
+    });
 });
 
 
@@ -330,6 +341,17 @@ describe("POST API endpoint /editEvent", function(){
             expect(res).to.have.status(200);
       });
   });
+
+  // ERROR CASE 
+  it ('should return 400 if missing data', function(){
+    return chai.request(app)
+      .post('/api/editEvent')
+      .send({
+      })
+      .then(function(res) {
+          expect(res).to.have.status(400)
+      });
+    });
 });
 
 
@@ -356,7 +378,7 @@ describe("POST API endpoint /expireEvent", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
+        });
   })
 });
 
@@ -385,8 +407,8 @@ describe("POST API endpoint /deleteEvent", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 
 });
 
@@ -417,8 +439,8 @@ describe("POST API endpoint /deleteOrder", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 
 });
 
@@ -447,8 +469,8 @@ describe("POST API endpoint /addAttendee", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 
 });
 
@@ -477,8 +499,8 @@ describe("POST API endpoint /deleteAttendee", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 
 });
 
@@ -509,8 +531,8 @@ describe("POST API endpoint /createOrder", function(){
         })
         .then(function(res) {
             expect(res).to.have.status(400)
-        })
-  })
+        });
+  });
 });
 
 
