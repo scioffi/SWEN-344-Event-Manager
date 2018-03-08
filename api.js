@@ -83,7 +83,7 @@ module.exports = function(app) {
     app.post(API_PATH + '/deleteUser', (req, res) => {
         var userId = req.body.userId;
         if (nullOrEmpty(userId)) {
-            res.status(400);
+            res.status(400);git
             res.send("Missing userId parameter");
         } else {
             res.send("Successfully deleted user");
