@@ -130,6 +130,7 @@ module.exports = function(app) {
     app.post(API_PATH + '/editEvent', (req, res) => {
         var eventId = req.body.eventId;
         var title = req.body.title;
+        var description = req.body.description;
 		var start_time = req.body.start_time;
         var end_time = req.body.end_time;
         var author = "Betty White"; // TODO: Get from user login
@@ -139,7 +140,7 @@ module.exports = function(app) {
         var description = req.body.description;
         var image = req.body.image;
 		
-        if (nullOrEmpty(eventId) || nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag) || nullOrEmpty("description")) {
+        if (nullOrEmpty(eventId) || nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag) || nullOrEmpty(description)) {
             res.status(400);
             res.send("Invalid url parameters");
         } else {
