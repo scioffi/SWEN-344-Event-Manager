@@ -122,22 +122,22 @@ module.exports = function(app) {
         }
     })
 
-    // app.post(API_PATH + '/editEvent', (req, res) => {
-    //     var title = req.body.title;
-	// 	var start_time = req.body.start_time;
-    //     var end_time = req.body.end_time;
-    //     var author = req.body.author;
-    //     var location = req.body.location;
-    //     var price = req.body.price;
-    //     var hashtag = req.body.hashtag;
+    app.post(API_PATH + '/editEvent', (req, res) => {
+        var title = req.body.title;
+		var start_time = req.body.start_time;
+        var end_time = req.body.end_time;
+        var author = req.body.author;
+        var location = req.body.location;
+        var price = req.body.price;
+        var hashtag = req.body.hashtag;
 		
-    //     if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
-    //         res.status(400);
-    //         res.send("Invalid url parameters");
-    //     } else {
-    //         res.send("Successfully edited event");
-    //     }
-    // })
+        if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
+            res.status(400);
+            res.send("Invalid url parameters");
+        } else {
+            res.send("Successfully edited event");
+        }
+    })
 
     app.post(API_PATH + '/deleteEvent', (req, res) => {
         var eventId = req.body.eventId;
