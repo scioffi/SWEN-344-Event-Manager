@@ -78,6 +78,15 @@ describe("GET API endpoint /getEvent with param id = 1", function(){
             expect(res.body).to.be.an('object');
       });
   });
+
+// ERROR CASE: Missing eventId 
+  it ('should return 400 if missing params', function(){
+   return chai.request(app)
+        .get('/api/getEvent?eventId=')
+        .then(function(res) {
+            expect(res).to.have.status(400);
+      });
+  })
 });
 
 
@@ -198,6 +207,50 @@ describe("POST API endpoint /createUser", function(){
             expect(res).to.have.status(200);
       });
   });
+
+  // ERROR CASE 
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/deleteUser')
+        .send({
+             username: 'someone',
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
+
+});
+
+
+/**
+ * Test POST /api/editUser
+ */
+describe("POST API endpoint /editUser", function(){
+  it('should edit a user given username, name and email', function() {
+    return chai.request(app)
+        .post('/api/editUser')
+        .send({
+            username: 'someone',
+            name: 'John Doe',
+            email: 'johndoe@something.com'
+        })
+        .then(function(res) {
+            expect(res).to.have.status(200);
+      });
+  });
+
+  // ERROR CASE 
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/deleteUser')
+        .send({
+             username: 'someone',
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
 });
 
 
@@ -215,6 +268,17 @@ describe("POST API endpoint /deleteUser", function(){
             expect(res).to.have.status(200);
       });
   });
+
+   // ERROR CASE 
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/deleteUser')
+        .send({
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
 });
 
 
@@ -315,7 +379,7 @@ describe("POST API endpoint /deleteEvent", function(){
 
   it ('should return 400 if missing data', function(){
       return chai.request(app)
-        .post('/api/deleteOrder')
+        .post('/api/deleteEvent')
         .send({
         })
         .then(function(res) {
