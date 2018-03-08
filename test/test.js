@@ -244,6 +244,33 @@ describe("POST API endpoint /createEvent", function(){
 
 
 /**
+ * Test POST /api/editEvent
+ */
+describe("POST API endpoint /editEvent", function(){
+
+  // ERROR CASE
+  it('should edit an event given title, startTime, endTime, author, location, price and hastag', function() {
+    return chai.request(app)
+        .post('/api/createEvent')
+        .send({
+            title: 'something1',
+            startTime: '1244',
+            endTime: '1244',
+            author: 'Doe',
+            location: 'UR',
+            price: 10,
+            hashtag: 'test'
+
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400);
+      });
+  });
+});
+
+
+
+/**
  * Test POST /api/expireEvent
  */
 describe("POST API endpoint /expireEvent", function(){
