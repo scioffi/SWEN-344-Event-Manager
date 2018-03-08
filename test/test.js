@@ -387,36 +387,35 @@ describe("POST API endpoint /addAttendee", function(){
 
 });
 
-// This endpoint needs to be checked, we're returning wrong response in api.js
 
-// /**
-//  * Test POST /api/deleteAttendee
-//  *
-//  */
-// describe("POST API endpoint /deleteAttendee", function(){
-//   it('should delete an attendee given userId', function() {
-//     return chai.request(app)
-//         .post('/api/deleteAttendee')
-//         .send({
-//             userId: 1
-//         })
-//         .then(function(res) {
-//             expect(res).to.have.status(200);
-//       });
-//   });
+/**
+ * Test POST /api/deleteAttendee
+ *
+ */
+describe("POST API endpoint /deleteAttendee", function(){
+  it('should delete an attendee given userId', function() {
+    return chai.request(app)
+        .post('/api/deleteAttendee')
+        .send({
+            userId: 1
+        })
+        .then(function(res) {
+            expect(res).to.have.status(200);
+      });
+  });
 
-//   it ('should return 400 if missing data', function(){
-//       return chai.request(app)
-//         .post('/api/deleteOrder')
-//         .send({
-//             name: 'John Doe'
-//         })
-//         .then(function(res) {
-//             expect(res).to.have.status(400)
-//         })
-//   })
+  // ERROR CASE : Missing User ID 
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/deleteAttendee')
+        .send({
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
 
-// });
+});
 
 
 /**
