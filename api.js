@@ -1,7 +1,5 @@
-/**
- * Created by kylescagnelli on 2/26/18.
- */
 var axios = require("axios");
+var bodyParser = require('body-parser');
 var currencies = ["INR", "GBP", "CAD", "BTC", "EUR"];
 const CURRENCY_API_ACCESS_KEY = "e7ec8436b2042f209fb149fb9f159a80";
 const API_PATH = "/api";
@@ -22,6 +20,10 @@ var orders = [{"userId" : 1, "eventId" : 1, "price" : 0, "currency" : "BTC"},
               {"userId" : 3, "eventId" : 2, "price" : 25, "currency" : "GBP"}]
 
 module.exports = function(app) {
+    app.use(bodyParser.urlencoded({ extended: true })); 
+    app.use(bodyParser.json());
+
+
     app.get(API_PATH + '/getCurrencyConversion', (req, res) => {
         var amount = req.query.amount;
         axios.get('http://www.apilayer.net/api/live?access_key=' + CURRENCY_API_ACCESS_KEY + '&currencies=' + currencies.join())
@@ -106,15 +108,18 @@ module.exports = function(app) {
 
     app.post(API_PATH + '/createEvent', (req, res) => {
         var title = req.body.title;
+        var description = req.body.description;
 		var start_time = req.body.start_time;
         var end_time = req.body.end_time;
-        var author = req.body.author;
+        var author = "Betty White" // TODO: Get from user login.
         var location = req.body.location;
         var price = req.body.price;
-        var hashtag = req.body.hashtag;
-        // image link
+        var hashtag = req.body.tag;
+        var image = req.body.image;
+
+        console.warn(req.body);
 		
-        if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
+        if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag) || nullOrEmpty(description)) {
             res.status(400);
             res.send("Invalid url parameters");
         } else {
@@ -123,15 +128,19 @@ module.exports = function(app) {
     })
 
     app.post(API_PATH + '/editEvent', (req, res) => {
+        var eventId = req.body.eventId;
         var title = req.body.title;
+        var description = req.body.description;
 		var start_time = req.body.start_time;
         var end_time = req.body.end_time;
-        var author = req.body.author;
+        var author = "Betty White"; // TODO: Get from user login
         var location = req.body.location;
         var price = req.body.price;
         var hashtag = req.body.hashtag;
+        var description = req.body.description;
+        var image = req.body.image;
 		
-        if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag)) {
+        if (nullOrEmpty(eventId) || nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag) || nullOrEmpty(description)) {
             res.status(400);
             res.send("Invalid url parameters");
         } else {
