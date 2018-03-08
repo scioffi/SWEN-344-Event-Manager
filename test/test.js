@@ -39,6 +39,14 @@ describe("GET API endpoint /getUser with param id = 1", function(){
             expect(res.body).to.be.an('object');
       });
   });
+
+  it ('should return 400 if missing params', function(){
+       return chai.request(app)
+        .get('/api/getUser?userId=')
+        .then(function(res) {
+            expect(res).to.have.status(400);
+      });
+  })
 });
 
 /**
@@ -86,6 +94,59 @@ describe("GET API endpoint /getAttendees", function(){
             expect(res.body).to.be.an('array');
       });
   });
+});
+
+
+/**
+ * Test GET /api/getAttendee?eventId=1
+ */
+describe("GET API endpoint /getAttendee with event Id", function(){
+  it('should return attendee in certain event', function() {
+    return chai.request(app)
+        .get('/api/getAttendee?eventId=1')
+        .then(function(res) {
+            expect(res).to.have.status(200);
+            expect(res).to.be.json;
+            expect(res.body).to.be.an('object');
+      });
+  });
+
+   // ERROR CASE: Missing params 
+  it ('should return 400 if missing params', function(){
+   return chai.request(app)
+        .get('/api/getAttendee?eventId=')
+        .then(function(res) {
+            expect(res).to.have.status(400);
+      });
+  })
+});
+
+
+
+
+/**
+ * Test GET /api/getOrder?eventId=1&userId=2
+ */
+describe("GET API endpoint /getOrder with event id = 1 and user id = 2", function(){
+  it('should return order as per the params', function() {
+    return chai.request(app)
+        .get('/api/getOrder?eventId=1&userId=2')
+        .then(function(res) {
+            expect(res).to.have.status(200);
+            expect(res).to.be.json;
+            expect(res.body).to.be.an('object');
+      });
+  });
+
+  // ERROR CASE: Missing params 
+  it ('should return 400 if missing params', function(){
+   return chai.request(app)
+        .get('/api/getOrder?eventId=1')
+        .then(function(res) {
+            expect(res).to.have.status(400);
+      });
+  })
+
 });
 
 
@@ -156,3 +217,217 @@ describe("POST API endpoint /deleteUser", function(){
       });
   });
 });
+
+
+/**
+ * Test POST /api/createEvent
+ */
+describe("POST API endpoint /createEvent", function(){
+  it('should create an event given title, startTime, endTime, author, location, price and hastag', function() {
+    return chai.request(app)
+        .post('/api/createEvent')
+        .send({
+            title: 'something',
+            startTime: '1234',
+            endTime: '1234',
+            author: 'John',
+            location: 'RIT',
+            price: 10,
+            hashtag: 'test'
+
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400);
+      });
+  });
+});
+
+
+/**
+ * Test POST /api/expireEvent
+ */
+describe("POST API endpoint /expireEvent", function(){
+  it('should expire an event given eventId', function() {
+    return chai.request(app)
+        .post('/api/expireEvent')
+        .send({
+            eventId: 1
+        })
+        .then(function(res) {
+            expect(res).to.have.status(200);
+      });
+  });
+
+   // ERROR CASE 
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/expireEvent')
+        .send({
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
+});
+
+
+/**
+ * Test POST /api/deleteEvent
+ */
+describe("POST API endpoint /deleteEvent", function(){
+  it('should delete an event given eventId and userid', function() {
+    return chai.request(app)
+        .post('/api/deleteEvent')
+        .send({
+            eventId: 1
+        })
+        .then(function(res) {
+            console.log(res.body)
+            expect(res).to.have.status(200);
+      });
+  });
+
+  // ERROR CASE 
+
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/deleteOrder')
+        .send({
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
+
+});
+
+
+/**
+ * Test POST /api/deleteOrder
+ */
+describe("POST API endpoint /deleteOrder", function(){
+  it('should delete an order given eventId and userid', function() {
+    return chai.request(app)
+        .post('/api/deleteOrder')
+        .send({
+            eventId: 1,
+            userId:2
+        })
+        .then(function(res) {
+            console.log(res.body)
+            expect(res).to.have.status(200);
+      });
+  });
+
+  // ERROR CASE 
+
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/deleteOrder')
+        .send({
+            eventId: 1,
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
+
+});
+
+
+/**
+ * Test POST /api/addAttendee
+ */
+describe("POST API endpoint /addAttendee", function(){
+  it('should add an attendee give userId and name', function() {
+    return chai.request(app)
+        .post('/api/addAttendee')
+        .send({
+            userId: 1,
+            name: 'John Doe'
+        })
+        .then(function(res) {
+            expect(res).to.have.status(200);
+      });
+  });
+
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/addAttendee')
+        .send({
+            userId: 1
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
+
+});
+
+
+// /**
+//  * Test POST /api/deleteAttendee
+//  *
+//  */
+// describe("POST API endpoint /deleteAttendee", function(){
+//   it('should delete an attendee given userId', function() {
+//     return chai.request(app)
+//         .post('/api/deleteAttendee')
+//         .send({
+//             userId: 1
+//         })
+//         .then(function(res) {
+//             expect(res).to.have.status(200);
+//       });
+//   });
+
+//   it ('should return 400 if missing data', function(){
+//       return chai.request(app)
+//         .post('/api/deleteOrder')
+//         .send({
+//             name: 'John Doe'
+//         })
+//         .then(function(res) {
+//             expect(res).to.have.status(400)
+//         })
+//   })
+
+// });
+
+
+/**
+ * Test POST /api/createOrder
+ */
+describe("POST API endpoint /createOrder", function(){
+  it('should create an order given userId, eventId, price and currency', function() {
+    return chai.request(app)
+        .post('/api/createOrder')
+        .send({
+            userId: 1,
+            eventId: 1,
+            price: 10,
+            currency: 'USD'
+        })
+        .then(function(res) {
+            expect(res).to.have.status(200);
+      });
+  });
+
+  it ('should return 400 if missing data', function(){
+      return chai.request(app)
+        .post('/api/createOrder')
+        .send({
+            userId: 1
+        })
+        .then(function(res) {
+            expect(res).to.have.status(400)
+        })
+  })
+
+});
+
+
+// curl -d "userId=1&eventId=2&price=10&currency=USD" -XPOST http://localhost:8080/api/createOrder
+
+// curl -d "eventId=1&userId=2" -XPOST http://localhost:8080/api/deleteOrder
+//  curl -d "userId=1&name=John" -X POST http://localhost:8080/api/addAttendee

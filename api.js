@@ -185,15 +185,15 @@ module.exports = function(app) {
         }
     })
 
-    app.post(API_PATH + '/deleteAttendee', (req, res) => {
-        var eventId = req.body.eventId;
-        if (nullOrEmpty(userId)) {
-            res.status(400);
-            res.send("Missing eventId parameter");
-        } else {
-            res.send("Successfully deleted attendee");
-        }
-    })
+    // app.post(API_PATH + '/deleteAttendee', (req, res) => {
+    //     var eventId = req.body.eventId;
+    //     if (nullOrEmpty(userId)) {
+    //         res.status(400);
+    //         res.send("Missing eventId parameter");
+    //     } else {
+    //         res.send("Successfully deleted attendee");
+    //     }
+    // })
 
     app.get(API_PATH + '/getOrder', (req, res) => {
         var userId = req.query.userId;
