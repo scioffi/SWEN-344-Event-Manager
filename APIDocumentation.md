@@ -145,7 +145,7 @@ This should return something like:
  
  ## 4.  Get an Event by EventId
 
-GET `/api/getUsers` will return all the users in the system
+GET `/api/getEvent` will return all the users in the system
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/getEvent```
