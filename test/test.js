@@ -152,6 +152,9 @@ describe("GET API endpoint /getAttendee with event Id", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+
+            expect(res.body["eventId"]).to.equal(1)
+            expect(res.body["name"]).to.equal('John Doe')
       });
   });
 
@@ -178,7 +181,7 @@ describe("GET API endpoint /getOrder with event id = 1 and user id = 2", functio
         .then(function(res) {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
-            expect(res.body).to.be.an('object');
+            expect(res.body["eventId"]).to.equal(1);
       });
   });
 
