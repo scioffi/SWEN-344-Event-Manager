@@ -234,9 +234,6 @@ describe("GET API endpoint /getCurrencyConversion", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
-            
-            expect(res.body["INR"]).to.equal(65.092499)
-            expect(res.body["EUR"]).to.equal(0.812024)
       });
   });
 });
