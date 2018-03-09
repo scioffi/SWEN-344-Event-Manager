@@ -21,6 +21,18 @@ describe('GET API endpoint api/getUsers', function() {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+            expect(res.body[0]["userId"]).to.equal(1)
+            expect(res.body[0]["name"]).to.equal('John Doe')
+            expect(res.body[0]["username"]).to.equal('jdoe1234')
+
+            expect(res.body[1]["userId"]).to.equal(2)
+            expect(res.body[1]["name"]).to.equal('John Smith')
+            expect(res.body[1]["username"]).to.equal('jsmith1234')
+
+            expect(res.body[2]["userId"]).to.equal(3)
+            expect(res.body[2]["name"]).to.equal('Ryan Moore')
+            expect(res.body[2]["username"]).to.equal('rmoore1234')
+   
       });
   });
 });
@@ -37,6 +49,10 @@ describe("GET API endpoint /getUser with param id = 1", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+
+            expect(res.body["userId"]).to.equal(1)
+            expect(res.body["name"]).to.equal('John Doe')
+            expect(res.body["username"]).to.equal('jdoe1234')
       });
   });
 
@@ -60,6 +76,14 @@ describe("GET API endpoint /getEvents", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+
+            expect(res.body[0]["eventId"]).to.equal(1)
+            expect(res.body[0]["title"]).to.equal('RIT Spring Fest')
+            expect(res.body[0]["status"]).to.equal('open')
+
+            expect(res.body[1]["eventId"]).to.equal(2)
+            expect(res.body[1]["title"]).to.equal('Trip to the Planetarium')
+            expect(res.body[1]["status"]).to.equal('open')
       });
   });
 });
@@ -76,6 +100,10 @@ describe("GET API endpoint /getEvent with param id = 1", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+
+            expect(res.body["eventId"]).to.equal(1)
+            expect(res.body["title"]).to.equal('RIT Spring Fest')
+            expect(res.body["status"]).to.equal('open')
       });
   });
 
@@ -101,6 +129,13 @@ describe("GET API endpoint /getAttendees", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+            
+            expect(res.body[0]["eventId"]).to.equal(1)
+            expect(res.body[0]["name"]).to.equal('John Doe')
+            
+            expect(res.body[1]["eventId"]).to.equal(2)
+            expect(res.body[1]["name"]).to.equal('Dan Krutz')
+    
       });
   });
 });
@@ -117,6 +152,9 @@ describe("GET API endpoint /getAttendee with event Id", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+
+            expect(res.body["eventId"]).to.equal(1)
+            expect(res.body["name"]).to.equal('John Doe')
       });
   });
 
@@ -143,7 +181,7 @@ describe("GET API endpoint /getOrder with event id = 1 and user id = 2", functio
         .then(function(res) {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
-            expect(res.body).to.be.an('object');
+            expect(res.body["eventId"]).to.equal(1);
       });
   });
 
@@ -170,6 +208,16 @@ describe("GET API endpoint /getOrders", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+
+
+            expect(res.body[0]["userId"]).to.equal(1)
+            expect(res.body[0]["eventId"]).to.equal(1)
+            expect(res.body[0]["price"]).to.equal(0)
+
+            expect(res.body[1]["userId"]).to.equal(2)
+            expect(res.body[1]["eventId"]).to.equal(2)
+            expect(res.body[1]["price"]).to.equal(25)
+
       });
   });
 });
@@ -186,6 +234,9 @@ describe("GET API endpoint /getCurrencyConversion", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+            
+            expect(res.body["INR"]).to.equal(65.092499)
+            expect(res.body["EUR"]).to.equal(0.812024)
       });
   });
 });
