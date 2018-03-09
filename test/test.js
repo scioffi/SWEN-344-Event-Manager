@@ -100,6 +100,10 @@ describe("GET API endpoint /getEvent with param id = 1", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+
+            expect(res.body["eventId"]).to.equal(1)
+            expect(res.body["title"]).to.equal('RIT Spring Fest')
+            expect(res.body["status"]).to.equal('open')
       });
   });
 
