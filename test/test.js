@@ -21,6 +21,18 @@ describe('GET API endpoint api/getUsers', function() {
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+            expect(res.body[0]["userId"]).to.equal(1)
+            expect(res.body[0]["name"]).to.equal('John Doe')
+            expect(res.body[0]["username"]).to.equal('jdoe1234')
+
+            expect(res.body[1]["userId"]).to.equal(2)
+            expect(res.body[1]["name"]).to.equal('John Smith')
+            expect(res.body[1]["username"]).to.equal('jsmith1234')
+
+            expect(res.body[2]["userId"]).to.equal(3)
+            expect(res.body[2]["name"]).to.equal('Ryan Moore')
+            expect(res.body[2]["username"]).to.equal('rmoore1234')
+   
       });
   });
 });
@@ -37,6 +49,10 @@ describe("GET API endpoint /getUser with param id = 1", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+
+            expect(res.body["userId"]).to.equal(1)
+            expect(res.body["name"]).to.equal('John Doe')
+            expect(res.body["username"]).to.equal('jdoe1234')
       });
   });
 
@@ -60,6 +76,14 @@ describe("GET API endpoint /getEvents", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+
+            expect(res.body[0]["eventId"]).to.equal(1)
+            expect(res.body[0]["title"]).to.equal('RIT Spring Fest')
+            expect(res.body[0]["status"]).to.equal('open')
+
+            expect(res.body[1]["eventId"]).to.equal(2)
+            expect(res.body[1]["title"]).to.equal('Trip to the Planetarium')
+            expect(res.body[1]["status"]).to.equal('open')
       });
   });
 });
