@@ -29,4 +29,5 @@ To run the test simply type the command below, in your project root directory:
 A complete API Documentation to the site can be found below:
 
 * [API Documentation](/APIDocumentation.md) 
+* [Test Results](http://webeng.stephencioffi.com/test.txt)
 
