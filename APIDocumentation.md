@@ -56,7 +56,7 @@ This should return something like:
   curl -XGET http://localhost:8080/api/getUsers
  ```
  
- ## 2.  Get an User by UserId
+ ## 2.  Get a User by UserId
 
 GET `/api/getUser` will return all the users in the system
 
@@ -64,8 +64,6 @@ GET `/api/getUser` will return all the users in the system
 **Base URL**: ```http://localhost:8080/api/getUser```
 **Method**: `GET`
 **Params**: `userId=<user identification number>`
-
-This should return something like: 
 
 ### Sample Request: 
 Let's get a user whose id = 1
@@ -152,8 +150,6 @@ GET `/api/getEvent` will return all the users in the system
 **Method**: `GET`
 **Params**: `eventId=<event identification number>`
 
-This should return something like: 
-
 ### Sample Request: 
 Let's get an event with id = 1
 
@@ -205,8 +201,6 @@ Price : `price=<double>`
 
 Hashtag : `tag=<string>`
 
-This should return something like: 
-
 ### Sample Request: 
 This requires a post request. Please, refer to the curl request, below 
 
@@ -252,8 +246,6 @@ Price : `price=<double>`
 Hashtag : `hashtag=<string>`
 
 eventId : `eventId=<integer>`
-
-This should return something like: 
 
 ### Sample Request: 
 This requires a post request. Please, refer to the curl request, below 
@@ -332,7 +324,7 @@ Email : `email=<something@nothing.com>`
 The request requires post data, please see sample curl request below: 
 ```http://localhost:8080/api/createUser                            ```
 
- 
+ This should return something like: 
  ### Sample Response: 
  
  ```
@@ -359,8 +351,9 @@ UserId: `userId=<user identification number>`
 ### Sample Request: 
 
 The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/deleteUser                            ```
-
+```http://localhost:8080/api/deleteUser
+```
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -432,8 +425,9 @@ EventId: `eventId=<event identification number>`
 ### Sample Request: 
 
 The request requires post data, please see the sample curl request below: 
-```http://localhost:8080/api/deleteEvent                            ```
+```http://localhost:8080/api/deleteEvent```
 
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -464,8 +458,9 @@ Name: `name=<someone>`
 
 The request requires post data, please see sample curl request below: 
 
-```http://localhost:8080/api/addAttendee                            ```
+```http://localhost:8080/api/addAttendee```
 
+This should return something like: 
  
  ### Sample Response: 
  
@@ -496,6 +491,7 @@ UserId: `userId=<user identification number>`
 The request requires post data, please see sample curl request below: 
 ```http://localhost:8080/api/deleteAttendee                            ```
 
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -529,9 +525,9 @@ Currency : `currency=<>`
 ### Sample Request: 
 
 The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/createOrder                            ```
+```http://localhost:8080/api/createOrder```
 
- 
+ This should return something like: 
  ### Sample Response: 
  
  ```
@@ -559,8 +555,9 @@ User Id: `userId=<user identification number>`
 ### Sample Request: 
 
 The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/deleteOrder                            ```
+```http://localhost:8080/api/deleteOrder```
 
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -586,7 +583,7 @@ GET `/api/getCurrencyConversion` will return all the conversion values for diffe
 
 ### Sample Request: 
 
-```http://localhost:8080/api/getCurrencyConversion                            ```
+```http://localhost:8080/api/getCurrencyConversion```
 
 This should return something like: 
 ### Response: 
