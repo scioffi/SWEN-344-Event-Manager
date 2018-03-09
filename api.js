@@ -116,8 +116,6 @@ module.exports = function(app) {
         var price = req.body.price;
         var hashtag = req.body.tag;
         var image = req.body.image;
-
-        console.warn(req.body);
 		
         if (nullOrEmpty(title) || nullOrEmpty(start_time) || nullOrEmpty(end_time) || nullOrEmpty(author) || nullOrEmpty(location) || nullOrEmpty(price) || nullOrEmpty(hashtag) || nullOrEmpty(description)) {
             res.status(400);
