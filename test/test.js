@@ -208,6 +208,16 @@ describe("GET API endpoint /getOrders", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+
+
+            expect(res.body[0]["userId"]).to.equal(1)
+            expect(res.body[0]["eventId"]).to.equal(1)
+            expect(res.body[0]["price"]).to.equal(0)
+
+            expect(res.body[1]["userId"]).to.equal(2)
+            expect(res.body[1]["eventId"]).to.equal(2)
+            expect(res.body[1]["price"]).to.equal(25)
+
       });
   });
 });
@@ -224,6 +234,9 @@ describe("GET API endpoint /getCurrencyConversion", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('object');
+            
+            expect(res.body["INR"]).to.equal(65.092499)
+            expect(res.body["EUR"]).to.equal(0.812024)
       });
   });
 });
