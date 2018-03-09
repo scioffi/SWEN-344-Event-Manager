@@ -56,16 +56,14 @@ This should return something like:
   curl -XGET http://localhost:8080/api/getUsers
  ```
  
- ## 2.  Get an User by UserId
+ ## 2.  Get a User by UserId
 
-GET `/api/getUsers` will return all the users in the system
+GET `/api/getUser` will return all the users in the system
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/getUser```
 **Method**: `GET`
 **Params**: `userId=<user identification number>`
-
-This should return something like: 
 
 ### Sample Request: 
 Let's get a user whose id = 1
@@ -111,26 +109,26 @@ This should return something like:
     "eventId": 1,
     "title": "RIT Spring Fest",
     "description": "RIT annual event",
-    "creationDate": "2-27-2017",
-    "startTime": "8am",
-    "endTime": "5pm",
+    "creationDate": "1520295410",
+    "start_time": "1523523600",
+    "end_time": "1523541600",
     "author": "Chris Vuong",
     "location": "RIT campus",
     "price": 0,
-    "hashtag": "#RITSpringFest",
+    "hashtag": "RITSpringFest",
     "status": "open"
   },
   {
     "eventId": 2,
-    "title": "RIT Drinking Party",
+    "title": "Trip to the Planetarium",
     "description": "RIT daily event",
-    "creationDate": "3-1-2018",
-    "startTime": "8am",
-    "endTime": "5pm",
+    "creationDate": "1520295000",
+    "start_time": "1523523600",
+    "end_time": "1523541600",
     "author": "Chris Vuong",
     "location": "RIT campus",
     "price": 25,
-    "hashtag": "#RITDrinkingParty",
+    "hashtag": "StevesBirthday",
     "status": "open"
   }
 ]
@@ -145,14 +143,12 @@ This should return something like:
  
  ## 4.  Get an Event by EventId
 
-GET `/api/getUsers` will return all the users in the system
+GET `/api/getEvent` will return all the users in the system
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/getEvent```
 **Method**: `GET`
 **Params**: `eventId=<event identification number>`
-
-This should return something like: 
 
 ### Sample Request: 
 Let's get an event with id = 1
@@ -166,13 +162,13 @@ The above request will return something like:
   "eventId": 1,
   "title": "RIT Spring Fest",
   "description": "RIT annual event",
-  "creationDate": "2-27-2017",
-  "startTime": "8am",
-  "endTime": "5pm",
+  "creationDate": "1520295410",
+  "start_time": "1523523600",
+  "end_time": "1523541600",
   "author": "Chris Vuong",
   "location": "RIT campus",
   "price": 0,
-  "hashtag": "#RITSpringFest",
+  "hashtag": "RITSpringFest",
   "status": "open"
 }
  ```
@@ -184,7 +180,7 @@ The above request will return something like:
  
   ## 5. Create an Event 
 
-GET `/api/createEvent` will create an event 
+POST `/api/createEvent` will create an event 
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/createEvent```
@@ -193,9 +189,9 @@ GET `/api/createEvent` will create an event
 
 Title: `title=<string>`
 
-StartTime: `startTime=<>`
+StartTime: `start_time=<integer>`
 
-endTime : `endTime=<>`
+End_time : `end_time=<integer>`
 
 Author : `author=<string>`
 
@@ -203,14 +199,10 @@ Location: `location=<string>`
 
 Price : `price=<double>`
 
-Hashtag : `hashtag=<string>`
-
-This should return something like: 
+Hashtag : `tag=<string>`
 
 ### Sample Request: 
-Let's get an event with id = 1
-
-```curl -d "title=something&startTime=1234&endTime=1234&author=Chris&location=RIT&price=10&hashtag=test" -XPOST http://localhost:8080/api/createEvent                  ```
+This requires a post request. Please, refer to the curl request, below 
 
 The above request will return something like: 
 ### Response: 
@@ -227,11 +219,56 @@ The above request will return something like:
   CURL Example:
  
  ```
-  curl -XGET http://localhost:8080/api/createEvent?
+curl -d "title=something&start_time=1234&end_time=1234&author=Chris&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/createEvent  
   
  ```
+   ## 6. Edit an Event 
+
+POST `/api/editEvent` will create an event 
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/editEvent```
+**Method**: `GET`
+**Params**: 
+
+Title: `title=<string>`
+
+start_time: `start_time=<integer>`
+
+End_time : `end_time=<integer>`
+
+Author : `author=<string>`
+
+Location: `location=<string>`
+
+Price : `price=<double>`
+
+Hashtag : `hashtag=<string>`
+
+eventId : `eventId=<integer>`
+
+### Sample Request: 
+This requires a post request. Please, refer to the curl request, below 
+
+The above request will return something like: 
+### Response: 
+ ```
+ Successfully created event
+ ```
  
-  ## 6. Get Attendees
+ ### Error Response: 
+ 
+ ```
+ Invalid url parameters
+ 
+ ```
+  CURL Example:
+ 
+ ```
+curl -d "title=something&start_time=1234&end_time=1234&author=Chris&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/createEvent  
+  
+ ```
+  ## 7. Get Attendees
 
 GET `/api/getAttendees` will get all the attendees across all events in the system
 
@@ -268,7 +305,7 @@ This should return something like:
 
  
  
- ## 7. Create a User
+ ## 8. Create a User
  
  POST `/api/createUser` will create a user with the supplied username, name and email
 
@@ -287,7 +324,7 @@ Email : `email=<something@nothing.com>`
 The request requires post data, please see sample curl request below: 
 ```http://localhost:8080/api/createUser                            ```
 
- 
+ This should return something like: 
  ### Sample Response: 
  
  ```
@@ -301,7 +338,7 @@ The request requires post data, please see sample curl request below:
  ```
  
  
- ## 8. Delete a User
+ ## 9. Delete a User
  
  POST `/api/deleteUser` will delete a user, given a user id 
 
@@ -314,8 +351,9 @@ UserId: `userId=<user identification number>`
 ### Sample Request: 
 
 The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/deleteUser                            ```
-
+```http://localhost:8080/api/deleteUser
+```
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -329,7 +367,7 @@ curl -XPOST http://localhost:8080/api/deleteUser -d "userId=1"
 
 ```
 
- ## 9. Get Orders
+ ## 10. Get Orders
 
 GET `/api/getOrders` will get all the orders in the system
 
@@ -374,48 +412,6 @@ This should return something like:
   
  ```
 
-
- ## 10. Create an event
- 
- POST `/api/createEvent` will create a user with the supplied username, name and email
-
-### Request:
-**Base URL**: ```http://localhost:8080/api/createUser```
-**Method**: `POST`
-**Params/Post Data**: 
-Title: `title=<something>`
-
-StartTime: `startTime=<timestamp>`
-
-EndTime : `endTime=<timestamp>`
-
-Author : `author=<someone>`
-
-Location : `location=<somewhere>`
-
-Price : `price=<int>`
-
-HashTag : `hashtag=<test>`
-
-### Sample Request: 
-
-The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/createEvent                            ```
-
- 
- ### Sample Response: 
- 
- ```
- Successfully created event
- ```
- 
- CURL EXAMPLE: 
- 
- ```
-curl -d "title=something&startTime=1234&endTime=1234&author=Chris&location=RIT&price=10&hashtag=test" -XPOST http://localhost:8080/api/createEvent
- ```
- 
-  
  ## 11. Delete an Event
  
  POST `/api/deleteEvent` will delete an event, given an event id
@@ -429,8 +425,9 @@ EventId: `eventId=<event identification number>`
 ### Sample Request: 
 
 The request requires post data, please see the sample curl request below: 
-```http://localhost:8080/api/deleteEvent                            ```
+```http://localhost:8080/api/deleteEvent```
 
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -461,8 +458,9 @@ Name: `name=<someone>`
 
 The request requires post data, please see sample curl request below: 
 
-```http://localhost:8080/api/addAttendee                            ```
+```http://localhost:8080/api/addAttendee```
 
+This should return something like: 
  
  ### Sample Response: 
  
@@ -493,6 +491,7 @@ UserId: `userId=<user identification number>`
 The request requires post data, please see sample curl request below: 
 ```http://localhost:8080/api/deleteAttendee                            ```
 
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -526,9 +525,9 @@ Currency : `currency=<>`
 ### Sample Request: 
 
 The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/createOrder                            ```
+```http://localhost:8080/api/createOrder```
 
- 
+ This should return something like: 
  ### Sample Response: 
  
  ```
@@ -556,8 +555,9 @@ User Id: `userId=<user identification number>`
 ### Sample Request: 
 
 The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/deleteOrder                            ```
+```http://localhost:8080/api/deleteOrder```
 
+This should return something like: 
  ### Sample Response: 
  
  ```
@@ -572,7 +572,7 @@ curl -d "eventId=1&userId=2" -XPOST http://localhost:8080/api/deleteOrder
 ```
 
  
-  ## 16. Get Attendees
+## 16. Get Attendees
 
 GET `/api/getCurrencyConversion` will return all the conversion values for different currencies
 
@@ -583,7 +583,7 @@ GET `/api/getCurrencyConversion` will return all the conversion values for diffe
 
 ### Sample Request: 
 
-```http://localhost:8080/api/getCurrencyConversion                            ```
+```http://localhost:8080/api/getCurrencyConversion```
 
 This should return something like: 
 ### Response: 
