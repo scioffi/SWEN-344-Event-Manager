@@ -98,7 +98,7 @@ module.exports = function(app) {
             res.status(400);
             res.send("Missing eventId parameter");
         } else {
-            res.send(events[0]);
+            res.send(events[eventId - 1]);
         }
     })
 	
