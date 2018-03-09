@@ -129,6 +129,13 @@ describe("GET API endpoint /getAttendees", function(){
             expect(res).to.have.status(200);
             expect(res).to.be.json;
             expect(res.body).to.be.an('array');
+            
+            expect(res.body[0]["eventId"]).to.equal(1)
+            expect(res.body[0]["name"]).to.equal('John Doe')
+            
+            expect(res.body[1]["eventId"]).to.equal(2)
+            expect(res.body[1]["name"]).to.equal('Dan Krutz')
+    
       });
   });
 });
