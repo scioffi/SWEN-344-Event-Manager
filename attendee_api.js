@@ -69,7 +69,8 @@ module.exports = function(app) {
                                     res.status(500);
                                     res.send("User already registered for this event");
                                 } else {
-                                    db.query("INSERT INTO `Attendee` (`user_id`, `event_id`) VALUES ('" + userId + "', '" + eventId + "')", function (err, result, fields) {
+                                    var values = [userId, eventId];
+                                    db.query("INSERT INTO ?? (??) VALUES (?)", ['Attendee', ATTENDEE_COLUMNS, values], function (err, result, fields) {
                                         if (err) throw err;
                                         res.send({"id":result.insertId});
                                     });

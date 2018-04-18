@@ -1,42 +1,47 @@
 var axios = require("axios");
 var bodyParser = require('body-parser');
 var db = require('./db.js');
+var db_utils = require('./db_utils');
 
 const API_PATH = "/api";
 var currencies = ["INR", "GBP", "CAD", "BTC", "EUR"];
 const CURRENCY_API_ACCESS_KEY = "e7ec8436b2042f209fb149fb9f159a80";
-
-var orders = [{"userId" : 1, "eventId" : 1, "price" : 0, "currency" : "BTC"},
-			  {"userId" : 2, "eventId" : 2, "price" : 25, "currency" : "USD"},
-              {"userId" : 3, "eventId" : 2, "price" : 25, "currency" : "GBP"}]
-
-var ORDER_COLUMNS = ['event_id', 'user_id', 'price', 'currency'];
+const ORDERS_COLUMNS = ['event_id', 'user_id', 'price', 'currency'];
 
 module.exports = function(app) {
     app.use(bodyParser.urlencoded({ extended: true })); 
     app.use(bodyParser.json());
 
     app.get(API_PATH + '/getOrder', (req, res) => {
-        var userId = req.query.userId;
-        var eventId = req.query.eventId;
-        if (nullOrEmpty(eventId) || nullOrEmpty(userId)) {
+        var orderId = req.query.orderId;
+        if (db_utils.nullOrEmpty(orderId)) {
             res.status(400);
-            res.send("Missing eventId or userId parameter");
+            res.send("Missing orderId parameter");
         } else {
-            db.query("SELECT ?? FROM ?? WHERE order_id = ? AND user_id = ?", [EVENT_COLUMNS, 'Order', eventId, userId], function (err, result, fields) {
-                if (err) throw err;
-                if (result.length) {
+            db_utils.getOrderById(orderId, function(err, result) {
+                if (err) {
+                    res.status(500)
+                    res.send(err);
+                } else if (result.length) {
                     res.send(JSON.stringify(result[0]));
                 } else {
-                    res.status(404);
+                    res.status(404)
                     res.send("order not found");
                 }
-            });
+            });            
         }
     })
 	
 	app.get(API_PATH + '/getOrders', (req, res) => {        
-            res.send(orders);
+        db.query("SELECT ?? FROM ??", [ORDERS_COLUMNS, 'Orders'], function (err, results, fields) {
+            if (err) throw err;
+            if (results.length) {
+                res.send(JSON.stringify(results));
+            } else {
+                res.status(404)
+                res.send("No order in database");
+            }
+        });
     })
 
     app.post(API_PATH + '/createOrder', (req, res) => {
@@ -44,23 +49,65 @@ module.exports = function(app) {
 		var eventId = req.body.eventId;
         var price = req.body.price;
         var currency = req.body.currency;
-		
-        if (nullOrEmpty(userId) || nullOrEmpty(eventId) || nullOrEmpty(price) || nullOrEmpty(currency)) {
+        if (db_utils.nullOrEmpty(userId) || db_utils.nullOrEmpty(eventId) || db_utils.nullOrEmpty(price) || db_utils.nullOrEmpty(currency)) {
             res.status(400);
             res.send("Invalid url parameters");
         } else {
-            res.send("Successfully created order");
+            db_utils.getUserById(userId, function(err, result) {
+                if (err) {
+                    res.status(500);
+                    res.send(err);
+                } else if (result.length) {
+                    db_utils.getEventById(eventId, function(err, result) {
+                        if (err) {
+                            res.status(500);
+                            res.send(err);
+                        } else if (result.length) {
+                            var values = [eventId, userId, price, currency];
+                            db.query("INSERT INTO ?? (??) VALUES (?)", ['Order', ORDERS_COLUMNS, values], function (err, result, fields) {
+                                if (err) throw err;
+                                res.send({"id":result.insertId});
+                            });
+                        } else {
+                            res.status(404);
+                            res.send("Event doesn't exist");
+                        }
+                    });
+                } else {       
+                    res.status(404);
+                    res.send("User doesn't exist");
+                }
+            });
         }
     })
 
     app.post(API_PATH + '/deleteOrder', (req, res) => {
-        var userId = req.body.userId;
-        var eventId = req.body.eventId;
-        if (nullOrEmpty(eventId) || nullOrEmpty(userId)) {
+        var orderId = req.body.orderId;
+        if (db_utils.nullOrEmpty(orderId)) {
             res.status(400);
-            res.send("Missing eventId or userId parameter");
+            res.send("Missing orderId parameter");
         } else {
-            res.send("Successfully deleted order")
+            db_utils.getOrderById(orderId, function(err, result) {
+                if (err) {
+                    res.status(500);
+                    res.send(err);
+                } else if (result) {   
+                    db.query("DELETE FROM ?? WHERE order_id = ?", ['Orders', orderId], function (err, result, fields) {
+                        if (err) {
+                            res.status(500);
+                            res.send(err);
+                        } else if (result.affectedRows) {
+                            res.send("successfully deleted order");                        
+                        } else {
+                            res.status(404);
+                            res.send("Order not found");
+                        }
+                    });
+                } else {
+                    res.status(404);
+                    res.send("Order not found");
+                }
+            });
         }
     })
 
@@ -74,7 +121,7 @@ module.exports = function(app) {
                 var btcRate = quotes.USDBTC;
                 var cadRate = quotes.USDCAD;
                 var inrRate = quotes.USDINR;
-                if (nullOrEmpty(amount)) {
+                if (db_utils.nullOrEmpty(amount)) {
                     amount = 1;
                 }
                 res.send({"GBP" : amount*gbpRate, "INR" : amount*inrRate, "EUR" : amount*eurRate, "BTC" : amount*btcRate, "CAD" : amount*cadRate});
@@ -84,10 +131,3 @@ module.exports = function(app) {
             })
     })
 };
-
-function nullOrEmpty(value) {
-	if (value == null || value === '') {
-		return true;
-	}
-	return false;
-}
