@@ -94,21 +94,43 @@ module.exports = function(app) {
 
     app.post(API_PATH + '/editEvent', (req, res) => {
         var eventId = req.body.eventId;
+        var status = req.body.status;
         var title = req.body.title;
         var description = req.body.description;
 		var start_date = req.body.start_date;
         var end_date = req.body.end_date;
-        var author = req.body.userId
+        var author = req.body.author
         var location = req.body.location;
         var price = req.body.price;
         var hashtag = req.body.hashtag;
         var creation_date = req.body.creation_date;
 		
-        if (db_utils.nullOrEmpty(eventId) || db_utils.nullOrEmpty(title) || db_utils.nullOrEmpty(start_date) || db_utils.nullOrEmpty(end_date) || db_utils.nullOrEmpty(author) || db_utils.nullOrEmpty(location) || db_utils.nullOrEmpty(price) || db_utils.nullOrEmpty(hashtag) || db_utils.nullOrEmpty(description) || db_utils.nullOrEmpty(creation_date)) {
+        if (db_utils.nullOrEmpty(eventId) || db_utils.nullOrEmpty(status) || db_utils.nullOrEmpty(title) || db_utils.nullOrEmpty(start_date) || db_utils.nullOrEmpty(end_date) || db_utils.nullOrEmpty(author) || db_utils.nullOrEmpty(location) || db_utils.nullOrEmpty(price) || db_utils.nullOrEmpty(hashtag) || db_utils.nullOrEmpty(description) || db_utils.nullOrEmpty(creation_date)) {
             res.status(400);
             res.send("Invalid url parameters");
         } else {
-            res.send("Successfully edited event");
+            db_utils.getEventById(eventId, function(err, result) {
+                if (err) {
+                    res.status(500);
+                    res.send(err);
+                } else if (result.length) {
+                    db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['Event', 'title', title, 'description', description, 'status', status,
+                                'location', location, 'price', price, 'hashtag', hashtag, 'start_date', start_date, 'end_date', end_date, eventId] , function (err, result, fields) {
+                        if (err) {
+                            res.status(500);
+                            res.send(err);
+                        } else if (result.affectedRows) {
+                            res.send("successfully updated event");                        
+                        } else {
+                            res.status(404);
+                            res.send("Event not found");
+                        }
+                    });
+                } else {                    
+                    res.status(404);
+                    res.send("Event not found");
+                }
+            });
         }
     })
 
@@ -144,11 +166,31 @@ module.exports = function(app) {
 
     app.post(API_PATH + '/expireEvent', (req, res) => {
         var eventId = req.body.eventId;
-        if (nullOrEmpty(eventId)) {
+        if (db_utils.nullOrEmpty(eventId)) {
             res.status(400);
             res.send("Missing eventId parameter");
         } else {
-            res.send("Successfully expired event");
+            db_utils.getEventById(eventId, function(err, result) {
+                if (err) {
+                    res.status(500);
+                    res.send(err);
+                } else if (result.length) {
+                    db.query("UPDATE ?? SET ?? = ? WHERE `event_id` = ?",['Event', 'status', 'expired', eventId] , function (err, result, fields) {
+                        if (err) {
+                            res.status(500);
+                            res.send(err);
+                        } else if (result.affectedRows) {
+                            res.send("successfully expired event");                        
+                        } else {
+                            res.status(404);
+                            res.send("Event not found");
+                        }
+                    });
+                } else {                    
+                    res.status(404);
+                    res.send("Event not found");
+                }
+            });
         }
     })
 };
