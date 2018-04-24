@@ -4,7 +4,8 @@ var db = require('./db.js');
 var db_utils = require('./db_utils');
 const API_PATH = "/api";
 
-const ATTENDEE_COLUMNS = ['user_id', 'event_id'];
+const INSERT_ATTENDEE_COLUMNS = ['user_id', 'event_id'];
+const SELECT_ATTENDEE_COLUMNS = ['attendee_id','user_id', 'event_id'];
 
 module.exports = function(app) {
     app.use(bodyParser.urlencoded({ extended: true })); 
@@ -31,7 +32,7 @@ module.exports = function(app) {
     })
 	
 	app.get(API_PATH + '/getAttendees', (req, res) => {        
-        db.query("SELECT ?? FROM ??", [ATTENDEE_COLUMNS, 'Attendee'], function (err, results, fields) {
+        db.query("SELECT ?? FROM ??", [SELECT_ATTENDEE_COLUMNS, 'Attendee'], function (err, results, fields) {
             if (err) {
                 res.status(500);
                 res.send(err);
@@ -70,7 +71,7 @@ module.exports = function(app) {
                                     res.send("User already registered for this event");
                                 } else {
                                     var values = [userId, eventId];
-                                    db.query("INSERT INTO ?? (??) VALUES (?)", ['Attendee', ATTENDEE_COLUMNS, values], function (err, result, fields) {
+                                    db.query("INSERT INTO ?? (??) VALUES (?)", ['Attendee', INSERT_ATTENDEE_COLUMNS, values], function (err, result, fields) {
                                         if (err) throw err;
                                         res.send({"id":result.insertId});
                                     });

@@ -6,7 +6,8 @@ var db_utils = require('./db_utils');
 const API_PATH = "/api";
 var currencies = ["INR", "GBP", "CAD", "BTC", "EUR"];
 const CURRENCY_API_ACCESS_KEY = "e7ec8436b2042f209fb149fb9f159a80";
-const ORDERS_COLUMNS = ['event_id', 'user_id', 'price', 'currency'];
+const INSERT_ORDERS_COLUMNS = ['event_id', 'user_id', 'price'];
+const SELECT_ORDERS_COLUMNS = ['order_id', 'event_id', 'user_id', 'price'];
 
 module.exports = function(app) {
     app.use(bodyParser.urlencoded({ extended: true })); 
@@ -33,7 +34,7 @@ module.exports = function(app) {
     })
 	
 	app.get(API_PATH + '/getOrders', (req, res) => {        
-        db.query("SELECT ?? FROM ??", [ORDERS_COLUMNS, 'Orders'], function (err, results, fields) {
+        db.query("SELECT ?? FROM ??", [SELECT_ORDERS_COLUMNS, 'Orders'], function (err, results, fields) {
             if (err) throw err;
             if (results.length) {
                 res.send(JSON.stringify(results));
@@ -48,8 +49,7 @@ module.exports = function(app) {
         var userId = req.body.userId;
 		var eventId = req.body.eventId;
         var price = req.body.price;
-        var currency = req.body.currency;
-        if (db_utils.nullOrEmpty(userId) || db_utils.nullOrEmpty(eventId) || db_utils.nullOrEmpty(price) || db_utils.nullOrEmpty(currency)) {
+        if (db_utils.nullOrEmpty(userId) || db_utils.nullOrEmpty(eventId) || db_utils.nullOrEmpty(price)) {
             res.status(400);
             res.send("Invalid url parameters");
         } else {
@@ -63,8 +63,8 @@ module.exports = function(app) {
                             res.status(500);
                             res.send(err);
                         } else if (result.length) {
-                            var values = [eventId, userId, price, currency];
-                            db.query("INSERT INTO ?? (??) VALUES (?)", ['Order', ORDERS_COLUMNS, values], function (err, result, fields) {
+                            var values = [eventId, userId, price];
+                            db.query("INSERT INTO ?? (??) VALUES (?)", ['Order', INSERT_ORDERS_COLUMNS, values], function (err, result, fields) {
                                 if (err) throw err;
                                 res.send({"id":result.insertId});
                             });

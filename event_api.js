@@ -4,7 +4,8 @@ var db = require('./db.js');
 var db_utils = require('./db_utils.js');
 const API_PATH = "/api";
 			 
-const EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
+const INSERT_EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
+const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
 
 module.exports = function(app) {
     app.use(bodyParser.urlencoded({ extended: true })); 
@@ -31,7 +32,7 @@ module.exports = function(app) {
     })
 	
 	app.get(API_PATH + '/getEvents', (req, res) => {        
-        db.query("SELECT ?? FROM ??", [EVENT_COLUMNS, 'Event'], function (err, results, fields) {
+        db.query("SELECT ?? FROM ??", [SELECT_EVENT_COLUMNS, 'Event'], function (err, results, fields) {
             if (err) {
                 res.status(500);
                 res.send(err);
@@ -65,25 +66,29 @@ module.exports = function(app) {
                     res.status(500);
                     res.send(err);
                 } else if (result.length) {
-                    db_utils.getEventByTitle(title, function(err, result) {
-                        if (err) {
-                            res.status(500);
-                            res.send(err);
-                        } else if (result.length) {
-                            res.status(400);
-                            res.send("Duplicate event");
-                        } else {
-                            // notes: start_date, end_date and creation_date must be in mysql datetime format
-                            // this is different from the returned result from node.js mysql because the result
-                            // is in iso date format
-                            var values = [title, description, author, location, status, price, start_date, end_date, creation_date, hashtag];
-                            db.query("INSERT INTO ?? (??) VALUES (?)",['Event', EVENT_COLUMNS, values] , function (err, result, fields) {
-                                if (err) throw err;
-                                    res.send({"id":result.insertId});
-                                });
-                        }
-                    });
-                    
+                    if (result[0].permission === "admin") {
+                        db_utils.getEventByTitle(title, function(err, result) {
+                            if (err) {
+                                res.status(500);
+                                res.send(err);
+                            } else if (result.length) {
+                                res.status(400);
+                                res.send("Duplicate event");
+                            } else {
+                                // notes: start_date, end_date and creation_date must be in mysql datetime format
+                                // this is different from the returned result from node.js mysql because the result
+                                // is in iso date format
+                                var values = [title, description, author, location, status, price, start_date, end_date, creation_date, hashtag];
+                                db.query("INSERT INTO ?? (??) VALUES (?)",['Event', INSERT_EVENT_COLUMNS, values] , function (err, result, fields) {
+                                    if (err) throw err;
+                                        res.send({"id":result.insertId});
+                                    });
+                            }
+                        });
+                    } else {
+                        res.status(500);
+                        res.send("User doesn't have permission to create event");
+                    }              
                 } else {       
                     res.status(404);
                     res.send("User doesn't exist");
