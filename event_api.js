@@ -6,6 +6,7 @@ const API_PATH = "/api";
 			 
 const INSERT_EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
 const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
+const EVENT_STATUSES = ['open', 'expired'];
 
 module.exports = function(app) {
     app.use(bodyParser.urlencoded({ extended: true })); 
@@ -16,6 +17,9 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(eventId)) {
             res.status(400);
             res.send("Missing eventId parameter");
+        } else if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
+            res.status(400);
+            res.send("Invalid evetId");
         } else {
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
@@ -57,10 +61,53 @@ module.exports = function(app) {
         var creation_date = req.body.creation_date;
         var status = req.body.status;
 		
-        if (db_utils.nullOrEmpty(title) || db_utils.nullOrEmpty(status) || db_utils.nullOrEmpty(start_date) || db_utils.nullOrEmpty(end_date) || db_utils.nullOrEmpty(author) || db_utils.nullOrEmpty(location) || db_utils.nullOrEmpty(price) || db_utils.nullOrEmpty(hashtag) || db_utils.nullOrEmpty(description) || db_utils.nullOrEmpty(creation_date)) {
+        if (db_utils.nullOrEmpty(title)) {
             res.status(400);
-            res.send("Invalid url parameters");
+            res.send("Missing title parameter");
+        } else if (db_utils.nullOrEmpty(description)) {
+            res.status(400);
+            res.send("Missing description parameter");
+        } else if (db_utils.nullOrEmpty(start_date)) {
+            res.status(400);
+            res.send("Missing start_date parameter");
+        } else if (db_utils.nullOrEmpty(end_date)) {
+            res.status(400);
+            res.send("Missing end_date parameter");
+        } else if (db_utils.nullOrEmpty(author)) {
+            res.status(400);
+            res.send("Missing author parameter");
+        } else if (db_utils.nullOrEmpty(location)) {
+            res.status(400);
+            res.send("Missing location parameter");
+        } else if (db_utils.nullOrEmpty(price)) {
+            res.status(400);
+            res.send("Missing price parameter");
+        } else if (db_utils.nullOrEmpty(hashtag)) {
+            res.status(400);
+            res.send("Missing hashtag parameter");
+        } else if (db_utils.nullOrEmpty(creation_date)) {
+            res.status(400);
+            res.send("Missing creation_date parameter");
+        } else if (db_utils.nullOrEmpty(status)) {
+            res.status(400);
+            res.send("Missing status parameter");
         } else {
+            if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
+                res.status(400);
+                res.send("Invalid eventId");
+            }
+            if (isNaN(author) || (parseInt(author) <= 0)) {
+                res.status(400);
+                res.send("Invalid author id");
+            }
+            if (isNaN(price) || (parseInt(price) < 0)) {
+                res.status(400);
+                res.send("Invalid price value");
+            }
+            if (EVENT_STATUSES.indexOf(status) <= -1) {
+                res.status(400);
+                res.send("Invalid event status");                
+            }
             db_utils.getUserById(author, function(err, result) {
                 if (err) {
                     res.status(500);
@@ -119,7 +166,8 @@ module.exports = function(app) {
                     res.status(500);
                     res.send(err);
                 } else if (result.length) {
-                    db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['Event', 'title', title, 'description', description, 'status', status,
+                    if (result[0].permission === "admin") {
+                        db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['Event', 'title', title, 'description', description, 'status', status,
                                 'location', location, 'price', price, 'hashtag', hashtag, 'start_date', start_date, 'end_date', end_date, eventId] , function (err, result, fields) {
                         if (err) {
                             res.status(500);
@@ -131,6 +179,10 @@ module.exports = function(app) {
                             res.send("Event not found");
                         }
                     });
+                    } else {
+                        res.status(500);
+                        res.status("User doesn't have permission to edit event");
+                    }                    
                 } else {                    
                     res.status(404);
                     res.send("Event not found");
@@ -144,6 +196,9 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(eventId)) {
             res.status(400);
             res.send("Missing eventId parameter");
+        } else if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
+            res.status(400);
+            res.send("Invalid eventId");
         } else {
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
@@ -174,6 +229,9 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(eventId)) {
             res.status(400);
             res.send("Missing eventId parameter");
+        } else if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
+            res.status(400);
+            res.send("Invalid eventId");
         } else {
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
