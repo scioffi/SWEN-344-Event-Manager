@@ -16,6 +16,9 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(attendeeId)) {
             res.status(400);
             res.send("Missing attendeeId parameter");
+        } else if (isNaN(attendeeId) || (parseInt(attendeeId) <= 0)) {
+            res.status(400);
+            res.send("Invalid attendeeId");
         } else {
             db_utils.getAttendeeById(attendeeId, function(err, result) {
                 if (err) {
@@ -48,9 +51,18 @@ module.exports = function(app) {
     app.post(API_PATH + '/addAttendee', (req, res) => {
         var userId = req.body.userId;
 		var eventId = req.body.eventId;		
-        if (db_utils.nullOrEmpty(userId) || db_utils.nullOrEmpty(eventId)) {
+        if (db_utils.nullOrEmpty(eventId)) {
             res.status(400);
-            res.send("Invalid url parameters");
+            res.send("Missing eventId parameter");
+        } else if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
+            res.status(400);
+            res.send("Invalid eventId");
+        } else if (db_utils.nullOrEmpty(userId)) {
+            res.status(400);
+            res.send("Missing userId parameter");
+        } else if (isNaN(userId) || (parseInt(userId) <= 0)) {
+            res.status(400);
+            res.send("Invalid userId");
         } else {
             db_utils.getUserById(userId, function(err, result) {
                 if (err) {
@@ -95,6 +107,9 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(attendeeId)) {
             res.status(400);
             res.send("Missing attendeeId parameter");
+        } else if (isNaN(attendeeId) || (parseInt(attendeeId) <= 0)) {
+            res.status(400);
+            res.send("Invalid attendeeId");
         } else {
             getAttendeeById(attendeeId, function(err, result) {
                 if (err) {

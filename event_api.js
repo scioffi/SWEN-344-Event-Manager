@@ -29,7 +29,7 @@ module.exports = function(app) {
                     res.send(JSON.stringify(result[0]));
                 } else {
                     res.status(404)
-                    res.send("event not found");
+                    res.send("Event not found");
                 }
             }); 
         }
@@ -92,10 +92,6 @@ module.exports = function(app) {
             res.status(400);
             res.send("Missing status parameter");
         } else {
-            if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
-                res.status(400);
-                res.send("Invalid eventId");
-            }
             if (isNaN(author) || (parseInt(author) <= 0)) {
                 res.status(400);
                 res.send("Invalid author id");
@@ -107,6 +103,18 @@ module.exports = function(app) {
             if (EVENT_STATUSES.indexOf(status) <= -1) {
                 res.status(400);
                 res.send("Invalid event status");                
+            }
+            if (!db_utils.validateTimestamp(start_date)) {
+                res.status(400);
+                res.send("Invalid start_date");
+            }
+            if (!db_utils.validateTimestamp(end_date)) {
+                res.status(400);
+                res.send("Invalid end_date");
+            }
+            if (!db_utils.validateTimestamp(creation_date)) {
+                res.status(400);
+                res.send("Invalid creation_date");
             }
             db_utils.getUserById(author, function(err, result) {
                 if (err) {
@@ -156,11 +164,68 @@ module.exports = function(app) {
         var price = req.body.price;
         var hashtag = req.body.hashtag;
         var creation_date = req.body.creation_date;
-		
-        if (db_utils.nullOrEmpty(eventId) || db_utils.nullOrEmpty(status) || db_utils.nullOrEmpty(title) || db_utils.nullOrEmpty(start_date) || db_utils.nullOrEmpty(end_date) || db_utils.nullOrEmpty(author) || db_utils.nullOrEmpty(location) || db_utils.nullOrEmpty(price) || db_utils.nullOrEmpty(hashtag) || db_utils.nullOrEmpty(description) || db_utils.nullOrEmpty(creation_date)) {
+		if (db_utils.nullOrEmpty(eventId)) {
             res.status(400);
-            res.send("Invalid url parameters");
-        } else {
+            res.send("Missing eventId parameter");
+        } else if (db_utils.nullOrEmpty(title)) {
+            res.status(400);
+            res.send("Missing title parameter");
+        } else if (db_utils.nullOrEmpty(description)) {
+            res.status(400);
+            res.send("Missing description parameter");
+        } else if (db_utils.nullOrEmpty(start_date)) {
+            res.status(400);
+            res.send("Missing start_date parameter");
+        } else if (db_utils.nullOrEmpty(end_date)) {
+            res.status(400);
+            res.send("Missing end_date parameter");
+        } else if (db_utils.nullOrEmpty(author)) {
+            res.status(400);
+            res.send("Missing author parameter");
+        } else if (db_utils.nullOrEmpty(location)) {
+            res.status(400);
+            res.send("Missing location parameter");
+        } else if (db_utils.nullOrEmpty(price)) {
+            res.status(400);
+            res.send("Missing price parameter");
+        } else if (db_utils.nullOrEmpty(hashtag)) {
+            res.status(400);
+            res.send("Missing hashtag parameter");
+        } else if (db_utils.nullOrEmpty(creation_date)) {
+            res.status(400);
+            res.send("Missing creation_date parameter");
+        } else if (db_utils.nullOrEmpty(status)) {
+            res.status(400);
+            res.send("Missing status parameter");
+        } else {            
+            if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
+                res.status(400);
+                res.send("Invalid eventId");
+            }
+            if (isNaN(author) || (parseInt(author) <= 0)) {
+                res.status(400);
+                res.send("Invalid author id");
+            }
+            if (isNaN(price) || (parseInt(price) < 0)) {
+                res.status(400);
+                res.send("Invalid price value");
+            }
+            if (EVENT_STATUSES.indexOf(status) <= -1) {
+                res.status(400);
+                res.send("Invalid event status");                
+            }
+            if (!db_utils.validateTimestamp(start_date)) {
+                res.status(400);
+                res.send("Invalid start_date");
+            }
+            if (!db_utils.validateTimestamp(end_date)) {
+                res.status(400);
+                res.send("Invalid end_date");
+            }
+            if (!db_utils.validateTimestamp(creation_date)) {
+                res.status(400);
+                res.send("Invalid creation_date");
+            }
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
                     res.status(500);

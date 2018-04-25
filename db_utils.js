@@ -15,6 +15,10 @@ module.exports = {
         var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return regex.test(email);
     },
+    validateTimestamp: function(date) {
+        var date = new Date(date);
+        return date.getTime() > 0;
+    },
     getUserById: function(userId, callback) {
         db.query("SELECT ?? FROM ?? WHERE user_id = ?", [SELECT_USER_COLUMNS, 'User', userId], function (err, result, fields) {
             if (err) {

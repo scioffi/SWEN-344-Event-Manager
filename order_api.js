@@ -18,16 +18,43 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(orderId)) {
             res.status(400);
             res.send("Missing orderId parameter");
+        } else if (isNaN(orderId) || (parseInt(orderId) <= 0)) {
+            res.status(400);
+            res.send("Invalid orderId");
         } else {
             db_utils.getOrderById(orderId, function(err, result) {
                 if (err) {
                     res.status(500)
                     res.send(err);
                 } else if (result.length) {
-                    res.send(JSON.stringify(result[0]));
+                    var userId = result[0].user_id;
+                    var eventId = result[0].event_id;
+                    db_utils.getUserById(userId, function(err, result) {
+                        if (err) {
+                            res.status(500)
+                            res.send(err);
+                        } else if (result.length) {
+                            var first_name = result[0].first_name;
+                            var last_name = result[0].last_name;
+                            db_utils.getEventById(eventId, function(err, result) {
+                                if (err) {
+                                    res.status(500)
+                                    res.send(err);
+                                } else if (result.length) {
+                                    res.send({"first_name":first_name,"last_name":last_name,"title":result[0].title});
+                                } else {
+                                    res.status(404)
+                                    res.send("Event not found");
+                                }
+                            });
+                        } else {
+                            res.status(404)
+                            res.send("User not found");
+                        }
+                    });
                 } else {
                     res.status(404)
-                    res.send("order not found");
+                    res.send("Order not found");
                 }
             });            
         }
@@ -49,10 +76,28 @@ module.exports = function(app) {
         var userId = req.body.userId;
 		var eventId = req.body.eventId;
         var price = req.body.price;
-        if (db_utils.nullOrEmpty(userId) || db_utils.nullOrEmpty(eventId) || db_utils.nullOrEmpty(price)) {
+        if (db_utils.nullOrEmpty(userId)) {
             res.status(400);
-            res.send("Invalid url parameters");
+            res.send("Missing userId parameter");
+        } else if (db_utils.nullOrEmpty(eventId)) {
+            res.status(400);
+            res.send("Missing eventId parameter");
+        } else if (db_utils.nullOrEmpty(price)) {
+            res.status(400);
+            res.send("Missing price parameter");
         } else {
+            if (isNaN(userId) || (parseInt(userId) <= 0)) {
+                res.status(400);
+                res.send("Invalid userId");
+            } 
+            if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
+                res.status(400);
+                res.send("Invalid eventId");
+            }
+            if (isNaN(price) || (parseInt(price) < 0)) {
+                res.status(400);
+                res.send("Invalid price");
+            } 
             db_utils.getUserById(userId, function(err, result) {
                 if (err) {
                     res.status(500);
@@ -86,6 +131,9 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(orderId)) {
             res.status(400);
             res.send("Missing orderId parameter");
+        } if (isNaN(orderId) || (parseInt(orderId) <= 0)) {
+            res.status(400);
+            res.send("Invalid orderId");
         } else {
             db_utils.getOrderById(orderId, function(err, result) {
                 if (err) {
@@ -113,6 +161,13 @@ module.exports = function(app) {
 
     app.get(API_PATH + '/getCurrencyConversion', (req, res) => {
         var amount = req.query.amount;
+        if (db_utils.nullOrEmpty(amount)) {
+            res.status(400);
+            res.send("Missing amount parameter");
+        } else if (isNaN(amount) || (parseInt(amount) < 0)) {
+            res.status(400);
+            res.send("Invalid amount");
+        }
         axios.get('http://www.apilayer.net/api/live?access_key=' + CURRENCY_API_ACCESS_KEY + '&currencies=' + currencies.join())
             .then(response => {
                 var quotes = response.data.quotes;
@@ -121,12 +176,10 @@ module.exports = function(app) {
                 var btcRate = quotes.USDBTC;
                 var cadRate = quotes.USDCAD;
                 var inrRate = quotes.USDINR;
-                if (db_utils.nullOrEmpty(amount)) {
-                    amount = 1;
-                }
                 res.send({"GBP" : amount*gbpRate, "INR" : amount*inrRate, "EUR" : amount*eurRate, "BTC" : amount*btcRate, "CAD" : amount*cadRate});
             })
             .catch(error => {
+                res.status(500);
                 res.send(error);
             })
     })
