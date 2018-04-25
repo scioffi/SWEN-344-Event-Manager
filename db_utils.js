@@ -3,6 +3,7 @@ const SELECT_ATTENDEE_COLUMNS = ['attendee_id', 'user_id', 'event_id'];
 const SELECT_USER_COLUMNS = ['user_id', 'email', 'first_name', 'last_name', 'permission'];
 const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
 const SELECT_ORDERS_COLUMNS = ['order_id', 'event_id', 'user_id', 'price'];
+const SELECT_MESSAGE_COLUMNS = ['message_id','from_user', 'to_user', 'shared_time', 'message', 'event_id'];
 
 module.exports = {
     nullOrEmpty: function(value) {
@@ -75,6 +76,15 @@ module.exports = {
     },
     getEventByTitle: function(title, callback) {
         db.query("SELECT ?? FROM ?? WHERE title = ?", [SELECT_EVENT_COLUMNS, 'Event', title], function (err, result, fields) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(err, result);
+            }
+        });
+    },
+    getMessageById: function(messageId, callback) {
+        db.query("SELECT ?? FROM ?? WHERE message_id = ?", [SELECT_MESSAGE_COLUMNS, 'Message', messageId], function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {
