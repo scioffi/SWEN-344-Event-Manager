@@ -59,7 +59,7 @@ module.exports = function(app) {
         var price = req.body.price;
         var hashtag = req.body.hashtag;
         var creation_date = req.body.creation_date;
-        var status = req.body.status;
+        var status = "open";
 		
         if (db_utils.nullOrEmpty(title)) {
             res.status(400);
@@ -88,9 +88,6 @@ module.exports = function(app) {
         } else if (db_utils.nullOrEmpty(creation_date)) {
             res.status(400);
             res.send("Missing creation_date parameter");
-        } else if (db_utils.nullOrEmpty(status)) {
-            res.status(400);
-            res.send("Missing status parameter");
         } else {
             if (isNaN(author) || (parseInt(author) <= 0)) {
                 res.status(400);
@@ -104,15 +101,15 @@ module.exports = function(app) {
                 res.status(400);
                 res.send("Invalid event status");                
             }
-            if (!db_utils.validateTimestamp(start_date)) {
+            if (!db_utils.validateTimestamp(parseInt(start_date))) {
                 res.status(400);
                 res.send("Invalid start_date");
             }
-            if (!db_utils.validateTimestamp(end_date)) {
+            if (!db_utils.validateTimestamp(parseInt(end_date))) {
                 res.status(400);
                 res.send("Invalid end_date");
             }
-            if (!db_utils.validateTimestamp(creation_date)) {
+            if (!db_utils.validateTimestamp(parseInt(creation_date))) {
                 res.status(400);
                 res.send("Invalid creation_date");
             }
@@ -173,10 +170,10 @@ module.exports = function(app) {
         } else if (db_utils.nullOrEmpty(description)) {
             res.status(400);
             res.send("Missing description parameter");
-        } else if (db_utils.nullOrEmpty(start_date)) {
+        } else if (db_utils.nullOrEmpty(parseInt(start_date))) {
             res.status(400);
             res.send("Missing start_date parameter");
-        } else if (db_utils.nullOrEmpty(end_date)) {
+        } else if (db_utils.nullOrEmpty(parseInt(end_date))) {
             res.status(400);
             res.send("Missing end_date parameter");
         } else if (db_utils.nullOrEmpty(author)) {
@@ -191,7 +188,7 @@ module.exports = function(app) {
         } else if (db_utils.nullOrEmpty(hashtag)) {
             res.status(400);
             res.send("Missing hashtag parameter");
-        } else if (db_utils.nullOrEmpty(creation_date)) {
+        } else if (db_utils.nullOrEmpty(parseInt(creation_date))) {
             res.status(400);
             res.send("Missing creation_date parameter");
         } else if (db_utils.nullOrEmpty(status)) {
