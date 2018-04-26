@@ -256,7 +256,7 @@ module.exports = function(app) {
         }
     })
 
-    app.post(API_PATH + '/deleteEvent', (req, res) => {
+    app.post(API_PATH + '/cancelEvent', (req, res) => {
         var eventId = req.body.eventId;
         if (db_utils.nullOrEmpty(eventId)) {
             res.status(400);
@@ -270,12 +270,12 @@ module.exports = function(app) {
                     res.status(500);
                     res.send(err);
                 } else if (result) {   
-                    db.query("DELETE FROM ?? WHERE event_id = ?", ['Event', eventId], function (err, result, fields) {
+                    db.query("UPDATE ?? SET ?? = ? WHERE event_id = ?", ['Event', 'status', 'canceled', eventId], function (err, result, fields) {
                         if (err) {
                             res.status(500);
                             res.send(err);
                         } else if (result.affectedRows) {
-                            res.send("successfully deleted event");                        
+                            res.send("Successfully canceled event");                        
                         } else {
                             res.status(404);
                             res.send("Event not found");

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2018 at 08:49 PM
+-- Generation Time: Apr 26, 2018 at 03:55 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -54,22 +54,23 @@ CREATE TABLE `event` (
   `hashtag` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `creator` varchar(255) DEFAULT NULL,
+  `author` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `price` double DEFAULT NULL,
   `start_date` bigint(20) DEFAULT NULL,
   `end_date` bigint(20) DEFAULT NULL,
   `creation_date` bigint(20) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL
+  `title` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `event`
 --
 
-INSERT INTO `event` (`event_id`, `hashtag`, `name`, `description`, `creator`, `location`, `price`, `start_date`, `end_date`, `creation_date`, `title`) VALUES
-(1, '#RITSpringFest', 'RIT Spring Fest', 'Annual event at RIT', '1', 'SAU', 0, 1524000000, 1524680000, 1524000000, 'Rit Spring Fest 2018'),
-(2, '#ReadingDay', 'Reading Day', 'Semester event for finals', '1', 'campus', 25.5, 1524000000, 1524681975, 1524000000, 'Spring Reading Day 2018');
+INSERT INTO `event` (`event_id`, `hashtag`, `name`, `description`, `author`, `location`, `price`, `start_date`, `end_date`, `creation_date`, `title`, `status`) VALUES
+(1, '#RITSpringFest', 'RIT Spring Fest', 'Annual event at RIT', '1', 'SAU', 0, 1524000000, 1524680000, 1524000000, 'Rit Spring Fest 2018', 'canceled'),
+(2, '#ReadingDay', 'Reading Day', 'Semester event for finals', '1', 'campus', 25.5, 1524000000, 1524681975, 1524000000, 'Spring Reading Day 2018', 'open');
 
 -- --------------------------------------------------------
 
