@@ -92,4 +92,13 @@ module.exports = {
             }
         });
     },
+    getMessageByUser: function(userId, callback) {
+        db.query("SELECT ?? FROM ?? WHERE from_user = ?", [SELECT_MESSAGE_COLUMNS, 'Message', userId], function (err, result, fields) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(err, result);
+            }
+        });
+    },
 }

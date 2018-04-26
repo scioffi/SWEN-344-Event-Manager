@@ -20,12 +20,35 @@ module.exports = function(app) {
             res.status(400);
             res.send("Invalid messageId");
         } else {
-            db_utils.getMessageById(messageId, function(err, result) {
+            db_utils.getMessageByUser(messageId, function(err, result) {
                 if (err) {
                     res.status(500)
                     res.send(err);
                 } else if (result.length) {
                     res.send(JSON.stringify(result[0]));
+                } else {
+                    res.status(404)
+                    res.send("Message not found");
+                }
+            }); 
+        }
+    })
+
+    app.get(API_PATH + '/getMessageByUser', (req, res) => {
+        var userId = req.query.userId;
+        if (db_utils.nullOrEmpty(userId)) {
+            res.status(400);
+            res.send("Missing userId parameter");
+        } else if (isNaN(userId) || (parseInt(userId) <= 0)) {
+            res.status(400);
+            res.send("Invalid userId");
+        } else {
+            db_utils.getMessageByUser(userId, function(err, result) {
+                if (err) {
+                    res.status(500)
+                    res.send(err);
+                } else if (result.length) {
+                    res.send(JSON.stringify(result));
                 } else {
                     res.status(404)
                     res.send("Message not found");
