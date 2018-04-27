@@ -1,12 +1,87 @@
 'use strict';
  
 const chai = require('chai');  
-const expect = require('chai').expect;
+const sinon = require("sinon");
+const should = chai.should();
+const expect = chai.expect;
  
 chai.use(require('chai-http'));
  
 const app = require('../app.js'); // Our app
- 
+
+process.env.NODE_ENV = 'test';
+const request = require('request');
+const base = 'http://localhost:8080';
+const events = require('./fixtures/events.json');
+
+/**
+ * TEST GET /api/getEvents
+ */
+describe.only('events table', () => {
+
+    describe('when stubbed', () => {
+
+        beforeEach(() => {
+            this.get = sinon.stub(request, 'get');
+        });
+
+        afterEach(() => {
+            request.get.restore();
+        });
+
+        describe('GET /api/getEvents', () => {
+            it('should return all events', (done) => {
+                this.get.yields(
+                    null, events.all.success.res, JSON.stringify(events.all.success.body)
+                );
+                request.get(`${base}/api/getEvents`, (err, res, body) => {
+                    // there should be a 200 status code
+                    res.statusCode.should.eql(200);
+                    // the response should be JSON
+                    res.headers['content-type'].should.contain('application/json');
+                    // parse response body
+                    body = JSON.parse(body);
+                    // the JSON response body should have a
+                    // key-value pair of {"status": "success"}
+                    body.status.should.eql('success');
+                    // the JSON response body should have a
+                    // key-value pair of {"data": [1 event objects]}
+                    body.data.length.should.eql(1);
+                    // the first object in the data array should
+                    // have the right keys
+                    body.data[0].should.include.keys(
+                        'author', 'creation_date', 'description', 'end_date', 'hashtag', 'location', 'price', 'start_date',
+                        'status', 'title'
+                    );
+                    // the first object should have the right value for name
+                    body.data[0].title.should.eql('This Shit Better Work!');
+                    done();
+                });
+            });
+        });
+
+    });
+
+});
+
+
+/**
+ * Testing Basic Sinon
+ */
+function greaterThanTwenty(num) {
+    if (num > 20) return true;
+    return false;
+}
+describe('Sample Sinon Stub', () => {
+    it('should pass', (done) => {
+        const greaterThanTwenty = sinon.stub().returns('something');
+        greaterThanTwenty(0).should.eql('something');
+        greaterThanTwenty(0).should.not.eql(false);
+        done();
+    });
+});
+
+
 /**
  * Test GET /api/getUsers
  */
