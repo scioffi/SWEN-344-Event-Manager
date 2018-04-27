@@ -16,6 +16,7 @@ var user_api = require('./user_api.js')(app);
 var attendee_api = require('./attendee_api.js')(app);
 var attendee_api = require('./order_api.js')(app);
 var attendee_api = require('./event_api.js')(app);
+var message_api = require('./message_api.js')(app);
 
 app.listen(app.get('port'), function(){ //start express server
 	console.log( 'Express Server Started on http://localhost:8080');
