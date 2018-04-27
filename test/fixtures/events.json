@@ -11,16 +11,18 @@
         "status": "success",
         "data": [
           {
-            "author": "hnv1002",
-            "creation_date": "2018-02-15T13:00:00.000Z",
+            "event_id": 2,
+            "title": "Trip to the Planetarium",
             "description": "RIT daily event",
-            "end_date": "2018-03-15T12:00:00.000Z",
-            "hashtag": null,
+            "author": "hnv1002",
             "location": "RIT SSE",
+            "status": "expired",
             "price": 25,
             "start_date": "2018-03-01T13:00:00.000Z",
-            "status": "expired",
-            "title": "This Shit Better Work!"
+            "end_date": "2018-03-15T12:00:00.000Z",
+            "creation_date": "2018-02-15T13:00:00.000Z",
+            "hashtag": null
+
           }
         ]
       }

@@ -51,16 +51,14 @@ describe.only('events table', () => {
                     // the first object in the data array should
                     // have the right keys
                     body.data[0].should.include.keys(
-                        'author', 'creation_date', 'description', 'end_date', 'hashtag', 'location', 'price', 'start_date',
-                        'status', 'title'
+                        'event_id', 'title', 'description', 'author', 'location', 'status', 'price', 'start_date', 'end_date', 'creation_date', 'hashtag'
                     );
                     // the first object should have the right value for name
-                    body.data[0].title.should.eql('This Shit Better Work!');
+                    body.data[0].title.should.eql('Trip to the Planetarium');
                     done();
                 });
             });
         });
-
     });
 
 });
@@ -113,11 +111,6 @@ describe.only('users table', () => {
     });
 
 });
-
-
-
-
-
 
 /**
  * Testing Basic Sinon
