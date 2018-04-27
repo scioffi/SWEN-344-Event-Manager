@@ -25,5 +25,33 @@
         ]
       }
     }
+  },
+
+  "add": {
+    "success": {
+      "res": {
+        "statusCode": 201,
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "body": {
+        "status": "success",
+        "data": [
+          {
+            "author": "hnv1002",
+            "creation_date": "2018-02-15T13:00:00.000Z",
+            "description": "RIT daily event",
+            "end_date": "2018-03-15T12:00:00.000Z",
+            "hashtag": null,
+            "location": "RIT SSE",
+            "price": 25,
+            "start_date": "2018-03-01T13:00:00.000Z",
+            "status": "expired",
+            "title": "Adding random event!"
+          }
+        ]
+      }
+    }
   }
 }
