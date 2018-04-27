@@ -13,6 +13,7 @@ process.env.NODE_ENV = 'test';
 const request = require('request');
 const base = 'http://localhost:8080';
 const events = require('./fixtures/events.json');
+const users = require('./fixtures/users.json');
 
 /**
  * TEST GET /api/getEvents
@@ -52,11 +53,10 @@ describe.only('events table', () => {
                     // the first object in the data array should
                     // have the right keys
                     body.data[0].should.include.keys(
-                        'author', 'creation_date', 'description', 'end_date', 'hashtag', 'location', 'price', 'start_date',
-                        'status', 'title'
+                        'event_id', 'title', 'description', 'author', 'location', 'status', 'price', 'start_date', 'end_date', 'creation_date', 'hashtag'
                     );
                     // the first object should have the right value for name
-                    body.data[0].title.should.eql('This Shit Better Work!');
+                    body.data[0].title.should.eql('Trip to the Planetarium');
                     done();
                 });
             });
@@ -104,6 +104,54 @@ describe.only('events table', () => {
 
 });
 
+/**
+ * TEST GET /api/getUsers
+ */
+describe.only('users table', () => {
+
+    describe('when stubbed', () => {
+
+        beforeEach(() => {
+            this.get = sinon.stub(request, 'get');
+        });
+
+        afterEach(() => {
+            request.get.restore();
+        });
+
+        describe('GET /api/getUsers', () => {
+            it('should return all users', (done) => {
+                this.get.yields(
+                    null, users.all.success.res, JSON.stringify(users.all.success.body)
+                );
+                request.get(`${base}/api/getEvents`, (err, res, body) => {
+                    // there should be a 200 status code
+                    res.statusCode.should.eql(200);
+                    // the response should be JSON
+                    res.headers['content-type'].should.contain('application/json');
+                    // parse response body
+                    body = JSON.parse(body);
+                    // the JSON response body should have a
+                    // key-value pair of {"status": "success"}
+                    body.status.should.eql('success');
+                    // the JSON response body should have a
+                    // key-value pair of {"data": [1 event objects]}
+                    body.data.length.should.eql(4);
+                    // the first object in the data array should
+                    // have the right keys
+                    body.data[0].should.include.keys(
+                        'userId', 'username', 'name', 'email', 'permission'
+                    );
+                    // the first object should have the right value for name
+                    body.data[0].name.should.eql('John Doe');
+                    done();
+                });
+            });
+        });
+
+    });
+
+});
 
 /**
  * Testing Basic Sinon
