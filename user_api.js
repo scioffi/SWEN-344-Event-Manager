@@ -15,21 +15,36 @@ module.exports = function(app) {
     app.get(API_PATH + '/getUser', (req, res) => {
         var userId = req.query.userId;
         if (db_utils.nullOrEmpty(userId)) {
-            res.status(400);
-            res.send("Missing userId parameter");
+            res.status(400).send("Missing userId parameter");
         } else if (isNaN(userId) || (parseInt(userId) <= 0)) {
-            res.status(400);
-            res.send("Invalid userId");
+            res.status(400).send("Invalid userId");
         } else {
             db_utils.getUserById(userId, function(err, result) {
                 if (err) {
-                    res.status(500);
-                    res.send(err);
+                    res.status(500).send(err);
                 } else if (result.length) {
                     res.send(JSON.stringify(result[0]));
                 } else {
-                    res.status(404);
-                    res.send("User not found");
+                    res.status(404).send("User not found");
+                }
+            });            
+        }
+    });
+
+    app.get(API_PATH + '/getUserByEmail', (req, res) => {
+        var email = req.query.email;
+        if (db_utils.nullOrEmpty(email)) {
+            res.status(400).send("Missing email parameter");
+        } else if (db_utils.validateEmail(email)) {
+            res.status(400).send("Invalid email");
+        } else {
+            db_utils.getUserByEmail(email, function(err, result) {
+                if (err) {
+                    res.status(500).send(err);
+                } else if (result.length) {
+                    res.send(JSON.stringify(result[0]));
+                } else {
+                    res.status(404).send("User not found");
                 }
             });            
         }
@@ -38,21 +53,17 @@ module.exports = function(app) {
     app.get(API_PATH + '/checkUserExists', (req, res) => {
         var email = req.query.email;
         if (db_utils.nullOrEmpty(email)) {
-            res.status(400);
-            res.send("Missing email parameter");
+            res.status(400).send("Missing email parameter");
         } else if (db_utils.validateEmail(email)) {
-            res.status(400);
-            res.send("Invalid email");
+            res.status(400).send("Invalid email");
         } else {
             db_utils.getUserByEmail(email, function(err, result) {
                 if (err) {
-                    res.status(500);
-                    res.send(err);
+                    res.status(500).send(err);
                 } else if (result.length) {
                     res.send(JSON.stringify(result[0]));
                 } else {
-                    res.status(404);
-                    res.send("User not found");
+                    res.status(404).send("User not found");
                 }
             });            
         }
@@ -61,13 +72,11 @@ module.exports = function(app) {
 	app.get(API_PATH + '/getUsers', (req, res) => {    
         db.query("SELECT ?? FROM ??", [SELECT_USER_COLUMNS, 'User'], function (err, results, fields) {
             if (err) {
-                res.status(500);
-                res.send(err);
+                res.status(500).send(err);
             } else if (results.length) {
                 res.send(JSON.stringify(results));
             } else {
-                res.status(404);
-                res.send("No user in database");
+                res.status(404).send("No user in database");
             }
         });
     });
@@ -77,23 +86,18 @@ module.exports = function(app) {
         var first_name = req.body.first_name;
         var last_name = req.body.last_name;       
         if (db_utils.nullOrEmpty(first_name)) {
-            res.status(400);
-            res.send("Missing firstname parameter");
+            res.status(400).send("Missing firstname parameter");
         } else if (db_utils.nullOrEmpty(last_name)) {
-            res.status(400);
-            res.send("Missing lastname parameter");
+            res.status(400).send("Missing lastname parameter");
         } else if (db_utils.nullOrEmpty(email)) {
-            res.status(400);
-            res.send("Missing email parameter");
+            res.status(400).send("Missing email parameter");
         } else if (!db_utils.validateEmail(email)) {
-            res.status(400);
-            res.send("Invalid email format");
+            res.status(400).send("Invalid email format");
         } else {
             db.query("SELECT `user_id`, `permission` FROM `User` WHERE email = '" + email + "'", function (err, result, fields) {
                 console.log(this.sql);
                 if (err) {
-                    res.status(500);
-                    res.send(err);
+                    res.status(500).send(err);
                 } else if (result.length) {
                     res.send(result[0]);
                 } else {
@@ -102,13 +106,11 @@ module.exports = function(app) {
                         if (err) throw err;
                         db_utils.getUserById(result.insertId, function(err, result) {
                             if (err) {
-                                res.status(500);
-                                res.send(err);
+                                res.status(500).send(err);
                             } else if (result.length) {
                                 res.send(JSON.stringify(result[0]));
                             } else {
-                                res.status(404)
-                                res.send("User not found");
+                                res.status(404).send("User not found");
                             }
                         });
                     });
@@ -123,40 +125,31 @@ module.exports = function(app) {
         var email = req.body.email;
         var permission = req.body.permission;
         if (userId == null) {
-            res.status(400);
-            res.send("Missing userId parameter");
+            res.status(400).send("Missing userId parameter");
         } else if (db_utils.nullOrEmpty(first_name)) {
-            res.status(400);
-            res.send("Missing firstname parameter");
+            res.status(400).send("Missing firstname parameter");
         } else if (db_utils.nullOrEmpty(last_name)) {
-            res.status(400);
-            res.send("Missing lastname parameter");
+            res.status(400).send("Missing lastname parameter");
         } else if (db_utils.nullOrEmpty(email)) {
-            res.status(400);
-            res.send("Missing email parameter");
+            res.status(400).send("Missing email parameter");
         } else {
             if (isNaN(userId) || (parseInt(userId) <= 0)) {
-                res.status(400);
-                res.send("Invalid userId");
+                res.status(400).send("Invalid userId");
             }
             if (!db_utils.validateEmail(email)) {
-                res.status(400);
-                res.send("Invalid email format");
+                res.status(400).send("Invalid email format");
             }
             // By default, create user with user permission level
             if (db_utils.nullOrEmpty(permission)) {
                 permission = "user";
             } else if (USER_PERMISSIONS.indexOf(permission) <= -1) {
-                res.status(400);
-                res.send("Invalid user permission level");                
+                res.status(400).send("Invalid user permission level");                
             }
             db_utils.getUserByEmail(email, function(err, result) {
                 if (err) {
-                    res.status(500);
-                    res.send(err);
+                    res.status(500).send(err);
                 } else if (result.length) {
-                    res.status(400);
-                    res.send("Duplicate email");
+                    res.status(400).send("Duplicate email");
                 } else {
                     // there is a problem with preparing insert query statement like select queries
                     // due to email gets split in half by '.'       `abc1002@rit.edu` -> `abc1002@rit`.`edu`
@@ -178,40 +171,30 @@ module.exports = function(app) {
         var email = req.body.email;
         var permission = req.body.permission;
         if (userId == null) {
-            res.status(400);
-            res.send("Missing userId parameter");
+            res.status(400).send("Missing userId parameter");
         } else if (userId === "") {
-            res.status(500);
-            res.send("User has already logged out");
+            res.status(500).send("User has already logged out");
         } else if (db_utils.nullOrEmpty(first_name)) {
-            res.status(400);
-            res.send("Missing firstname parameter");
+            res.status(400).send("Missing firstname parameter");
         } else if (db_utils.nullOrEmpty(last_name)) {
-            res.status(400);
-            res.send("Missing lastname parameter");
+            res.status(400).send("Missing lastname parameter");
         } else if (db_utils.nullOrEmpty(email)) {
-            res.status(400);
-            res.send("Missing email parameter");
+            res.status(400).send("Missing email parameter");
         } else if (db_utils.nullOrEmpty(permission)) {
-            res.status(400);
-            res.send("Missing permission parameter");
+            res.status(400).send("Missing permission parameter");
         } else {
             if (isNaN(userId) || (parseInt(userId) <= 0)) {
-                res.status(400);
-                res.send("Invalid userId");
+                res.status(400).send("Invalid userId");
             }
             if (!db_utils.validateEmail(email)) {
-                res.status(400);
-                res.send("Invalid email format");
+                res.status(400).send("Invalid email format");
             }
             if (USER_PERMISSIONS.indexOf(permission) <= -1) {
-                res.status(400);
-                res.send("Invalid user permission level");     
+                res.status(400).send("Invalid user permission level");     
             }
             db_utils.getUserById(userId, function(err, result) {
                 if (err) {
-                    res.status(500);
-                    res.send(err);
+                    res.status(500).send(err);
                 } else if (result.length) {               
                     let sql = "UPDATE `User` SET `email` =  '" + email + "', `first_name` = '" + first_name + 
                                     "', `last_name` = '" + last_name + "', `permission` = '" + permission + "' WHERE `user_id` = '" +userId + "'";
@@ -220,8 +203,7 @@ module.exports = function(app) {
                         res.send({"id":userId});
                     });
                 } else {
-                    res.status(404);
-                    res.send("User not found");
+                    res.status(404).send("User not found");
                 }
             });
         }
@@ -230,31 +212,25 @@ module.exports = function(app) {
     app.post(API_PATH + '/deleteUser', (req, res) => {
         var userId = req.body.userId;
         if (db_utils.nullOrEmpty(userId)) {
-            res.status(400);
-            res.send("Missing userId parameter");
+            res.status(400).send("Missing userId parameter");
         } else if (isNaN(userId) || (parseInt(userId) <= 0)) {
-            res.status(400);
-            res.send("Invalid userId");
+            res.status(400).send("Invalid userId");
         } else {
             db_utils.getUserById(userId, function(err, result) {
                 if (err) {
-                    res.status(500);
-                    res.send(err);
+                    res.status(500).send(err);
                 } else if (result) {   
                     db.query("DELETE FROM ?? WHERE user_id = ?", ['User', userId], function (err, result, fields) {
                         if (err) {
-                            res.status(500);
-                            res.send(err);
+                            res.status(500).send(err);
                         } else if (result.affectedRows) {
                             res.send("successfully deleted user");                        
                         } else {
-                            res.status(404);
-                            res.send("User not found");
+                            res.status(404).send("User not found");
                         }
                     });
                 } else {
-                    res.status(404);
-                    res.send("User not found");
+                    res.status(404).send("User not found");
                 }
             });
         }
@@ -264,22 +240,17 @@ module.exports = function(app) {
         var userId = req.body.userId;
         var permission = req.body.permission;
         if (db_utils.nullOrEmpty(userId)) {
-            res.status(400);
-            res.send("Missing userId parameters");
+            res.status(400).send("Missing userId parameters");
         } else if (isNaN(userId) || (parseInt(userId) <= 0)) {
-            res.status(400);
-            res.send("Invalid userId");
+            res.status(400).send("Invalid userId");
         } else if (db_utils.nullOrEmpty(permission)) {
-            res.status(400);
-            res.send("Missing permission parameters");
+            res.status(400).send("Missing permission parameters");
         } else if (USER_PERMISSIONS.indexOf(permission) <= -1) {
-            res.status(400);
-            res.send("Invalid user permission level");     
+            res.status(400).send("Invalid user permission level");     
         } else {
             db_utils.getUserById(userId, function(err, result) {
                 if (err) {
-                    res.status(500);
-                    res.send(err);
+                    res.status(500).send(err);
                 } else if (result.length) {
                     if (result[0].permission !== permission) {
                         let sql = "UPDATE `User` SET `permission` = '" + permission + "' WHERE `user_id` = '" +userId + "'";
@@ -288,12 +259,10 @@ module.exports = function(app) {
                             res.send({"id":userId});
                         });
                     } else {
-                        res.status(204);
-                        res.send("User already has the promoting permission");
+                        res.status(204).send("User already has the promoting permission");
                     }                   
                 } else {
-                    res.status(404);
-                    res.send("User not found");
+                    res.status(404).send("User not found");
                 }
             });
         }
