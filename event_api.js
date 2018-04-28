@@ -211,15 +211,15 @@ module.exports = function(app) {
                 res.status(400);
                 res.send("Invalid event status");                
             }
-            if (!db_utils.validateTimestamp(start_date)) {
+            if (!db_utils.validateTimestamp(parseInt(start_date))) {
                 res.status(400);
                 res.send("Invalid start_date");
             }
-            if (!db_utils.validateTimestamp(end_date)) {
+            if (!db_utils.validateTimestamp(parseInt(end_date))) {
                 res.status(400);
                 res.send("Invalid end_date");
             }
-            if (!db_utils.validateTimestamp(creation_date)) {
+            if (!db_utils.validateTimestamp(parseInt(creation_date))) {
                 res.status(400);
                 res.send("Invalid creation_date");
             }
@@ -239,7 +239,7 @@ module.exports = function(app) {
                             res.status(404);
                             res.send("Event not found");
                         }
-                    });                   
+                    });
                 } else {                    
                     res.status(404);
                     res.send("Event not found");
@@ -251,11 +251,9 @@ module.exports = function(app) {
     app.post(API_PATH + '/cancelEvent', (req, res) => {
         var eventId = req.body.eventId;
         if (db_utils.nullOrEmpty(eventId)) {
-            res.status(400);
-            res.send("Missing eventId parameter");
+            res.status(400).send("Missing eventId parameter");
         } else if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
-            res.status(400);
-            res.send("Invalid eventId");
+            res.status(400).send("Invalid eventId");
         } else {
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
