@@ -15,6 +15,7 @@ const base = 'http://localhost:8080';
 const events = require('./fixtures/events.json');
 const users = require('./fixtures/users.json');
 const attendees = require('./fixtures/attendees.json');
+const orders = require('./fixtures/orders.json');
 
 /**
  * TEST GET /api/getEvents
@@ -195,6 +196,57 @@ describe.only('attendees table', () => {
                     );
                     // the first object should have the right value for name
                     body.data[0].attendee_id.should.eql(1);
+                    done();
+                });
+            });
+        });
+
+    });
+
+});
+
+
+
+/**
+ * TEST GET /api/getOrders
+ */
+describe.only('orders table', () => {
+
+    describe('when stubbed', () => {
+
+        beforeEach(() => {
+            this.get = sinon.stub(request, 'get');
+        });
+
+        afterEach(() => {
+            request.get.restore();
+        });
+
+        describe('GET /api/getOrders', () => {
+            it('should return all orders', (done) => {
+                this.get.yields(
+                    null, orders.all.success.res, JSON.stringify(orders.all.success.body)
+                );
+                request.get(`${base}/api/getAttendees`, (err, res, body) => {
+                    // there should be a 200 status code
+                    res.statusCode.should.eql(200);
+                    // the response should be JSON
+                    res.headers['content-type'].should.contain('application/json');
+                    // parse response body
+                    body = JSON.parse(body);
+                    // the JSON response body should have a
+                    // key-value pair of {"status": "success"}
+                    body.status.should.eql('success');
+                    // the JSON response body should have a
+                    // key-value pair of {"data": [1 event objects]}
+                    body.data.length.should.eql(2);
+                    // the first object in the data array should
+                    // have the right keys
+                     body.data[0].should.include.keys(
+                        'order_id', 'event_id', 'user_id', 'price'
+                    );
+                    // the first object should have the right value for name
+                    body.data[0].user_id.should.eql(1);
                     done();
                 });
             });
