@@ -109,7 +109,7 @@ module.exports = function(app) {
                             res.send(err);
                         } else if (result.length) {
                             var values = [eventId, userId, price];
-                            db.query("INSERT INTO ?? (??) VALUES (?)", ['Order', INSERT_ORDERS_COLUMNS, values], function (err, result, fields) {
+                            db.query("INSERT INTO ?? (??) VALUES (?)", ['Orders', INSERT_ORDERS_COLUMNS, values], function (err, result, fields) {
                                 if (err) throw err;
                                 res.send({"id":result.insertId});
                             });

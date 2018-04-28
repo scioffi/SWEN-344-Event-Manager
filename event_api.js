@@ -231,7 +231,7 @@ module.exports = function(app) {
                             res.status(500);
                             res.send(err);
                         } else if (result.affectedRows) {
-                            res.send("successfully updated event");                        
+                            res.status(200);               
                         } else {
                             res.status(404);
                             res.send("Event not found");
