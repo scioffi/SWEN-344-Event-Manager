@@ -25,5 +25,26 @@
         ]
       }
     }
+  },
+    "add": {
+    "success": {
+      "res": {
+        "statusCode": 201,
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "body": {
+        "status": "success",
+        "data": [
+          {
+            "order_id": 3,
+            "event_id": 3,
+            "user_id": 2,
+            "price": 25
+          }
+        ]
+      }
+    }
   }
 }

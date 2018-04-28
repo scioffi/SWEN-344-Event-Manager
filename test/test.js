@@ -286,10 +286,12 @@ describe.only('orders table', () => {
 
         beforeEach(() => {
             this.get = sinon.stub(request, 'get');
+            this.postReq = sinon.stub(request, 'post');
         });
 
         afterEach(() => {
             request.get.restore();
+            request.post.restore();
         });
 
         describe('GET /api/getOrders', () => {
@@ -317,6 +319,39 @@ describe.only('orders table', () => {
                     );
                     // the first object should have the right value for name
                     body.data[0].user_id.should.eql(1);
+                    done();
+                });
+            });
+        });
+
+
+        // Create Order
+        describe('POST /api/', () => {
+            it('should return the order that was created', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        order_id: 3,
+                        user_id: 3, 
+                        event_id: 3,
+                        price: 25
+                    },
+                    json: true,
+                    url: `${base}/api/createOrder`
+                };
+                const obj = orders.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'order_id', 'user_id', 'event_id', 'price'
+                    );
+                    // body.data[0].attendee_id.should.eql(3);
                     done();
                 });
             });
