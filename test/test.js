@@ -83,7 +83,7 @@ describe.only('users table', () => {
                 this.get.yields(
                     null, users.all.success.res, JSON.stringify(users.all.success.body)
                 );
-                request.get(`${base}/api/getEvents`, (err, res, body) => {
+                request.get(`${base}/api/getUsers`, (err, res, body) => {
                     // there should be a 200 status code
                     res.statusCode.should.eql(200);
                     // the response should be JSON
@@ -98,11 +98,11 @@ describe.only('users table', () => {
                     body.data.length.should.eql(4);
                     // the first object in the data array should
                     // have the right keys
-                    body.data[0].should.include.keys(
-                        'userId', 'username', 'name', 'email', 'permission'
+                     body.data[0].should.include.keys(
+                        'FirstName', 'LastName', 'email', 'permission', 'userId'
                     );
                     // the first object should have the right value for name
-                    body.data[0].name.should.eql('John Doe');
+                    body.data[0].FirstName.should.eql('John');
                     done();
                 });
             });
