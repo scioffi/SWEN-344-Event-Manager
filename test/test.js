@@ -14,6 +14,7 @@ const request = require('request');
 const base = 'http://localhost:8080';
 const events = require('./fixtures/events.json');
 const users = require('./fixtures/users.json');
+const attendees = require('./fixtures/attendees.json');
 
 /**
  * TEST GET /api/getEvents
@@ -152,6 +153,66 @@ describe.only('users table', () => {
     });
 
 });
+
+
+/**
+ * TEST GET /api/getAttendees
+ */
+describe.only('attendees table', () => {
+
+    describe('when stubbed', () => {
+
+        beforeEach(() => {
+            this.get = sinon.stub(request, 'get');
+        });
+
+        afterEach(() => {
+            request.get.restore();
+        });
+
+        describe('GET /api/getAttendees', () => {
+            it('should return all attendees to an event', (done) => {
+                this.get.yields(
+                    null, attendees.all.success.res, JSON.stringify(attendees.all.success.body)
+                );
+                request.get(`${base}/api/getAttendees`, (err, res, body) => {
+                    // there should be a 200 status code
+                    res.statusCode.should.eql(200);
+                    // the response should be JSON
+                    res.headers['content-type'].should.contain('application/json');
+                    // parse response body
+                    body = JSON.parse(body);
+                    // the JSON response body should have a
+                    // key-value pair of {"status": "success"}
+                    body.status.should.eql('success');
+                    // the JSON response body should have a
+                    // key-value pair of {"data": [1 event objects]}
+                    body.data.length.should.eql(2);
+                    // the first object in the data array should
+                    // have the right keys
+                     body.data[0].should.include.keys(
+                        'attendee_id', 'user_id', 'event_id'
+                    );
+                    // the first object should have the right value for name
+                    body.data[0].attendee_id.should.eql(1);
+                    done();
+                });
+            });
+        });
+
+    });
+
+});
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Testing Basic Sinon
