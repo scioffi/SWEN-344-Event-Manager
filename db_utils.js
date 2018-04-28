@@ -17,7 +17,7 @@ module.exports = {
         return regex.test(email);
     },
     validateTimestamp: function(date) {
-        var date = new Date(date);
+        var date = new Date(parseInt(date));
         return date.getTime() > 0;
     },
     getUserById: function(userId, callback) {
