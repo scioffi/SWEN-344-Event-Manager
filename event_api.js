@@ -6,7 +6,7 @@ const API_PATH = "/api";
 			 
 const INSERT_EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
 const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
-const EVENT_STATUSES = ['open', 'expired'];
+const EVENT_STATUSES = ['open', 'expired', 'canceled'];
 
 module.exports = function(app) {
     app.use(bodyParser.urlencoded({ extended: true })); 
@@ -133,8 +133,8 @@ module.exports = function(app) {
                                 var values = [title, description, author, location, status, price, start_date, end_date, creation_date, hashtag];
                                 db.query("INSERT INTO ?? (??) VALUES (?)",['Event', INSERT_EVENT_COLUMNS, values] , function (err, result, fields) {
                                     if (err) throw err;
-                                        res.send({"id":result.insertId});
-                                    });
+                                    res.send({"id":result.insertId});
+                                });
                             }
                         });
                     } else {
@@ -194,7 +194,7 @@ module.exports = function(app) {
         } else if (db_utils.nullOrEmpty(status)) {
             res.status(400);
             res.send("Missing status parameter");
-        } else {            
+        } else {
             if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
                 res.status(400);
                 res.send("Invalid eventId");
@@ -228,8 +228,7 @@ module.exports = function(app) {
                     res.status(500);
                     res.send(err);
                 } else if (result.length) {
-                    if (result[0].permission === "admin") {
-                        db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['Event', 'title', title, 'description', description, 'status', status,
+                    db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['Event', 'title', title, 'description', description, 'status', status,
                                 'location', location, 'price', price, 'hashtag', hashtag, 'start_date', start_date, 'end_date', end_date, eventId] , function (err, result, fields) {
                         if (err) {
                             res.status(500);
@@ -240,11 +239,7 @@ module.exports = function(app) {
                             res.status(404);
                             res.send("Event not found");
                         }
-                    });
-                    } else {
-                        res.status(500);
-                        res.status("User doesn't have permission to edit event");
-                    }                    
+                    });                   
                 } else {                    
                     res.status(404);
                     res.send("Event not found");
