@@ -23,17 +23,40 @@ module.exports = function(app) {
         } else {
             db_utils.getUserById(userId, function(err, result) {
                 if (err) {
-                    res.status(500)
+                    res.status(500);
                     res.send(err);
                 } else if (result.length) {
                     res.send(JSON.stringify(result[0]));
                 } else {
-                    res.status(404)
+                    res.status(404);
                     res.send("User not found");
                 }
             });            
         }
-    });    
+    });
+
+    app.get(API_PATH + '/checkUserExists', (req, res) => {
+        var email = req.query.email;
+        if (db_utils.nullOrEmpty(email)) {
+            res.status(400);
+            res.send("Missing email parameter");
+        } else if (db_utils.validateEmail(email)) {
+            res.status(400);
+            res.send("Invalid email");
+        } else {
+            db_utils.getUserByEmail(email, function(err, result) {
+                if (err) {
+                    res.status(500);
+                    res.send(err);
+                } else if (result.length) {
+                    res.send(JSON.stringify(result[0]));
+                } else {
+                    res.status(404);
+                    res.send("User not found");
+                }
+            });            
+        }
+    });
 	
 	app.get(API_PATH + '/getUsers', (req, res) => {    
         db.query("SELECT ?? FROM ??", [SELECT_USER_COLUMNS, 'User'], function (err, results, fields) {
@@ -66,7 +89,8 @@ module.exports = function(app) {
             res.status(400);
             res.send("Invalid email format");
         } else {
-            db.query("SELECT ?? FROM ?? WHERE email = ?", [['user_id', 'permission'], 'User', email], function (err, result, fields) {
+            db.query("SELECT `user_id`, `permission` FROM `User` WHERE email = '" + email + "'", function (err, result, fields) {
+                console.log(this.sql);
                 if (err) {
                     res.status(500);
                     res.send(err);
@@ -76,7 +100,17 @@ module.exports = function(app) {
                     let sql = "INSERT INTO `User` (`email`, `first_name`, `last_name`, `permission`) VALUES ('" + email + "', '" + first_name + "', '" + last_name + "', 'user')";
                     db.query(sql, function (err, result, fields) {
                         if (err) throw err;
-                        res.send({"id":result.insertId});
+                        db_utils.getUserById(result.insertId, function(err, result) {
+                            if (err) {
+                                res.status(500);
+                                res.send(err);
+                            } else if (result.length) {
+                                res.send(JSON.stringify(result[0]));
+                            } else {
+                                res.status(404)
+                                res.send("User not found");
+                            }
+                        });
                     });
                 }
             });           

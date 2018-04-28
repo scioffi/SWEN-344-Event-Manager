@@ -30,7 +30,7 @@ module.exports = {
         });
     },
     getUserByEmail: function(email, callback) {
-        db.query("SELECT ?? FROM ?? WHERE email = ?", [SELECT_USER_COLUMNS, 'User', email], function (err, result, fields) {
+        db.query("SELECT `user_id`, `email`, `first_name`, `last_name`, `permission` FROM `User` WHERE email = " + email, function (err, result, fields) {            
             if (err) {
                 callback(err, null);
             } else {
