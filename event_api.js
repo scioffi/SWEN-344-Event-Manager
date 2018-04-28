@@ -219,10 +219,7 @@ module.exports = function(app) {
                 res.status(400);
                 res.send("Invalid end_date");
             }
-            if (!db_utils.validateTimestamp(parseInt(creation_date))) {
-                res.status(400);
-                res.send("Invalid creation_date");
-            }
+
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
                     res.status(500);
