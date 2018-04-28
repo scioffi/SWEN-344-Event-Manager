@@ -14,8 +14,8 @@ const request = require('request');
 const base = 'http://localhost:8080';
 const events = require('./fixtures/events.json');
 const users = require('./fixtures/users.json');
-const attendees = require('./fixtures/attendees.json');
 const orders = require('./fixtures/orders.json');
+const attendees = require('./fixtures/attendees.json');
 
 /**
  * TEST GET /api/getEvents
@@ -64,6 +64,8 @@ describe.only('events table', () => {
             });
         });
 
+
+        // Create Event 
         describe('POST /api/createEvent', () => {
             it('should return the event that was added', (done) => {
                 const options = {
@@ -115,6 +117,7 @@ describe.only('users table', () => {
 
         beforeEach(() => {
             this.get = sinon.stub(request, 'get');
+            
         });
 
         afterEach(() => {
@@ -165,10 +168,12 @@ describe.only('attendees table', () => {
 
         beforeEach(() => {
             this.get = sinon.stub(request, 'get');
+            this.postReq = sinon.stub(request, 'post');
         });
 
         afterEach(() => {
             request.get.restore();
+            request.post.restore();
         });
 
         describe('GET /api/getAttendees', () => {
@@ -201,11 +206,39 @@ describe.only('attendees table', () => {
             });
         });
 
+          // Add Attendee
+        describe('POST /api/', () => {
+            it('should return the attendee that was added', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        attendee_id: 3,
+                        user_id: 3, 
+                        event_id: 3
+                    },
+                    json: true,
+                    url: `${base}/api/addAttendee`
+                };
+                const obj = attendees.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'attendee_id', 'user_id', 'event_id'
+                    );
+                    body.data[0].attendee_id.should.eql(3);
+                    done();
+                });
+            });
+        });
+
     });
-
 });
-
-
 
 /**
  * TEST GET /api/getOrders
@@ -227,7 +260,7 @@ describe.only('orders table', () => {
                 this.get.yields(
                     null, orders.all.success.res, JSON.stringify(orders.all.success.body)
                 );
-                request.get(`${base}/api/getAttendees`, (err, res, body) => {
+                request.get(`${base}/api/getOrders`, (err, res, body) => {
                     // there should be a 200 status code
                     res.statusCode.should.eql(200);
                     // the response should be JSON
