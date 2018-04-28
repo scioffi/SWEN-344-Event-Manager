@@ -41,6 +41,28 @@
         ]
       }
     }
+  },
+  "add": {
+    "success": {
+      "res": {
+        "statusCode": 201,
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "body": {
+        "status": "success",
+        "data": [
+          {
+            "userId": 5,
+            "email": "mxl2261@rit.edu",
+            "FirstName": "Moses",
+            "LastName": "Lagoon",
+            "permission": "admin"
+          }
+        ]
+      }
+    }
   }
 }
 

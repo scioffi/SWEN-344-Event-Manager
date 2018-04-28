@@ -65,7 +65,6 @@ describe.only('events table', () => {
             });
         });
 
-
         // Create Event 
         describe('POST /api/createEvent', () => {
             it('should return the event that was added', (done) => {
@@ -118,11 +117,13 @@ describe.only('users table', () => {
 
         beforeEach(() => {
             this.get = sinon.stub(request, 'get');
+            this.postReq = sinon.stub(request, 'post');
             
         });
 
         afterEach(() => {
             request.get.restore();
+            request.post.restore();
         });
 
         describe('GET /api/getUsers', () => {
@@ -155,8 +156,43 @@ describe.only('users table', () => {
             });
         });
 
-    });
+         // Create User 
+        describe('POST /api/createUser', () => {
+            it('should return the user that was created', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        userId: 5,
+                        email: "mxl2261@rit.edu",
+                        FirstName: "Moses",
+                        LastName: "Lagoon",
+                        permission: "admin"
+    
+                    },
+                    json: true,
+                    url: `${base}/api/createUser`
+                };
+                const obj = users.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'userId', 'FirstName', 'LastName', 'permission'
+                    );
+                    body.data[0].userId.should.eql(5);
+                    done();
+                });
+            });
+        });
 
+
+
+    });
 });
 
 
@@ -289,7 +325,6 @@ describe.only('orders table', () => {
     });
 
 });
-
 
 /**
  * TEST GET /api/getCurrencyConversion
