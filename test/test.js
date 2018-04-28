@@ -16,6 +16,7 @@ const events = require('./fixtures/events.json');
 const users = require('./fixtures/users.json');
 const orders = require('./fixtures/orders.json');
 const attendees = require('./fixtures/attendees.json');
+const currencies = require('./fixtures/currencies.json');
 
 /**
  * TEST GET /api/getEvents
@@ -290,8 +291,54 @@ describe.only('orders table', () => {
 });
 
 
+/**
+ * TEST GET /api/getCurrencyConversion
+ */
+describe.only('currencies api', () => {
 
+    describe('when stubbed', () => {
 
+        beforeEach(() => {
+            this.get = sinon.stub(request, 'get');
+        });
+
+        afterEach(() => {
+            request.get.restore();
+        });
+
+        describe('GET /api/getCurrencyConversion', () => {
+            it('should return required converted currencies', (done) => {
+                this.get.yields(
+                    null, currencies.all.success.res, JSON.stringify(currencies.all.success.body)
+                );
+                request.get(`${base}/api/getCurrencyConversion?amount=1`, (err, res, body) => {
+                    // there should be a 200 status code
+                    res.statusCode.should.eql(200);
+                    // the response should be JSON
+                    res.headers['content-type'].should.contain('application/json');
+                    // parse response body
+                    body = JSON.parse(body);
+                    // the JSON response body should have a
+                    // key-value pair of {"status": "success"}
+                    body.status.should.eql('success');
+                    // the JSON response body should have a
+                    // key-value pair of {"data": [1 event objects]}
+                    body.data.length.should.eql(1);
+                    // the first object in the data array should
+                    // have the right keys
+                     body.data[0].should.include.keys(
+                        'GBP', 'INR', 'EUR', 'BTC', "CAD"
+                    );
+                    // the first object should have the right value for name
+                    // body.data[0].user_id.should.eql(1);
+                    done();
+                });
+            });
+        });
+
+    });
+
+});
 
 
 
