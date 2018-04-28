@@ -24,10 +24,12 @@ describe.only('events table', () => {
 
         beforeEach(() => {
             this.get = sinon.stub(request, 'get');
+            this.postReq = sinon.stub(request, 'post');
         });
 
         afterEach(() => {
             request.get.restore();
+            request.post.restore();
         });
 
         describe('GET /api/getEvents', () => {
@@ -59,6 +61,45 @@ describe.only('events table', () => {
                 });
             });
         });
+
+        describe('POST /api/createEvent', () => {
+            it('should return the event that was added', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        author: "hnv1002",
+                        creation_date: "2018-02-15T13:00:00.000Z",
+                        description: "RIT daily event",
+                        end_date: "2018-03-15T12:00:00.000Z",
+                        hashtag: null,
+                        location: "RIT SSE",
+                        price: 25,
+                        start_date: "2018-03-01T13:00:00.000Z",
+                        status: "expired",
+                        title: "Adding random event!"
+                    },
+                    json: true,
+                    url: `${base}/api/createEvent`
+                };
+                const obj = events.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'author', 'creation_date', 'description', 'end_date', 'hashtag', 'location', 'price', 'start_date',
+                        'status', 'title'
+                    );
+                    body.data[0].title.should.eql('Adding random event!');
+                    done();
+                });
+            });
+        });
+
     });
 
 });
