@@ -52,11 +52,31 @@ module.exports = function(app) {
         }
     })
 	
-	app.get(API_PATH + '/getOrders', (req, res) => {        
+	app.get(API_PATH + '/getOrders', (req, res) => {      
+        var response = [];
+        var numRow = 0;
         db.query("SELECT ?? FROM ??", [SELECT_ORDERS_COLUMNS, 'orders'], function (err, results, fields) {
             if (err) throw err;
             if (results.length) {
-                res.send(JSON.stringify(results));
+                results.forEach(row => {
+                    db_utils.getUserById(row.user_id, function(err, user) {
+                        if (err) {
+                            res.status(500).send(err);
+                        } else if (user.length) {
+                            db_utils.getEventById(row.event_id, function(err, event) {
+                                numRow++;
+                                if (err) {
+                                    res.status(500).send(err);
+                                } else if (event.length) {
+                                    response.push({"first_name":user[0].first_name,"last_name":user[0].last_name,"title":event[0].title});                                    
+                                }
+                                if (numRow == results.length) {
+                                    res.send(JSON.stringify(response));
+                                }
+                            });  
+                        }
+                    });
+                });
             } else {
                 res.status(404).send("No order in database");
             }
