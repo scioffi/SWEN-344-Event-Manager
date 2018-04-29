@@ -20,7 +20,7 @@ module.exports = {
         return date.getTime() > 0;
     },
     getUserById: function(userId, callback) {
-        db.query("SELECT ?? FROM ?? WHERE user_id = ?", [SELECT_USER_COLUMNS, 'User', userId], function (err, result, fields) {
+        db.query("SELECT ?? FROM ?? WHERE user_id = ?", [SELECT_USER_COLUMNS, 'user', userId], function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {
@@ -29,7 +29,7 @@ module.exports = {
         });
     },
     getUserByEmail: function(email, callback) {
-        db.query("SELECT * FROM User WHERE email = '" + email + "'", function (err, result, fields) {
+        db.query("SELECT * FROM user WHERE email = '" + email + "'", function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {
@@ -38,7 +38,7 @@ module.exports = {
         });
     },    
     getOrderById: function(orderId, callback) {
-        db.query("SELECT ?? FROM ?? WHERE order_id = ?", [SELECT_ORDERS_COLUMNS, 'Orders', orderId], function (err, result, fields) {
+        db.query("SELECT ?? FROM ?? WHERE order_id = ?", [SELECT_ORDERS_COLUMNS, 'orders', orderId], function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {
@@ -47,7 +47,7 @@ module.exports = {
         });
     },
     getEventById: function(eventId, callback) {
-        db.query("SELECT ?? FROM ?? WHERE event_id = ?", [SELECT_EVENT_COLUMNS, 'Event', eventId], function (err, result, fields) {
+        db.query("SELECT ?? FROM ?? WHERE event_id = ?", [SELECT_EVENT_COLUMNS, 'event', eventId], function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {
@@ -56,7 +56,7 @@ module.exports = {
         });
     },
     getEventByTitle: function(title, callback) {
-        db.query("SELECT ?? FROM ?? WHERE title = ?", [SELECT_EVENT_COLUMNS, 'Event', title], function (err, result, fields) {
+        db.query("SELECT ?? FROM ?? WHERE title = ?", [SELECT_EVENT_COLUMNS, 'event', title], function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {
@@ -65,7 +65,7 @@ module.exports = {
         });
     },
     getMessageById: function(messageId, callback) {
-        db.query("SELECT ?? FROM ?? WHERE message_id = ?", [SELECT_MESSAGE_COLUMNS, 'Message', messageId], function (err, result, fields) {
+        db.query("SELECT ?? FROM ?? WHERE message_id = ?", [SELECT_MESSAGE_COLUMNS, 'message', messageId], function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {
@@ -74,7 +74,7 @@ module.exports = {
         });
     },
     getMessageByUser: function(userId, callback) {
-        db.query("SELECT ?? FROM ?? WHERE to_user = ?", [SELECT_MESSAGE_COLUMNS, 'Message', userId], function (err, result, fields) {
+        db.query("SELECT ?? FROM ?? WHERE to_user = ?", [SELECT_MESSAGE_COLUMNS, 'message', userId], function (err, result, fields) {
             if (err) {
                 callback(err, null);
             } else {

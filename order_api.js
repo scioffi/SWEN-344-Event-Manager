@@ -53,7 +53,7 @@ module.exports = function(app) {
     })
 	
 	app.get(API_PATH + '/getOrders', (req, res) => {        
-        db.query("SELECT ?? FROM ??", [SELECT_ORDERS_COLUMNS, 'Orders'], function (err, results, fields) {
+        db.query("SELECT ?? FROM ??", [SELECT_ORDERS_COLUMNS, 'orders'], function (err, results, fields) {
             if (err) throw err;
             if (results.length) {
                 res.send(JSON.stringify(results));
@@ -92,7 +92,7 @@ module.exports = function(app) {
                             res.status(500).send(err);
                         } else if (result.length) {
                             var values = [eventId, userId, price];
-                            db.query("INSERT INTO ?? (??) VALUES (?)", ['Orders', INSERT_ORDERS_COLUMNS, values], function (err, result, fields) {
+                            db.query("INSERT INTO ?? (??) VALUES (?)", ['orders', INSERT_ORDERS_COLUMNS, values], function (err, result, fields) {
                                 if (err) throw err;
                                 res.send({"id":result.insertId});
                             });
@@ -118,7 +118,7 @@ module.exports = function(app) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result) {   
-                    db.query("DELETE FROM ?? WHERE order_id = ?", ['Orders', orderId], function (err, result, fields) {
+                    db.query("DELETE FROM ?? WHERE order_id = ?", ['orders', orderId], function (err, result, fields) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {

@@ -50,7 +50,7 @@ module.exports = function(app) {
     })
 	
 	app.get(API_PATH + '/getMessages', (req, res) => {        
-        db.query("SELECT ?? FROM ??", [SELECT_MESSAGE_COLUMNS, 'Message'], function (err, results, fields) {
+        db.query("SELECT ?? FROM ??", [SELECT_MESSAGE_COLUMNS, 'message'], function (err, results, fields) {
             if (err) {
                 res.status(500).send(err);
             } else if (results.length) {
@@ -95,7 +95,7 @@ module.exports = function(app) {
                                 } else if (result.length) {
                                     var shared_time = new Date().getTime();
                                     var values = [fromUser , toUser, shared_time/1000, message, eventId];
-                                    db.query("INSERT INTO ?? (??) VALUES (?)", ['Message', INSERT_MESSAGE_COLUMNS, values], function (err, result, fields) {
+                                    db.query("INSERT INTO ?? (??) VALUES (?)", ['message', INSERT_MESSAGE_COLUMNS, values], function (err, result, fields) {
                                         if (err) throw err;
                                         res.send({"id":result.insertId});
                                     });
@@ -125,7 +125,7 @@ module.exports = function(app) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result) {   
-                    db.query("DELETE FROM ?? WHERE message_id = ?", ['Message', messageId], function (err, result, fields) {
+                    db.query("DELETE FROM ?? WHERE message_id = ?", ['message', messageId], function (err, result, fields) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {

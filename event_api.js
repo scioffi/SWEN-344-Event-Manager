@@ -17,7 +17,7 @@ module.exports = function(app) {
         if (db_utils.nullOrEmpty(eventId)) {
             res.status(400).send("Missing eventId parameter");
         } else if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
-            res.status(400).send("Invalid evetId");
+            res.status(400).send("Invalid eventId");
         } else {
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
@@ -32,7 +32,7 @@ module.exports = function(app) {
     })
 	
 	app.get(API_PATH + '/getEvents', (req, res) => {        
-        db.query("SELECT ?? FROM ??", [SELECT_EVENT_COLUMNS, 'Event'], function (err, results, fields) {
+        db.query("SELECT ?? FROM ??", [SELECT_EVENT_COLUMNS, 'event'], function (err, results, fields) {
             if (err) {
                 res.status(500).send(err);
             } else if (results.length) {
@@ -107,7 +107,7 @@ module.exports = function(app) {
                                 // this is different from the returned result from node.js mysql because the result
                                 // is in iso date format
                                 var values = [title, description, author, location, status, price, start_date, end_date, creation_date, hashtag];
-                                db.query("INSERT INTO ?? (??) VALUES (?)",['Event', INSERT_EVENT_COLUMNS, values] , function (err, result, fields) {
+                                db.query("INSERT INTO ?? (??) VALUES (?)",['event', INSERT_EVENT_COLUMNS, values] , function (err, result, fields) {
                                     if (err) throw err;
                                     res.send({"id":result.insertId});
                                 });
@@ -181,7 +181,7 @@ module.exports = function(app) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result.length) {
-                    db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['Event', 'title', title, 'description', description, 'status', status,
+                    db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['event', 'title', title, 'description', description, 'status', status,
                                 'location', location, 'price', price, 'hashtag', hashtag, 'start_date', start_date, 'end_date', end_date, eventId] , function (err, result, fields) {
                         if (err) {
                             res.status(500).send(err);
@@ -209,7 +209,7 @@ module.exports = function(app) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result) {   
-                    db.query("UPDATE ?? SET ?? = ? WHERE event_id = ?", ['Event', 'status', 'canceled', eventId], function (err, result, fields) {
+                    db.query("UPDATE ?? SET ?? = ? WHERE event_id = ?", ['event', 'status', 'canceled', eventId], function (err, result, fields) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {
@@ -236,7 +236,7 @@ module.exports = function(app) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result.length) {
-                    db.query("UPDATE ?? SET ?? = ? WHERE `event_id` = ?",['Event', 'status', 'expired', eventId] , function (err, result, fields) {
+                    db.query("UPDATE ?? SET ?? = ? WHERE `event_id` = ?",['event', 'status', 'expired', eventId] , function (err, result, fields) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {
