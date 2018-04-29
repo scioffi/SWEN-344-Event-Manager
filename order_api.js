@@ -36,7 +36,7 @@ module.exports = function(app) {
                                 if (err) {
                                     res.status(500).send(err);
                                 } else if (result.length) {
-                                    res.send({"first_name":first_name,"last_name":last_name,"title":result[0].title});
+                                    res.send({"first_name":first_name,"last_name":last_name,"title":result[0].title, "price":result[0].price});
                                 } else {
                                     res.status(404).send("Event not found");
                                 }
