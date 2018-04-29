@@ -66,7 +66,7 @@ module.exports = function(app) {
                 res.send(JSON.stringify(results));
             } else {
                 res.status(404);
-                res.send("No message in database");
+                res.send("No messages in database");
             }
         });
     })

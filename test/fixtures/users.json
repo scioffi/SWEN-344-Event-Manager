@@ -42,6 +42,40 @@
       }
     }
   },
+  "single": {
+    "success": {
+      "res": {
+        "statusCode": 200,
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "body": {
+        "status": "success",
+        "data": [
+          {
+            "userId": 1,
+            "email": "jdoe1234@rit.edu",
+            "FirstName": "John",
+            "LastName": "Doe",
+            "permission": "user"
+          }
+        ]
+      }
+    },
+    "failure": {
+      "res": {
+        "statusCode": 404,
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "body": {
+        "status": "error",
+        "message": "That user does not exist."
+      }
+    }
+  },
   "add": {
     "success": {
       "res": {

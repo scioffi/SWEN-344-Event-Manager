@@ -16,12 +16,13 @@ const events = require('./fixtures/events.json');
 const users = require('./fixtures/users.json');
 const orders = require('./fixtures/orders.json');
 const attendees = require('./fixtures/attendees.json');
+const messages = require('./fixtures/messages.json');
 const currencies = require('./fixtures/currencies.json');
 
 /**
- * TEST GET /api/getEvents
+ * TEST Event Operations
  */
-describe.only('events table', () => {
+describe('events table', () => {
 
     describe('when stubbed', () => {
 
@@ -60,6 +61,37 @@ describe.only('events table', () => {
                     );
                     // the first object should have the right value for name
                     body.data[0].title.should.eql('Trip to the Planetarium');
+                    done();
+                });
+            });
+        });
+
+        // Get single event
+        describe('GET /api/getEvent/:id', () => {
+            it('should respond with a single event', (done) => {
+                const obj = events.single.success;
+                this.get.yields(null, obj.res, JSON.stringify(obj.body));
+                request.get(`${base}/api/getEvent/4`, (err, res, body) => {
+                    res.statusCode.should.equal(200);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'event_id', 'title', 'description', 'author', 'location', 'status', 'price', 'start_date', 'end_date', 'creation_date', 'hashtag'
+                    );
+                    body.data[0].title.should.eql('Trip to the Planetarium');
+                    done();
+                });
+            });
+            it('should throw an error if the event does not exist', (done) => {
+                const obj = events.single.failure;
+                this.get.yields(null, obj.res, JSON.stringify(obj.body));
+                request.get(`${base}/api/getEvent/9999`, (err, res, body) => {
+                    res.statusCode.should.equal(404);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('error');
+                    body.message.should.eql('That event does not exist.');
                     done();
                 });
             });
@@ -104,14 +136,53 @@ describe.only('events table', () => {
             });
         });
 
+        // Cancel Event
+        describe('POST /api/cancelEvent', () => {
+            it('should return the event that was cancelled', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        author: "hnv1002",
+                        creation_date: "2018-02-15T13:00:00.000Z",
+                        description: "RIT daily event",
+                        end_date: "2018-03-15T12:00:00.000Z",
+                        hashtag: null,
+                        location: "RIT SSE",
+                        price: 25,
+                        start_date: "2018-03-01T13:00:00.000Z",
+                        status: "expired",
+                        title: "Adding random event!"
+                    },
+                    json: true,
+                    url: `${base}/api/cancelEvent`
+                };
+                const obj = events.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'author', 'creation_date', 'description', 'end_date', 'hashtag', 'location', 'price', 'start_date',
+                        'status', 'title'
+                    );
+                    body.data[0].title.should.eql('Adding random event!');
+                    done();
+                });
+            });
+        });
+
     });
 
 });
 
 /**
- * TEST GET /api/getUsers
+ * TEST User Operations
  */
-describe.only('users table', () => {
+describe('users table', () => {
 
     describe('when stubbed', () => {
 
@@ -156,7 +227,38 @@ describe.only('users table', () => {
             });
         });
 
-         // Create User 
+        // get a single user
+        describe('GET /api/getUser/:id', () => {
+            it('should respond with a single user', (done) => {
+                const obj = users.single.success;
+                this.get.yields(null, obj.res, JSON.stringify(obj.body));
+                request.get(`${base}/api/getUser/1`, (err, res, body) => {
+                    res.statusCode.should.equal(200);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'FirstName', 'LastName', 'email', 'permission', 'userId'
+                    );
+                    body.data[0].FirstName.should.eql('John');
+                    done();
+                });
+            });
+            it('should throw an error if the user does not exist', (done) => {
+                const obj = users.single.failure;
+                this.get.yields(null, obj.res, JSON.stringify(obj.body));
+                request.get(`${base}/api/getUser/9999`, (err, res, body) => {
+                    res.statusCode.should.equal(404);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('error');
+                    body.message.should.eql('That user does not exist.');
+                    done();
+                });
+            });
+        });
+
+        // Create User
         describe('POST /api/createUser', () => {
             it('should return the user that was created', (done) => {
                 const options = {
@@ -190,16 +292,48 @@ describe.only('users table', () => {
             });
         });
 
+        // Delete User
+        describe('POST /api/deleteUser', () => {
+            it('should return the user that was deleted', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        userId: 5,
+                        email: "mxl2261@rit.edu",
+                        FirstName: "Moses",
+                        LastName: "Lagoon",
+                        permission: "admin"
 
+                    },
+                    json: true,
+                    url: `${base}/api/deleteUser`
+                };
+                const obj = users.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'userId', 'FirstName', 'LastName', 'permission'
+                    );
+                    body.data[0].userId.should.eql(5);
+                    done();
+                });
+            });
+        });
 
     });
 });
 
 
 /**
- * TEST GET /api/getAttendees
+ * TEST Attendees Operations
  */
-describe.only('attendees table', () => {
+describe('attendees table', () => {
 
     describe('when stubbed', () => {
 
@@ -243,8 +377,8 @@ describe.only('attendees table', () => {
             });
         });
 
-          // Add Attendee
-        describe('POST /api/', () => {
+        // Add Attendee
+        describe('POST /api/addAttendee', () => {
             it('should return the attendee that was added', (done) => {
                 const options = {
                     method: 'post',
@@ -274,13 +408,44 @@ describe.only('attendees table', () => {
             });
         });
 
+        // Delete Attendee
+        describe('POST /api/deleteAttendee', () => {
+            it('should return the attendee that was deleted', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        attendee_id: 3,
+                        user_id: 3,
+                        event_id: 3
+                    },
+                    json: true,
+                    url: `${base}/api/deleteAttendee`
+                };
+                const obj = attendees.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'attendee_id', 'user_id', 'event_id'
+                    );
+                    body.data[0].attendee_id.should.eql(3);
+                    done();
+                });
+            });
+        });
+
     });
 });
 
 /**
- * TEST GET /api/getOrders
+ * TEST Orders Operations
  */
-describe.only('orders table', () => {
+describe('orders table', () => {
 
     describe('when stubbed', () => {
 
@@ -326,7 +491,7 @@ describe.only('orders table', () => {
 
 
         // Create Order
-        describe('POST /api/', () => {
+        describe('POST /api/createOrder', () => {
             it('should return the order that was created', (done) => {
                 const options = {
                     method: 'post',
@@ -357,6 +522,38 @@ describe.only('orders table', () => {
             });
         });
 
+        // Delete Order
+        describe('POST /api/deleteOrder', () => {
+            it('should return the order that was deleted', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        order_id: 3,
+                        user_id: 3,
+                        event_id: 3,
+                        price: 25
+                    },
+                    json: true,
+                    url: `${base}/api/deleteOrder`
+                };
+                const obj = orders.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'order_id', 'user_id', 'event_id', 'price'
+                    );
+                    // body.data[0].attendee_id.should.eql(3);
+                    done();
+                });
+            });
+        });
+
     });
 
 });
@@ -364,7 +561,7 @@ describe.only('orders table', () => {
 /**
  * TEST GET /api/getCurrencyConversion
  */
-describe.only('currencies api', () => {
+describe('currencies api', () => {
 
     describe('when stubbed', () => {
 
@@ -411,602 +608,153 @@ describe.only('currencies api', () => {
 });
 
 
-
-
-
-
-
 /**
- * Testing Basic Sinon
+ * TEST Message Operations
  */
-function greaterThanTwenty(num) {
-    if (num > 20) return true;
-    return false;
-}
-describe('Sample Sinon Stub', () => {
-    it('should pass', (done) => {
-        const greaterThanTwenty = sinon.stub().returns('something');
-        greaterThanTwenty(0).should.eql('something');
-        greaterThanTwenty(0).should.not.eql(false);
-        done();
+describe('messages table', () => {
+
+    describe('when stubbed', () => {
+
+        beforeEach(() => {
+            this.get = sinon.stub(request, 'get');
+            this.postReq = sinon.stub(request, 'post');
+
+        });
+
+        afterEach(() => {
+            request.get.restore();
+            request.post.restore();
+        });
+
+        describe('GET /api/getMessages', () => {
+            it('should return all messages', (done) => {
+                this.get.yields(
+                    null, messages.all.success.res, JSON.stringify(messages.all.success.body)
+                );
+                request.get(`${base}/api/getMessages`, (err, res, body) => {
+                    // there should be a 200 status code
+                    res.statusCode.should.eql(200);
+                    // the response should be JSON
+                    res.headers['content-type'].should.contain('application/json');
+                    // parse response body
+                    body = JSON.parse(body);
+                    // the JSON response body should have a
+                    // key-value pair of {"status": "success"}
+                    body.status.should.eql('success');
+                    // the JSON response body should have a
+                    // key-value pair of {"data": [1 event objects]}
+                    body.data.length.should.eql(2);
+                    // the first object in the data array should
+                    // have the right keys
+                    body.data[0].should.include.keys(
+                        'message_id', 'from_user', 'to_user', 'message', 'shared_time', 'event_id'
+                    );
+                    // the first object should have the right value for message
+                    body.data[0].message.should.eql('Test Message');
+                    done();
+                });
+            });
+        });
+
+        // get a single message
+        describe('GET /api/getMessage/:id', () => {
+            it('should respond with a single message', (done) => {
+                const obj = messages.single.success;
+                this.get.yields(null, obj.res, JSON.stringify(obj.body));
+                request.get(`${base}/api/getMessage/1`, (err, res, body) => {
+                    res.statusCode.should.equal(200);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'message_id', 'from_user', 'to_user', 'message', 'shared_time', 'event_id'
+                    );
+                    body.data[0].message.should.eql('Test Message');
+                    done();
+                });
+            });
+            it('should throw an error if the message does not exist', (done) => {
+                const obj = messages.single.failure;
+                this.get.yields(null, obj.res, JSON.stringify(obj.body));
+                request.get(`${base}/api/getUser/9999`, (err, res, body) => {
+                    res.statusCode.should.equal(404);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('error');
+                    body.message.should.eql('That message does not exist.');
+                    done();
+                });
+            });
+        });
+
+        // Add Message
+        describe('POST /api/addMessage', () => {
+            it('should return the message that was created', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        message_id: 4,
+                        from_user: 4,
+                        to_user: 4,
+                        message: "Ridiculous Message",
+                        shared_time: 1524684444,
+                        event_id: 4
+                    },
+                    json: true,
+                    url: `${base}/api/addMessage`
+                };
+                const obj = messages.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'message_id', 'from_user', 'to_user', 'message', 'shared_time', 'event_id'
+                    );
+                    body.data[0].message_id.should.eql(3);
+                    done();
+                });
+            });
+        });
+
+        // Delete Message
+        describe('POST /api/deleteMessage', () => {
+            it('should return the message that was deleted', (done) => {
+                const options = {
+                    method: 'post',
+                    body: {
+                        message_id: 4,
+                        from_user: 4,
+                        to_user: 4,
+                        message: "Ridiculous Message",
+                        shared_time: 1524684444,
+                        event_id: 4
+                    },
+                    json: true,
+                    url: `${base}/api/deleteMessage`
+                };
+                const obj = messages.add.success;
+                this.postReq.yields(
+                    null, obj.res, JSON.stringify(obj.body)
+                );
+                request.post(options, (err, res, body) => {
+                    res.statusCode.should.eql(201);
+                    res.headers['content-type'].should.contain('application/json');
+                    body = JSON.parse(body);
+                    body.status.should.eql('success');
+                    body.data[0].should.include.keys(
+                        'message_id', 'from_user', 'to_user', 'message', 'shared_time', 'event_id'
+                    );
+                    body.data[0].message_id.should.eql(3);
+                    done();
+                });
+            });
+        });
+
     });
-});
-
-
-/**
- * Test GET /api/getUsers
- */
-describe('GET API endpoint api/getUsers', function() {  
-  this.timeout(5000); // How long to wait for a response (ms)
-
-  // GET - Get all the users 
-  it('should return all users', function() {
-    return chai.request(app)
-        .get('/api/getUsers')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('array');
-            expect(res.body[0]["userId"]).to.equal(1);
-            expect(res.body[0]["name"]).to.equal('John Doe');
-            expect(res.body[0]["username"]).to.equal('jdoe1234');
-
-            expect(res.body[1]["userId"]).to.equal(2);
-            expect(res.body[1]["name"]).to.equal('John Smith');
-            expect(res.body[1]["username"]).to.equal('jsmith1234');
-
-            expect(res.body[2]["userId"]).to.equal(3);
-            expect(res.body[2]["name"]).to.equal('Ryan Moore');
-            expect(res.body[2]["username"]).to.equal('rmoore1234');
-   
-      });
-  });
-});
-
-
-/**
- * Test GET /api/getUser?userId=1
- */
-describe("GET API endpoint /getUser with param id = 1", function(){
-  it('should return user with userId=1', function() {
-    return chai.request(app)
-        .get('/api/getUser?userId=1')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('object');
-
-            expect(res.body["userId"]).to.equal(1);
-            expect(res.body["name"]).to.equal('John Doe');
-            expect(res.body["username"]).to.equal('jdoe1234');
-      });
-  });
-
-  it ('should return 400 if missing params', function(){
-       return chai.request(app)
-        .get('/api/getUser?userId=')
-        .then(function(res) {
-            expect(res).to.have.status(400);
-      });
-  });
-});
-
-/**
- * Test GET /api/getEvents
- */
-describe("GET API endpoint /getEvents", function(){
-  it('should return all the events in the system', function() {
-    return chai.request(app)
-        .get('/api/getEvents')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('array');
-
-            expect(res.body[0]["eventId"]).to.equal(1);
-            expect(res.body[0]["title"]).to.equal('RIT Spring Fest');
-            expect(res.body[0]["status"]).to.equal('open');
-
-            expect(res.body[1]["eventId"]).to.equal(2);
-            expect(res.body[1]["title"]).to.equal('Trip to the Planetarium');
-            expect(res.body[1]["status"]).to.equal('open');
-      });
-  });
-});
-
-
-/**
- * Test GET /api/getEvent?eventId=1
- */
-describe("GET API endpoint /getEvent with param id = 1", function(){
-  it('should return event with id=1', function() {
-    return chai.request(app)
-        .get('/api/getEvent?eventId=1')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('object');
-
-            expect(res.body["eventId"]).to.equal(1);
-            expect(res.body["title"]).to.equal('RIT Spring Fest');
-            expect(res.body["status"]).to.equal('open');
-      });
-  });
-
-// ERROR CASE: Missing eventId 
-  it ('should return 400 if missing params', function(){
-   return chai.request(app)
-        .get('/api/getEvent?eventId=')
-        .then(function(res) {
-            expect(res).to.have.status(400);
-      });
-  });
-});
-
-
-/**
- * Test GET /api/getAttendees
- */
-describe("GET API endpoint /getAttendees", function(){
-  it('should return all the attendees', function() {
-    return chai.request(app)
-        .get('/api/getAttendees')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('array');
-            
-            expect(res.body[0]["eventId"]).to.equal(1);
-            expect(res.body[0]["name"]).to.equal('John Doe');
-            
-            expect(res.body[1]["eventId"]).to.equal(2);
-            expect(res.body[1]["name"]).to.equal('Dan Krutz');
-    
-      });
-  });
-});
-
-
-/**
- * Test GET /api/getAttendee?eventId=1
- */
-describe("GET API endpoint /getAttendee with event Id", function(){
-  it('should return attendee in certain event', function() {
-    return chai.request(app)
-        .get('/api/getAttendee?eventId=1')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('object');
-
-            expect(res.body["eventId"]).to.equal(1);
-            expect(res.body["name"]).to.equal('John Doe');
-      });
-  });
-
-   // ERROR CASE: Missing params 
-  it ('should return 400 if missing params', function(){
-   return chai.request(app)
-        .get('/api/getAttendee?eventId=')
-        .then(function(res) {
-            expect(res).to.have.status(400);
-      });
-  });
-});
-
-
-
-
-/**
- * Test GET /api/getOrder?eventId=1&userId=2
- */
-describe("GET API endpoint /getOrder with event id = 1 and user id = 2", function(){
-  it('should return order as per the params', function() {
-    return chai.request(app)
-        .get('/api/getOrder?eventId=1&userId=2')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body["eventId"]).to.equal(1);
-      });
-  });
-
-  // ERROR CASE: Missing params 
-  it ('should return 400 if missing params', function(){
-   return chai.request(app)
-        .get('/api/getOrder?eventId=1')
-        .then(function(res) {
-            expect(res).to.have.status(400);
-      });
-  });
 
 });
-
-
-/**
- * Test GET /api/getOrders
- */
-describe("GET API endpoint /getOrders", function(){
-  it('should return all the orders ', function() {
-    return chai.request(app)
-        .get('/api/getOrders')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('array');
-
-
-            expect(res.body[0]["userId"]).to.equal(1);
-            expect(res.body[0]["eventId"]).to.equal(1);
-            expect(res.body[0]["price"]).to.equal(0);
-
-            expect(res.body[1]["userId"]).to.equal(2);
-            expect(res.body[1]["eventId"]).to.equal(2);
-            expect(res.body[1]["price"]).to.equal(25);
-
-      });
-  });
-});
-
-
-/**
- * Test GET /api/getCurrencyConversion
- */
-describe("GET API endpoint /getCurrencyConversion", function(){
-  it('should respective currency conversion values', function() {
-    return chai.request(app)
-        .get('/api/getCurrencyConversion')
-        .then(function(res) {
-            expect(res).to.have.status(200);
-            expect(res).to.be.json;
-            expect(res.body).to.be.an('object');
-      });
-  });
-});
-
-
-/**
- * Test POST /api/createUser
- */
-describe("POST API endpoint /createUser", function(){
-  it('should create a user given username, name and email', function() {
-    return chai.request(app)
-        .post('/api/createUser')
-        .send({
-            username: 'someone',
-            name: 'John Doe',
-            email: 'johndoe@something.com'
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  // ERROR CASE 
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/deleteUser')
-        .send({
-             username: 'someone',
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-
-});
-
-
-/**
- * Test POST /api/editUser
- */
-describe("POST API endpoint /editUser", function(){
-  it('should edit a user given username, name and email', function() {
-    return chai.request(app)
-        .post('/api/editUser')
-        .send({
-            username: 'someone',
-            name: 'John Doe',
-            email: 'johndoe@something.com'
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  // ERROR CASE 
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/deleteUser')
-        .send({
-             username: 'someone',
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-});
-
-
-/**
- * Test POST /api/deleteUser
- */
-describe("POST API endpoint /deleteUser", function(){
-  it('should delete a user given a userid', function() {
-    return chai.request(app)
-        .post('/api/deleteUser')
-        .send({
-            userId: 1
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-   // ERROR CASE 
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/deleteUser')
-        .send({
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-});
-
-
-/**
- * Test POST /api/createEvent
- */
-describe("POST API endpoint /createEvent", function(){
-  it('should create an event given title, startTime, endTime, author, location, price and hastag', function() {
-    return chai.request(app)
-        .post('/api/createEvent')
-        .send({
-            title: 'something1',
-            description: "yep",
-            start_time: '1244',
-            end_time: '1244',
-            author: 'Doe',
-            location: 'UR',
-            price: 10,
-            tag: 'test'
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  // ERROR CASE 
-  it ('should return 400 if missing data', function(){
-    return chai.request(app)
-      .post('/api/createEvent')
-      .send({
-      })
-      .then(function(res) {
-          expect(res).to.have.status(400);
-      });
-    });
-});
-
-
-/**
- * Test POST /api/editEvent
- */
-describe("POST API endpoint /editEvent", function(){
-
-  // ERROR CASE
-  it('should edit an event given title, startTime, endTime, author, location, price and hastag', function() {
-    return chai.request(app)
-        .post('/api/editEvent')
-        .send({
-            title: 'something',
-            description: "yep",
-            start_time: '1244',
-            end_time: '1244',
-            author: 'Doe',
-            location: 'RIT',
-            price: 10,
-            hashtag: 'test',
-            eventId: 1
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  // ERROR CASE 
-  it ('should return 400 if missing data', function(){
-    return chai.request(app)
-      .post('/api/editEvent')
-      .send({
-      })
-      .then(function(res) {
-          expect(res).to.have.status(400);
-      });
-    });
-});
-
-
-/**
- * Test POST /api/expireEvent
- */
-describe("POST API endpoint /expireEvent", function(){
-  it('should expire an event given eventId', function() {
-    return chai.request(app)
-        .post('/api/expireEvent')
-        .send({
-            eventId: 1
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-   // ERROR CASE 
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/expireEvent')
-        .send({
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  })
-});
-
-
-/**
- * Test POST /api/deleteEvent
- */
-describe("POST API endpoint /deleteEvent", function(){
-  it('should delete an event given eventId and userid', function() {
-    return chai.request(app)
-        .post('/api/deleteEvent')
-        .send({
-            eventId: 1
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  // ERROR CASE 
-
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/deleteEvent')
-        .send({
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-
-});
-
-
-/**
- * Test POST /api/deleteOrder
- */
-describe("POST API endpoint /deleteOrder", function(){
-  it('should delete an order given eventId and userid', function() {
-    return chai.request(app)
-        .post('/api/deleteOrder')
-        .send({
-            eventId: 1,
-            userId:2
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  // ERROR CASE 
-
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/deleteOrder')
-        .send({
-            eventId: 1,
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-
-});
-
-
-/**
- * Test POST /api/addAttendee
- */
-describe("POST API endpoint /addAttendee", function(){
-  it('should add an attendee give userId and name', function() {
-    return chai.request(app)
-        .post('/api/addAttendee')
-        .send({
-            userId: 1,
-            name: 'John Doe'
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/addAttendee')
-        .send({
-            userId: 1
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-
-});
-
-
-/**
- * Test POST /api/deleteAttendee
- *
- */
-describe("POST API endpoint /deleteAttendee", function(){
-  it('should delete an attendee given userId', function() {
-    return chai.request(app)
-        .post('/api/deleteAttendee')
-        .send({
-            userId: 1
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  // ERROR CASE : Missing User ID 
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/deleteAttendee')
-        .send({
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-
-});
-
-
-/**
- * Test POST /api/createOrder
- */
-describe("POST API endpoint /createOrder", function(){
-  it('should create an order given userId, eventId, price and currency', function() {
-    return chai.request(app)
-        .post('/api/createOrder')
-        .send({
-            userId: 1,
-            eventId: 1,
-            price: 10,
-            currency: 'USD'
-        })
-        .then(function(res) {
-            expect(res).to.have.status(200);
-      });
-  });
-
-  it ('should return 400 if missing data', function(){
-      return chai.request(app)
-        .post('/api/createOrder')
-        .send({
-            userId: 1
-        })
-        .then(function(res) {
-            expect(res).to.have.status(400);
-        });
-  });
-});
-
-
