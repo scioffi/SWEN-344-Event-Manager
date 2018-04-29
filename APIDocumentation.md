@@ -391,7 +391,7 @@ The above request will return something like:
   curl -XGET http://localhost:8080/api/getEvent?eventId=1
  ```
  
-  ## 5. Create an Event 
+  ## 12. Create an Event 
 
 POST `/api/createEvent` will create an event 
 
@@ -406,13 +406,17 @@ StartTime: `start_time=<integer>`
 
 End_time : `end_time=<integer>`
 
-Author : `author=<string>`
+Creation_time : `creation_time=<integer>`
+
+Author : `author=<integer>`
 
 Location: `location=<string>`
 
 Price : `price=<double>`
 
 Hashtag : `tag=<string>`
+
+Image : `image=<string>`
 
 ### Sample Request: 
 This requires a post request. Please, refer to the curl request, below 
@@ -432,12 +436,12 @@ The above request will return something like:
   CURL Example:
  
  ```
-curl -d "title=something&start_time=1234&end_time=1234&author=Chris&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/createEvent  
+curl -d "title=something&start_time=1234&end_time=1234&creation_date=1234&author=1&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/createEvent  
  ```
 
-   ## 6. Edit an Event 
+   ## 13. Edit an Event 
 
-POST `/api/editEvent` will create an event 
+POST `/api/editEvent` will edit an event by given eventId
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/editEvent```
@@ -450,8 +454,6 @@ start_time: `start_time=<integer>`
 
 End_time : `end_time=<integer>`
 
-Author : `author=<string>`
-
 Location: `location=<string>`
 
 Price : `price=<double>`
@@ -459,6 +461,8 @@ Price : `price=<double>`
 Hashtag : `hashtag=<string>`
 
 eventId : `eventId=<integer>`
+
+Image : `image=<string>`
 
 ### Sample Request: 
 This requires a post request. Please, refer to the curl request, below 
@@ -478,11 +482,92 @@ The above request will return something like:
   CURL Example:
  
  ```
-curl -d "title=something&start_time=1234&end_time=1234&author=Chris&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/createEvent  
-  
+curl -d "title=something&start_time=1234&end_time=1234&author=1&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/editEvent  
  ```
 
- ## 10. Get Orders
+ ## 14.  Cancel an event
+
+GET `/api/cancelEvent` will cancel event by given eventId
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/cancelEvent```
+**Method**: `GET`
+**Params**: `eventId=<event identification number>`
+
+### Sample Request: 
+Let's get an event with id = 1
+
+```http://localhost:8080/api/cancelEvent?eventId=1                                   ```
+
+The above request will return something like: 
+### Response: 
+ ```
+Successfully canceled event
+ ```
+  CURL Example:
+ 
+ ```
+  curl -XGET http://localhost:8080/api/cancelEvent?eventId=1
+ ```
+
+ ## 15.  Cancel an event
+
+GET `/api/expireEvent` will expire event by given eventId
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/expireEvent```
+**Method**: `GET`
+**Params**: `eventId=<event identification number>`
+
+### Sample Request: 
+Let's get an event with id = 1
+
+```http://localhost:8080/api/expireEvent?eventId=1                                   ```
+
+The above request will return something like: 
+### Response: 
+ ```
+Successfully expired event
+ ```
+  CURL Example:
+ 
+ ```
+  curl -XGET http://localhost:8080/api/expireEvent?eventId=1
+ ```
+
+## 15. Get an order
+ 
+ POST `/api/getOrder` will get the order by given orderId
+### Request:
+**Base URL**: ```http://localhost:8080/api/getOrder```
+**Method**: `POST`
+**Params/Post Data**: 
+Order Id: `orderId=<order identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/getOrder```
+
+This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+{
+  "first_name":"Chris",
+  "last_name":"Vuong",
+  "title":"RIT Spring Fest",
+  "price":0
+}
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -d "orderId=1" -XPOST http://localhost:8080/api/getOrder
+```
+
+ ## 16. Get Orders
 
 GET `/api/getOrders` will get all the orders in the system
 
@@ -493,29 +578,23 @@ GET `/api/getOrders` will get all the orders in the system
 
 ### Sample Request: 
 
-```http://localhost:8080/api/getOrders                            ```
+```http://localhost:8080/api/getOrders```
 
 This should return something like: 
 ### Response: 
  ```
 [
   {
-    "userId": 1,
-    "eventId": 1,
-    "price": 0,
-    "currency": "BTC"
+  "first_name":"Chris",
+  "last_name":"Vuong",
+  "title":"RIT Spring Fest",
+  "price":0
   },
   {
-    "userId": 2,
-    "eventId": 2,
-    "price": 25,
-    "currency": "USD"
-  },
-  {
-    "userId": 3,
-    "eventId": 2,
-    "price": 25,
-    "currency": "GBP"
+  "first_name":"John",
+  "last_name":"Smith",
+  "title":"RIT Spring Fest",
+  "price":0
   }
 ]
  ```
@@ -524,15 +603,14 @@ This should return something like:
  
  ```
   curl -XGET http://localhost:8080/api/getOrders
-  
  ```
 
- ## 14. Create an order
+ ## 17. Create an order
  
- POST `/api/createOrder` will create an order given userid, eventid, price, and currency
+ POST `/api/createOrder` will create an order given userid, eventid, price
 
 ### Request:
-**Base URL**: ```http://localhost:8080/api/reateOrder```
+**Base URL**: ```http://localhost:8080/api/createOrder```
 **Method**: `POST`
 **Params**: 
 UserId: `userId=<>`
@@ -540,8 +618,6 @@ UserId: `userId=<>`
 Event Id : `eventId=<>`
 
 Price : `Price=<int>`
-
-Currency : `currency=<>`
 
 ### Sample Request: 
 
@@ -552,26 +628,23 @@ The request requires post data, please see sample curl request below:
  ### Sample Response: 
  
  ```
- Successfully created order
+{id:1}
  ```
  
  CURL EXAMPLE: 
  
  ```
- curl -d "userId=1&eventId=2&price=10&currency=USD" -XPOST http://localhost:8080/api/createOrder
- 
+ curl -d "userId=1&eventId=2&price=10" -XPOST http://localhost:8080/api/createOrder
  ```
 
-## 15. Delete an order
+## 18. Delete an order
  
- POST `/api/deleteOrder` will delete an order, given a event and user id
+ POST `/api/deleteOrder` will delete an order, given an orderId
 ### Request:
 **Base URL**: ```http://localhost:8080/api/deleteOrder```
 **Method**: `POST`
 **Params/Post Data**: 
-Event Id: `eventId=<event identification number>`
-
-User Id: `userId=<user identification number>`
+Order Id: `orderId=<order identification number>`
 
 ### Sample Request: 
 
@@ -588,12 +661,11 @@ This should return something like:
  CURL EXAMPLE: 
  
 ```
-curl -d "eventId=1&userId=2" -XPOST http://localhost:8080/api/deleteOrder
-
+curl -d "orderId=1" -XPOST http://localhost:8080/api/deleteOrder
 ```
 
  
-## 16. Get Attendees
+## 19. Get currency conversion
 
 GET `/api/getCurrencyConversion` will return all the conversion values for different currencies
 
@@ -621,8 +693,178 @@ This should return something like:
   CURL Example:
  
  ```
-  curl -XGET http://localhost:8080/api/getCurrencyConversion
-  
+  curl -XGET http://localhost:8080/api/getCurrencyConversion?amount=1
  ```
 
+ ## 20. Get a message
+ 
+ POST `/api/getMessage` will get the message by given messageId
+### Request:
+**Base URL**: ```http://localhost:8080/api/getMessage```
+**Method**: `POST`
+**Params/Post Data**: 
+Message Id: `messageId=<message identification number>`
 
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/getMessage```
+
+This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+{  
+   "message_id":1,
+   "from_user":1,
+   "to_user":2,
+   "shared_time":1524680000,
+   "message":"Enjoy your Spring Fest",
+   "event_id":1
+}
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -d "messageId=1" -XPOST http://localhost:8080/api/getMessage
+```
+
+## 21. Get a message to user
+ 
+ POST `/api/getMessageByUser` will get all messages to a user by the given userId
+### Request:
+**Base URL**: ```http://localhost:8080/api/getMessageByUser```
+**Method**: `POST`
+**Params/Post Data**: 
+User Id: `userId=<user identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/getMessageByUser```
+
+This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+[  
+   {  
+      "message_id":2,
+      "from_user":2,
+      "to_user":1,
+      "shared_time":1524200000,
+      "message":"Start your reading now",
+      "event_id":2
+   }
+]
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -d "userId=1" -XPOST http://localhost:8080/api/getMessageByUser
+```
+
+ ## 22. Get Messages
+
+GET `/api/getMessages` will get all the orders in the system
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/getMessages```
+**Method**: `GET`
+**Params**: `None`
+
+### Sample Request: 
+
+```http://localhost:8080/api/getMessages```
+
+This should return something like: 
+### Response: 
+ ```
+[  
+   {  
+      "message_id":1,
+      "from_user":1,
+      "to_user":2,
+      "shared_time":1524680000,
+      "message":"Enjoy your Spring Fest",
+      "event_id":1
+   },
+   {  
+      "message_id":2,
+      "from_user":2,
+      "to_user":1,
+      "shared_time":1524200000,
+      "message":"Start your reading now",
+      "event_id":2
+   }
+]
+ ```
+ 
+  CURL Example:
+ 
+ ```
+  curl -XGET http://localhost:8080/api/getMessages
+ ```
+
+ ## 23. Add a new message
+ 
+ POST `/api/addMessage` will create an order given userid, eventid, price
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/addMessage```
+**Method**: `POST`
+**Params**: 
+Event id: `eventId=<integer>`
+
+From_user: `from_user=<integer>`
+
+To_user: `to_user=<integer>`
+
+Message : `message=<string>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/addMessage```
+
+ This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+{id:1}
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+ ```
+ curl -d "eventId=2&from_user=1&to_user=2&message=Ola!" -XPOST http://localhost:8080/api/addMessage
+ ```
+
+## 24. Delete a message
+ 
+ POST `/api/deleteMessage` will delete a message, given by the messageId
+### Request:
+**Base URL**: ```http://localhost:8080/api/deleteMessage```
+**Method**: `POST`
+**Params/Post Data**: 
+Message Id: `orderId=<order identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/deleteMessage```
+
+This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+ Successfully deleted message
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -d "messageId=1" -XPOST http://localhost:8080/api/deleteMessage
+```
