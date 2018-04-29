@@ -13,9 +13,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.set('port', process.env.PORT || 8080);  //sets port 8080
 
 var user_api = require('./user_api.js')(app);
-var attendee_api = require('./attendee_api.js')(app);
-var attendee_api = require('./order_api.js')(app);
-var attendee_api = require('./event_api.js')(app);
+var order_api = require('./order_api.js')(app);
+var event_api = require('./event_api.js')(app);
 var message_api = require('./message_api.js')(app);
 
 app.listen(app.get('port'), function(){ //start express server
