@@ -68,7 +68,7 @@ module.exports = function(app) {
                                 if (err) {
                                     res.status(500).send(err);
                                 } else if (event.length) {
-                                    response.push({"first_name":user[0].first_name,"last_name":user[0].last_name,"title":event[0].title});                                    
+                                    response.push({"first_name":user[0].first_name,"last_name":user[0].last_name,"title":event[0].title,"price":row.price});                                    
                                 }
                                 if (numRow == results.length) {
                                     res.send(JSON.stringify(response));
