@@ -20,28 +20,24 @@ This should return something like:
  [
   {
     "userId": 1,
-    "username": "jdoe1234",
     "name": "John Doe",
     "email": "jdoe1234@rit.edu",
     "permission": "user"
   },
   {
     "userId": 2,
-    "username": "jsmith1234",
     "name": "John Smith",
     "email": "jsmith1234@rit.edu",
     "permission": "user"
   },
   {
     "userId": 3,
-    "username": "rmoore1234",
     "name": "Ryan Moore",
     "email": "rmoore1234@rit.edu",
     "permission": "user"
   },
   {
     "userId": 4,
-    "username": "dkrutz1234",
     "name": "Dan Krutz",
     "email": "dkrutz1234@rit.edu",
     "permission": "admin"
@@ -58,7 +54,7 @@ This should return something like:
  
  ## 2.  Get a User by UserId
 
-GET `/api/getUser` will return all the users in the system
+GET `/api/getUser?userId=` will return user with the specified in the system
 
 ### Request:
 **Base URL**: ```http://localhost:8080/api/getUser```
@@ -75,7 +71,6 @@ The above request will return something like:
  ```
  {
   "userId": 1,
-  "username": "jdoe1234",
   "name": "John Doe",
   "email": "jdoe1234@rit.edu",
   "permission": "user"
@@ -87,9 +82,229 @@ The above request will return something like:
  ```
   curl -XGET http://localhost:8080/api/getUser?userId=1
  ```
+
+ ## 3.  Get a User by Email
+
+GET `/api/getUserByEmail?email=` will return user with specified email in the system
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/getUser```
+**Method**: `GET`
+**Params**: `email=<user's email>`
+
+### Sample Request: 
+Let's get a user whose id = 1
+
+```http://localhost:8080/api/getUserByEmail?email="jdoe1234@gmail.com"                                   ```
+
+The above request will return something like: 
+### Response: 
+ ```
+ {
+  "userId": 1,
+  "name": "John Doe",
+  "email": "jdoe1234@rit.edu",
+  "permission": "user"
+ }
+ ```
  
+  CURL Example:
  
- ## 3. Get all the events
+ ```
+  curl -XGET http://localhost:8080/api/getUserByEmail?email="jdoe1234@gmail.com"
+ ```
+
+## 4.  Check user exists by Email
+
+GET `/api/checkUserExists?email=` will return user with specified email in the system
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/checkUserExists```
+**Method**: `GET`
+**Params**: `email=<user's email>`
+
+### Sample Request: 
+Let's check user whose email = jdoe1234@gmail.com
+
+```http://localhost:8080/api/checkUserExists?email="jdoe1234@gmail.com"                                   ```
+
+The above request will return something like: 
+### Response: 
+ ```
+ {
+  "userId": 1,
+  "name": "John Doe",
+  "email": "jdoe1234@rit.edu",
+  "permission": "user"
+ }
+ ```
+ 
+  CURL Example:
+ 
+ ```
+  curl -XGET http://localhost:8080/api/checkUserExists?email="jdoe1234@gmail.com"
+ ```
+
+ ## 5. Create a User
+ 
+ POST `/api/createUser` will create a user with the supplied first_name, last_name, email, and permission(optional). By default, if no permission is specified, new user is created with user permission
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/createUser```
+**Method**: `POST`
+**Params**: 
+First Name: `first_name=<something>`
+
+Last Name: `last_name=<something>`
+
+Email : `email=<something@nothing.com>`
+
+Permission : `permission=<user|admin>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/createUser```
+
+ This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+{"id":1}
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+ ```
+ curl -XPOST http://localhost:8080/api/createUser -d "first_name=something&last_name=something&email=something&permission=something" 
+ ```
+
+ ## 6. Edit a User
+ 
+ POST `/api/editUser` will edit a user with the supplied first_name, last_name, email, and permission
+### Request:
+**Base URL**: ```http://localhost:8080/api/editUser```
+**Method**: `POST`
+**Params**:
+First Name: `first_name=<something>`
+
+Last Name: `last_name=<something>`
+
+Email : `email=<something@nothing.com>`
+
+Permission : `permission=<user|admin>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/editUser```
+
+ This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+{"id":1}
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+ ```
+ curl -XPOST http://localhost:8080/api/editUser -d "first_name=something&last_name=something&email=something&permission=something" 
+ ```
+
+ ## 7. Delete a User
+ 
+ POST `/api/deleteUser` will delete a user, given a user id 
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/deleteUser```
+**Method**: `POST`
+**Params/Post Data**: 
+UserId: `userId=<user identification number>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/deleteUser```
+This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+ Successfully deleted User
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -XPOST http://localhost:8080/api/deleteUser -d "userId=1" 
+```
+
+## 8. Change a user Permission
+ 
+ POST `/api/changeUserPermission` will change a user permission, given a user id and permission level
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/changeUserPermission```
+**Method**: `POST`
+**Params/Post Data**: 
+UserId: `userId=<user identification number>`
+
+Permission: `permission=<user|admin>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/changeUserPermission```
+This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+{"id":1}
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -XPOST http://localhost:8080/api/changeUserPermission -d "userId=1&permission=admin" 
+```
+
+## 9. Initial login a user
+ 
+ POST `/api/initial_login` will login a user in, if user doesn't exist in database, create a new user with passed in parameters
+
+### Request:
+**Base URL**: ```http://localhost:8080/api/initial_login```
+**Method**: `POST`
+**Params/Post Data**: 
+First Name: `first_name=<something>`
+
+Last Name: `last_name=<something>`
+
+Email : `email=<something@nothing.com>`
+
+### Sample Request: 
+
+The request requires post data, please see sample curl request below: 
+```http://localhost:8080/api/initial_login```
+This should return something like: 
+ ### Sample Response: 
+ 
+ ```
+ {
+  "userId": 1,
+  "name": "John Doe",
+  "email": "jdoe1234@rit.edu",
+  "permission": "user"
+ }
+ ```
+ 
+ CURL EXAMPLE: 
+ 
+```
+curl -XPOST http://localhost:8080/api/initial_login -d "first_name=something&last_name=something&email=something" 
+```
+
+ ## 10. Get all the events
 
 GET `/api/getEvents` will return all the events regiestered in the system
 
@@ -109,7 +324,7 @@ This should return something like:
     "eventId": 1,
     "title": "RIT Spring Fest",
     "description": "RIT annual event",
-    "creationDate": "1520295410",
+    "creation_date": "1520295410",
     "start_time": "1523523600",
     "end_time": "1523541600",
     "author": "Chris Vuong",
@@ -122,7 +337,7 @@ This should return something like:
     "eventId": 2,
     "title": "Trip to the Planetarium",
     "description": "RIT daily event",
-    "creationDate": "1520295000",
+    "creation_date": "1520295000",
     "start_time": "1523523600",
     "end_time": "1523541600",
     "author": "Chris Vuong",
@@ -134,14 +349,12 @@ This should return something like:
 ]
 
  ```
- 
   CURL Example:
- 
  ```
   curl -XGET http://localhost:8080/api/getEvents
  ```
  
- ## 4.  Get an Event by EventId
+ ## 11.  Get an Event by EventId
 
 GET `/api/getEvent` will return all the users in the system
 
@@ -162,7 +375,7 @@ The above request will return something like:
   "eventId": 1,
   "title": "RIT Spring Fest",
   "description": "RIT annual event",
-  "creationDate": "1520295410",
+  "creation_date": "1520295410",
   "start_time": "1523523600",
   "end_time": "1523541600",
   "author": "Chris Vuong",
@@ -220,8 +433,8 @@ The above request will return something like:
  
  ```
 curl -d "title=something&start_time=1234&end_time=1234&author=Chris&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/createEvent  
-  
  ```
+
    ## 6. Edit an Event 
 
 POST `/api/editEvent` will create an event 
@@ -268,104 +481,6 @@ The above request will return something like:
 curl -d "title=something&start_time=1234&end_time=1234&author=Chris&location=RIT&price=10&tag=test" -XPOST http://localhost:8080/api/createEvent  
   
  ```
-  ## 7. Get Attendees
-
-GET `/api/getAttendees` will get all the attendees across all events in the system
-
-### Request:
-**Base URL**: ```http://localhost:8080/api/getAttendees```
-**Method**: `GET`
-**Params**: `None`
-
-### Sample Request: 
-
-```http://localhost:8080/api/getAttendees                            ```
-
-This should return something like: 
-### Response: 
- ```
-[
-  {
-    "name": "John Doe",
-    "eventId": 1
-  },
-  {
-    "name": "Dan Krutz",
-    "eventId": 2
-  }
-]
- ```
- 
-  CURL Example:
- 
- ```
-  curl -XGET http://localhost:8080/api/getAttendees
-  
- ```
-
- 
- 
- ## 8. Create a User
- 
- POST `/api/createUser` will create a user with the supplied username, name and email
-
-### Request:
-**Base URL**: ```http://localhost:8080/api/createUser```
-**Method**: `POST`
-**Params**: 
-Username: `username=<something>`
-
-Name: `name=<something>`
-
-Email : `email=<something@nothing.com>`
-
-### Sample Request: 
-
-The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/createUser                            ```
-
- This should return something like: 
- ### Sample Response: 
- 
- ```
- Successfully created User
- ```
- 
- CURL EXAMPLE: 
- 
- ```
- curl -XPOST http://localhost:8080/api/createUser -d "username=something&name=something&email=something" 
- ```
- 
- 
- ## 9. Delete a User
- 
- POST `/api/deleteUser` will delete a user, given a user id 
-
-### Request:
-**Base URL**: ```http://localhost:8080/api/createUser```
-**Method**: `POST`
-**Params/Post Data**: 
-UserId: `userId=<user identification number>`
-
-### Sample Request: 
-
-The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/deleteUser
-```
-This should return something like: 
- ### Sample Response: 
- 
- ```
- Successfully deleted User
- ```
- 
- CURL EXAMPLE: 
- 
-```
-curl -XPOST http://localhost:8080/api/deleteUser -d "userId=1" 
-
-```
 
  ## 10. Get Orders
 
@@ -411,100 +526,6 @@ This should return something like:
   curl -XGET http://localhost:8080/api/getOrders
   
  ```
-
- ## 11. Delete an Event
- 
- POST `/api/deleteEvent` will delete an event, given an event id
-
-### Request:
-**Base URL**: ```http://localhost:8080/api/deleteEvent```
-**Method**: `POST`
-**Params/Post Data**: 
-EventId: `eventId=<event identification number>`
-
-### Sample Request: 
-
-The request requires post data, please see the sample curl request below: 
-```http://localhost:8080/api/deleteEvent```
-
-This should return something like: 
- ### Sample Response: 
- 
- ```
- Successfully deleted event
- ```
- 
- CURL EXAMPLE: 
- 
-```
-curl -XPOST http://localhost:8080/api/deleteEvent -d "eventId=1" 
-
-```
-
-## 12. Add an attendee
- 
- POST `/api/addAttendee` will add an attendee to an event
- 
-### Request:
-**Base URL**: ```http://localhost:8080/api/createUser```
-**Method**: `POST`
-**Params/Post Data**: 
-UserId: `userId=<user identification number>`
-
-Name: `name=<someone>`
-
-
-### Sample Request: 
-
-The request requires post data, please see sample curl request below: 
-
-```http://localhost:8080/api/addAttendee```
-
-This should return something like: 
- 
- ### Sample Response: 
- 
- ```
- Successfully added attendee
- ```
- 
- CURL EXAMPLE: 
- 
- ```
-curl -d "userId=1&name=John" -X POST http://localhost:8080/api/addAttendee
- ```
- 
- 
- 
- ## 13. Delete an attendee
- 
- POST `/api/deleteAttendee` will delete an attendee, given a attendee/user id 
-
-### Request:
-**Base URL**: ```http://localhost:8080/api/deleteAttendee```
-**Method**: `POST`
-**Params/Post Data**: 
-UserId: `userId=<user identification number>`
-
-### Sample Request: 
-
-The request requires post data, please see sample curl request below: 
-```http://localhost:8080/api/deleteAttendee                            ```
-
-This should return something like: 
- ### Sample Response: 
- 
- ```
- Successfully deleted attendee
- ```
- 
- CURL EXAMPLE: 
- 
-```
-curl -XPOST http://localhost:8080/api/deleteAttendee -d "userId=1" 
-
-```
-
 
  ## 14. Create an order
  
