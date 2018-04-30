@@ -8,6 +8,7 @@ chai.use(require('chai-http'));
 const app = require('../app.js'); // Our app
 var id_to_delete;
 var order_id_to_delete;
+var event_id_to_delete;
 
 /**
  * Test GET /api/getUsers
@@ -352,8 +353,8 @@ describe("POST API endpoint /createEvent", function(){
                 expect(res).to.have.status(200);
                 console.log(res.status);
                 var output = JSON.parse(res.text);
-                console.log(output);
-                id_to_delete = output["id"];
+                // console.log(output);
+                // event_id_to_delete = output["id"];
             });
     });
 
@@ -466,36 +467,6 @@ describe("POST API endpoint /deleteEvent", function(){
 });
 
 
-/**
- * Test POST /api/deleteOrder
- */
-describe.only("POST API endpoint /deleteOrder", function(){
-    it('should delete an order given eventId and userid', function() {
-        return chai.request(app)
-            .post('/api/deleteOrder')
-            .send({
-                orderId: order_id_to_delete,
-            })
-            .then(function(res) {
-                expect(res).to.have.status(200);
-            });
-    });
-
-    // ERROR CASE
-
-    it ('should return 400 if missing data', function(){
-        return chai.request(app)
-            .post('/api/deleteOrder')
-            .send({
-                eventId: 1,
-            })
-            .then(function(res) {
-                expect(res).to.have.status(400)
-            });
-    });
-
-});
-
 
 /**
  * Test POST /api/createOrder
@@ -529,3 +500,34 @@ describe.only("POST API endpoint /createOrder", function(){
             });
     });
 });
+
+
+/**
+ * Test POST /api/deleteOrder
+ */
+describe.only("POST API endpoint /deleteOrder", function(){
+    it('should delete an order given eventId and userid', function() {
+        return chai.request(app)
+            .post('/api/deleteOrder')
+            .send({
+                orderId: order_id_to_delete,
+            })
+            .then(function(res) {
+                expect(res).to.have.status(200);
+            });
+    });
+
+    // ERROR CASE
+
+    it ('should return 400 if missing data', function(){
+        return chai.request(app)
+            .post('/api/deleteOrder')
+            .send({
+            })
+            .then(function(res) {
+                expect(res).to.have.status(400)
+            });
+    });
+
+});
+
