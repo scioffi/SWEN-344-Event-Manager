@@ -88,12 +88,6 @@ describe.only("GET API endpoint /getUserByEmail", function(){
 });
 
 
-
-
-
-
-
-
 /**
  * Test GET /api/getEvents
  */
