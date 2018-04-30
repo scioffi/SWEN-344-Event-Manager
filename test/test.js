@@ -334,27 +334,29 @@ describe.only("POST API endpoint /deleteUser", function(){
 /**
  * Test POST /api/createEvent
  */
-describe("POST API endpoint /createEvent", function(){
-    it('should create an event given title, startTime, endTime, author, location, price and hastag', function() {
+describe.only("POST API endpoint /createEvent", function(){
+    it('should create an event', function() {
         return chai.request(app)
             .post('/api/createEvent')
             .send({
-                title: 'something1',
-                description: "yep",
-                start_date: '1244',
-                end_date: '1244',
-                author: 'Doe',
-                location: 'UR',
-                price: 10,
-                hashtag: 'test',
-                creation_date: "1939"
+                hashtag: 'TestingEvent',
+                description: "Just testing!",
+                author: "1",
+                location: 'RIT campus',
+                price: 0,
+                start_date: 1525514400,
+                end_date: 1525525200,
+                creation_date: 1524000000,
+                title: 'Testing Event',
+                status: 'open',
+                image: '11'
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
                 console.log(res.status);
                 var output = JSON.parse(res.text);
                 // console.log(output);
-                // event_id_to_delete = output["id"];
+                event_id_to_delete = output["id"];
             });
     });
 
@@ -412,12 +414,12 @@ describe("POST API endpoint /editEvent", function(){
 /**
  * Test POST /api/expireEvent
  */
-describe("POST API endpoint /expireEvent", function(){
+describe.only("POST API endpoint /expireEvent", function(){
     it('should expire an event given eventId', function() {
         return chai.request(app)
             .post('/api/expireEvent')
             .send({
-                eventId: 1
+                eventId: 5
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
@@ -445,7 +447,7 @@ describe("POST API endpoint /deleteEvent", function(){
         return chai.request(app)
             .post('/api/deleteEvent')
             .send({
-                eventId: 1
+                eventId: event_id_to_delete
             })
             .then(function(res) {
                 expect(res).to.have.status(200);

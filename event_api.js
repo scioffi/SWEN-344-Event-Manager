@@ -242,7 +242,7 @@ module.exports = function(app) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {
-                            resstatus(200).send("successfully expired event");                        
+                            res.status(200).send("successfully expired event");                        
                         } else {
                             res.status(404).send("Event not found");
                         }
