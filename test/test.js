@@ -59,6 +59,41 @@ describe.only("GET API endpoint /getUser with param id = 1", function(){
     });
 });
 
+
+/**
+ * Test GET /api/getUserByEmail?email=<email>
+ */
+describe.only("GET API endpoint /getUserByEmail", function(){
+    it('should return user with email = hvuong94@gmail.com', function() {
+        return chai.request(app)
+            .get('/api/getUserByEmail?email=hvuong94@gmail.com')
+            .then(function(res) {
+                expect(res).to.have.status(200);
+                var output = JSON.parse(res.text);
+                console.log(output);
+
+                expect(output["email"]).to.equal('hvuong94@gmail.com');
+                expect(output["permission"]).to.equal("user");
+
+            });
+    });
+
+    it ('should return 400 if missing params', function(){
+        return chai.request(app)
+            .get('/api/getUser?userId=')
+            .then(function(res) {
+                expect(res).to.have.status(400);
+            });
+    });
+});
+
+
+
+
+
+
+
+
 /**
  * Test GET /api/getEvents
  */
@@ -550,7 +585,7 @@ describe("POST API endpoint /deleteAttendee", function(){
 /**
  * Test POST /api/createOrder
  */
-describe("POST API endpoint /createOrder", function(){
+describe.only("POST API endpoint /createOrder", function(){
     it('should create an order given userId, eventId, price and currency', function() {
         return chai.request(app)
             .post('/api/createOrder')
@@ -558,10 +593,11 @@ describe("POST API endpoint /createOrder", function(){
                 userId: 1,
                 eventId: 1,
                 price: 10,
-                currency: 'USD'
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
+                var output = JSON.parse(res.text);
+                console.log(output);
             });
     });
 
