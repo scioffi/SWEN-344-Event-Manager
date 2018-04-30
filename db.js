@@ -8,7 +8,7 @@ function connectDatabase() {
 
         db.getConnection(function(err){
             if(!err) {
-                // console.log('Database is connected!');
+                console.log('Database is connected!');
             } else {
                 console.log(err);
             }

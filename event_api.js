@@ -4,8 +4,8 @@ var db = require('./db.js');
 var db_utils = require('./db_utils.js');
 const API_PATH = "/api";
 			 
-const INSERT_EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
-const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag'];
+const INSERT_EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag', 'image'];
+const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag', 'image'];
 const EVENT_STATUSES = ['open', 'expired'];
 
 module.exports = function(app) {
