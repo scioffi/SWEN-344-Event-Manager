@@ -48,7 +48,7 @@ module.exports = function(app) {
         var description = req.body.description;
 		var start_date = req.body.start_date;
         var end_date = req.body.end_date;
-        var author = req.body.author
+        var author = req.body.author;
         var location = req.body.location;
         var price = req.body.price;
         var hashtag = req.body.hashtag;
@@ -184,7 +184,7 @@ module.exports = function(app) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {
-                            res.status(200).send("Successfully edited event");               
+                            res.status(200).send("Successfully edited event");
                         } else {
                             res.status(404).send("Event not found");
                         }
@@ -238,7 +238,7 @@ module.exports = function(app) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {
-                            resstatus(200).send("successfully expired event");                        
+                            res.status(200).send("successfully expired event");                        
                         } else {
                             res.status(404).send("Event not found");
                         }

@@ -1,4 +1,6 @@
 node_modules/
 .idea/
 .nyc_output/
+*.DS_Store
 mysql_conf.json
+

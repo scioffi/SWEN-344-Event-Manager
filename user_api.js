@@ -54,7 +54,7 @@ module.exports = function(app) {
         var email = req.query.email;
         if (db_utils.nullOrEmpty(email)) {
             res.status(400).send("Missing email parameter");
-        } else if (db_utils.validateEmail(email)) {
+        } else if (!db_utils.validateEmail(email)) {
             res.status(400).send("Invalid email");
         } else {
             db_utils.getUserByEmail(email, function(err, result) {
@@ -76,7 +76,7 @@ module.exports = function(app) {
             } else if (results.length) {
                 res.send(JSON.stringify(results));
             } else {
-                res.status(404).send("No user in database");
+                res.status(404).send("No users in database");
             }
         });
     });
@@ -124,18 +124,13 @@ module.exports = function(app) {
         var last_name = req.body.last_name;
         var email = req.body.email;
         var permission = req.body.permission;
-        if (userId == null) {
-            res.status(400).send("Missing userId parameter");
-        } else if (db_utils.nullOrEmpty(first_name)) {
+        if (db_utils.nullOrEmpty(first_name)) {
             res.status(400).send("Missing firstname parameter");
         } else if (db_utils.nullOrEmpty(last_name)) {
             res.status(400).send("Missing lastname parameter");
         } else if (db_utils.nullOrEmpty(email)) {
             res.status(400).send("Missing email parameter");
         } else {
-            if (isNaN(userId) || (parseInt(userId) <= 0)) {
-                res.status(400).send("Invalid userId");
-            }
             if (!db_utils.validateEmail(email)) {
                 res.status(400).send("Invalid email format");
             }
