@@ -493,66 +493,6 @@ describe("POST API endpoint /deleteOrder", function(){
 
 
 /**
- * Test POST /api/addAttendee
- */
-describe("POST API endpoint /addAttendee", function(){
-    it('should add an attendee give userId and name', function() {
-        return chai.request(app)
-            .post('/api/addAttendee')
-            .send({
-                userId: 1,
-                name: 'John Doe'
-            })
-            .then(function(res) {
-                expect(res).to.have.status(200);
-            });
-    });
-
-    it ('should return 400 if missing data', function(){
-        return chai.request(app)
-            .post('/api/addAttendee')
-            .send({
-                userId: 1
-            })
-            .then(function(res) {
-                expect(res).to.have.status(400)
-            });
-    });
-
-});
-
-
-/**
- * Test POST /api/deleteAttendee
- *
- */
-describe("POST API endpoint /deleteAttendee", function(){
-    it('should delete an attendee given userId', function() {
-        return chai.request(app)
-            .post('/api/deleteAttendee')
-            .send({
-                userId: 1
-            })
-            .then(function(res) {
-                expect(res).to.have.status(200);
-            });
-    });
-
-    // ERROR CASE : Missing User ID
-    it ('should return 400 if missing data', function(){
-        return chai.request(app)
-            .post('/api/deleteAttendee')
-            .send({
-            })
-            .then(function(res) {
-                expect(res).to.have.status(400)
-            });
-    });
-
-});
-
-
-/**
  * Test POST /api/createOrder
  */
 describe.only("POST API endpoint /createOrder", function(){
