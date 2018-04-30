@@ -6,6 +6,7 @@ const expect = require('chai').expect;
 chai.use(require('chai-http'));
 
 const app = require('../app.js'); // Our app
+var id_to_delete;
 
 /**
  * Test GET /api/getUsers
@@ -186,7 +187,7 @@ describe.only("GET API endpoint /getCurrencyConversion", function(){
 /**
  * Test POST /api/createUser
  */
-describe("POST API endpoint /createUser", function(){
+describe.only("POST API endpoint /createUser", function(){
     it('should create a user', function() {
         return chai.request(app)
             .post('/api/createUser')
@@ -200,6 +201,7 @@ describe("POST API endpoint /createUser", function(){
                 var output = JSON.parse(res.text);
                 expect(output["id"]).to.not.equal(null);
                 expect(output["id"]).to.not.equal(undefined);
+                id_to_delete = output["id"];
             });
     });
 
@@ -273,12 +275,12 @@ describe.only("POST API endpoint /editUser", function(){
 /**
  * Test POST /api/deleteUser
  */
-describe("POST API endpoint /deleteUser", function(){
+describe.only("POST API endpoint /deleteUser", function(){
     it('should delete a user given a userid', function() {
         return chai.request(app)
             .post('/api/deleteUser')
             .send({
-                userId: 1
+                userId: id_to_delete
             })
             .then(function(res) {
                 expect(res).to.have.status(200);

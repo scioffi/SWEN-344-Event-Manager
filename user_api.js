@@ -76,7 +76,7 @@ module.exports = function(app) {
             } else if (results.length) {
                 res.send(JSON.stringify(results));
             } else {
-                res.status(404).send("No user in database");
+                res.status(404).send("No users in database");
             }
         });
     });
