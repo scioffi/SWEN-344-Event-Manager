@@ -74,8 +74,6 @@ module.exports = function(app) {
             res.status(400).send("Missing hashtag parameter");
         } else if (db_utils.nullOrEmpty(creation_date)) {
             res.status(400).send("Missing creation_date parameter");
-        } else if (db_utils.nullOrEmpty(image)) {
-            res.status(400).send("Missing image parameter");
         } else {
             if (isNaN(author) || (parseInt(author) <= 0)) {
                 res.status(400).send("Invalid author id");
@@ -158,8 +156,6 @@ module.exports = function(app) {
             res.status(400).send("Missing hashtag parameter");
         } else if (db_utils.nullOrEmpty(status)) {
             res.status(400).send("Missing status parameter");
-        } else if (db_utils.nullOrEmpty(image)) {
-            res.status(400).send("Missing image parameter");
         } else {
             if (isNaN(eventId) || (parseInt(eventId) <= 0)) {
                 res.status(400).send("Invalid eventId");
