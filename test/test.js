@@ -8,6 +8,8 @@ chai.use(require('chai-http'));
 const app = require('../app.js'); // Our app
 var user_id_to_delete;
 var message_id_to_delete;
+var order_id_to_delete;
+var event_id_to_delete;
 
 /**
  * Test GET /api/getUsers
@@ -22,7 +24,6 @@ describe.only('GET API endpoint api/getUsers', function() {
             .then(function(res) {
                 expect(res).to.have.status(200);
                 var output = JSON.parse(res.text);
-                console.log(output);
 
                 expect(output[0]["user_id"]).to.equal(1);
                 expect(output[0]["permission"]).to.equal("admin");
@@ -375,22 +376,27 @@ describe.only("POST API endpoint /deleteUser", function(){
 /**
  * Test POST /api/createEvent
  */
-describe.skip("POST API endpoint /createEvent", function(){
-    it('should create an event given title, startTime, endTime, author, location, price and hastag', function() {
+describe("POST API endpoint /createEvent", function(){
+    it('should create an event', function() {
         return chai.request(app)
             .post('/api/createEvent')
             .send({
-                title: 'something1',
-                description: "yep",
-                start_time: '1244',
-                end_time: '1244',
-                author: 'Doe',
-                location: 'UR',
-                price: 10,
-                tag: 'test'
+                hashtag: 'TestingEvent',
+                description: "Just testing!",
+                author: "1",
+                location: 'RIT campus',
+                price: 0,
+                start_date: 1525514400,
+                end_date: 1525525200,
+                creation_date: 1524000000,
+                title: 'Testing Event',
+                status: 'open',
+                image: '11'
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
+                var output = JSON.parse(res.text);
+                event_id_to_delete = output["id"];
             });
     });
 
@@ -448,12 +454,12 @@ describe("POST API endpoint /editEvent", function(){
 /**
  * Test POST /api/expireEvent
  */
-describe("POST API endpoint /expireEvent", function(){
+describe.only("POST API endpoint /expireEvent", function(){
     it('should expire an event given eventId', function() {
         return chai.request(app)
             .post('/api/expireEvent')
             .send({
-                eventId: 1
+                eventId: 5
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
@@ -474,14 +480,14 @@ describe("POST API endpoint /expireEvent", function(){
 
 
 /**
- * Test POST /api/deleteEvent
+ * Test POST /api/cancelEvent
  */
-describe.skip("POST API endpoint /deleteEvent", function(){
+describe("POST API endpoint /cancelEvent", function(){
     it('should delete an event given eventId ', function() {
         return chai.request(app)
-            .post('/api/deleteEvent')
+            .post('/api/cancelEvent')
             .send({
-                eventId: 1
+                eventId: event_id_to_delete
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
@@ -492,7 +498,7 @@ describe.skip("POST API endpoint /deleteEvent", function(){
 
     it ('should return 400 if missing data', function(){
         return chai.request(app)
-            .post('/api/deleteEvent')
+            .post('/api/cancelEvent')
             .send({
             })
             .then(function(res) {
@@ -502,44 +508,13 @@ describe.skip("POST API endpoint /deleteEvent", function(){
 
 });
 
-
-/**
- * Test POST /api/deleteOrder
- */
-describe.skip("POST API endpoint /deleteOrder", function(){
-    it('should delete an order given eventId and userid', function() {
-        return chai.request(app)
-            .post('/api/deleteOrder')
-            .send({
-                eventId: 1,
-                userId:2
-            })
-            .then(function(res) {
-                expect(res).to.have.status(200);
-            });
-    });
-
-    // ERROR CASE
-
-    it ('should return 400 if missing data', function(){
-        return chai.request(app)
-            .post('/api/deleteOrder')
-            .send({
-                eventId: 1,
-            })
-            .then(function(res) {
-                expect(res).to.have.status(400)
-            });
-    });
-
-});
 
 
 /**
  * Test POST /api/createOrder
  */
-describe.skip("POST API endpoint /createOrder", function(){
-    it('should create an order given userId, eventId, price and currency', function() {
+describe.only("POST API endpoint /createOrder", function(){
+    it('should create an order given userId, eventId, and price', function() {
         return chai.request(app)
             .post('/api/createOrder')
             .send({
@@ -550,7 +525,8 @@ describe.skip("POST API endpoint /createOrder", function(){
             .then(function(res) {
                 expect(res).to.have.status(200);
                 var output = JSON.parse(res.text);
-                console.log(output);
+                order_id_to_delete = output["id"]
+
             });
     });
 
@@ -559,6 +535,36 @@ describe.skip("POST API endpoint /createOrder", function(){
             .post('/api/createOrder')
             .send({
                 userId: 1
+            })
+            .then(function(res) {
+                expect(res).to.have.status(400)
+            });
+    });
+});
+
+
+/**
+ * Test POST /api/deleteOrder
+ */
+
+describe.only("POST API endpoint /deleteOrder", function(){
+    it('should delete an order given orderId', function() {
+        return chai.request(app)
+            .post('/api/deleteOrder')
+            .send({
+                orderId: order_id_to_delete,
+            })
+            .then(function(res) {
+                expect(res).to.have.status(200);
+            });
+    });
+
+    // ERROR CASE
+
+    it ('should return 400 if missing data', function(){
+        return chai.request(app)
+            .post('/api/deleteOrder')
+            .send({
             })
             .then(function(res) {
                 expect(res).to.have.status(400)
@@ -603,7 +609,6 @@ describe.only("GET API endpoint /getMessage with param messageId = 1", function(
 
                 expect(res).to.have.status(200);
                 var output = JSON.parse(res.text);
-                console.log(output);
 
                 expect(output["message_id"]).to.equal(1);
                 expect(output["message"]).to.equal("Enjoy your Spring Fest");

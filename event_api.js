@@ -4,11 +4,9 @@ var db = require('./db.js');
 var db_utils = require('./db_utils.js');
 const API_PATH = "/api";
 			 
-
-const INSERT_EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag', 'image'];
-const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag', 'image'];
+const INSERT_EVENT_COLUMNS = ['title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag','image'];
+const SELECT_EVENT_COLUMNS = ['event_id', 'title', 'description','author','location','status','price','start_date','end_date','creation_date','hashtag','image'];
 const EVENT_STATUSES = ['open', 'expired', 'canceled'];
-
 
 module.exports = function(app) {
     app.use(bodyParser.urlencoded({ extended: true })); 
@@ -55,6 +53,7 @@ module.exports = function(app) {
         var price = req.body.price;
         var hashtag = req.body.hashtag;
         var creation_date = req.body.creation_date;
+        var image = req.body.image;
         var status = "open";
 		
         if (db_utils.nullOrEmpty(title)) {
@@ -108,7 +107,7 @@ module.exports = function(app) {
                                 // notes: start_date, end_date and creation_date must be in mysql datetime format
                                 // this is different from the returned result from node.js mysql because the result
                                 // is in iso date format
-                                var values = [title, description, author, location, status, price, start_date, end_date, creation_date, hashtag];
+                                var values = [title, description, author, location, status, price, parseInt(start_date), parseInt(end_date), parseInt(creation_date), hashtag, image];
                                 db.query("INSERT INTO ?? (??) VALUES (?)",['event', INSERT_EVENT_COLUMNS, values] , function (err, result, fields) {
                                     if (err) throw err;
                                     res.send({"id":result.insertId});
@@ -136,7 +135,7 @@ module.exports = function(app) {
         var location = req.body.location;
         var price = req.body.price;
         var hashtag = req.body.hashtag;
-        var creation_date = req.body.creation_date;
+        var image = req.body.image;
 		if (db_utils.nullOrEmpty(eventId)) {
             res.status(400).send("Missing eventId parameter");
         } else if (db_utils.nullOrEmpty(title)) {
@@ -155,8 +154,6 @@ module.exports = function(app) {
             res.status(400).send("Missing price parameter");
         } else if (db_utils.nullOrEmpty(hashtag)) {
             res.status(400).send("Missing hashtag parameter");
-        } else if (db_utils.nullOrEmpty(parseInt(creation_date))) {
-            res.status(400).send("Missing creation_date parameter");
         } else if (db_utils.nullOrEmpty(status)) {
             res.status(400).send("Missing status parameter");
         } else {
@@ -178,17 +175,16 @@ module.exports = function(app) {
             if (!db_utils.validateTimestamp(parseInt(end_date))) {
                 res.status(400).send("Invalid end_date");
             }
-
             db_utils.getEventById(eventId, function(err, result) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result.length) {
-                    db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['event', 'title', title, 'description', description, 'status', status,
-                                'location', location, 'price', price, 'hashtag', hashtag, 'start_date', start_date, 'end_date', end_date, eventId] , function (err, result, fields) {
+                    db.query("UPDATE ?? SET ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ?, ?? = ? WHERE `event_id` = ?",['event', 'title', title, 'description', description, 'status', status,
+                                'location', location, 'price', price, 'hashtag', hashtag, 'start_date', parseInt(start_date), 'end_date', parseInt(end_date), 'image', image, eventId] , function (err, result, fields) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {
-                            res.status(200);               
+                            res.status(200).send("Successfully edited event");
                         } else {
                             res.status(404).send("Event not found");
                         }
@@ -242,7 +238,7 @@ module.exports = function(app) {
                         if (err) {
                             res.status(500).send(err);
                         } else if (result.affectedRows) {
-                            resstatus(200).send("successfully expired event");                        
+                            res.status(200).send("successfully expired event");                        
                         } else {
                             res.status(404).send("Event not found");
                         }
