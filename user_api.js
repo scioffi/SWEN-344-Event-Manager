@@ -54,7 +54,7 @@ module.exports = function(app) {
         var email = req.query.email;
         if (db_utils.nullOrEmpty(email)) {
             res.status(400).send("Missing email parameter");
-        } else if (db_utils.validateEmail(email)) {
+        } else if (!db_utils.validateEmail(email)) {
             res.status(400).send("Invalid email");
         } else {
             db_utils.getUserByEmail(email, function(err, result) {

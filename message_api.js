@@ -18,7 +18,7 @@ module.exports = function(app) {
         } else if (isNaN(messageId) || (parseInt(messageId) <= 0)) {
             res.status(400).send("Invalid messageId");
         } else {
-            db_utils.getMessageByUser(messageId, function(err, result) {
+            db_utils.getMessageById(messageId, function(err, result) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result.length) {
@@ -62,7 +62,7 @@ module.exports = function(app) {
     })
 
     app.post(API_PATH + '/addMessage', (req, res) => {
-        var eventId = req.body.eventId;	
+        var eventId = req.body.eventId;
         var fromUser = req.body.from_user;
         var toUser = req.body.to_user;
         var message = req.body.message;
@@ -121,7 +121,7 @@ module.exports = function(app) {
         } else if (isNaN(messageId) || (parseInt(messageId) <= 0)) {
             res.status(400).send("Invalid messageId");
         } else {
-            getMessageById(messageId, function(err, result) {
+            db_utils.getMessageById(messageId, function(err, result) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result) {   
