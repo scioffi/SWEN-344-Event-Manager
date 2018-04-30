@@ -18,7 +18,7 @@ module.exports = function(app) {
         } else if (isNaN(messageId) || (parseInt(messageId) <= 0)) {
             res.status(400).send("Invalid messageId");
         } else {
-            db_utils.getMessageByUser(messageId, function(err, result) {
+            db_utils.getMessageById(messageId, function(err, result) {
                 if (err) {
                     res.status(500).send(err);
                 } else if (result.length) {
