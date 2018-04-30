@@ -22,9 +22,6 @@ SET time_zone = "+00:00";
 -- Database: `eventmanagement`
 --
 
-CREATE DATABASE `EventManagement`;
-use EventManagement;
-
 -- --------------------------------------------------------
 
 --
@@ -51,11 +48,11 @@ CREATE TABLE `event` (
 --
 
 INSERT INTO `event` (`event_id`, `hashtag`, `description`, `author`, `location`, `price`, `start_date`, `end_date`, `creation_date`, `title`, `status`, `image`) VALUES
-  (1, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1524000000, 'RIT Spring Fest', 'open', NULL),
-  (2, '#ReadingDay', 'Semester event for finals', '1', 'campus', 25.5, 1524000000, 1524681975, 1524000000, 'Spring Reading Day 2018', 'open', NULL),
-  (3, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1525514400, 'RIT Spring', 'open', NULL),
-  (4, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1525514400, 'RIT Spring2', 'open', '11'),
-  (5, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1525514400, 'RIT Spring12', 'open', '11');
+(1, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1524000000, 'RIT Spring Fest', 'open', NULL),
+(2, '#ReadingDay', 'Semester event for finals', '1', 'campus', 25.5, 1524000000, 1524681975, 1524000000, 'Spring Reading Day 2018', 'open', NULL),
+(3, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1525514400, 'RIT Spring', 'open', NULL),
+(4, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1525514400, 'RIT Spring2', 'open', '11'),
+(5, 'RITSpringFest', 'RIT annual event', '1', 'RIT campus', 0, 1525514400, 1525525200, 1525514400, 'RIT Spring12', 'open', '11');
 
 -- --------------------------------------------------------
 
@@ -77,11 +74,11 @@ CREATE TABLE `message` (
 --
 
 INSERT INTO `message` (`message_id`, `from_user`, `to_user`, `message`, `shared_time`, `event_id`) VALUES
-  (1, 1, 2, 'Enjoy your Spring Fest', 1524680000, 1),
-  (2, 2, 1, 'Start your reading now', 1524200000, 2),
-  (3, 1, 2, 'Hi there', 1524778073, 1),
-  (4, 1, 2, 'alo', 1524954178835, 1),
-  (5, 1, 2, 'alo', 1524954389, 1);
+(1, 1, 2, 'Enjoy your Spring Fest', 1524680000, 1),
+(2, 2, 1, 'Start your reading now', 1524200000, 2),
+(3, 1, 2, 'Hi there', 1524778073, 1),
+(4, 1, 2, 'alo', 1524954178835, 1),
+(5, 1, 2, 'alo', 1524954389, 1);
 
 -- --------------------------------------------------------
 
@@ -101,8 +98,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `event_id`, `price`, `user_id`) VALUES
-  (1, 1, 0, 1),
-  (2, 2, 25.5, 2);
+(1, 1, 0, 1),
+(2, 2, 25.5, 2);
 
 -- --------------------------------------------------------
 
@@ -123,9 +120,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `permission`, `email`) VALUES
-  (1, 'Chris', 'Vuong', 'admin', 'hnv1002@rit.edu'),
-  (2, 'John', 'Smith', 'user', 'jnsxxxx@rit.edu'),
-  (10, 'Chris', 'Vuong', 'user', 'hvuong94@gmail.com');
+(1, 'Chris', 'Vuong', 'admin', 'hnv1002@rit.edu'),
+(2, 'John', 'Smith', 'user', 'jnsxxxx@rit.edu'),
+(10, 'Chris', 'Vuong', 'user', 'hvuong94@gmail.com');
 
 --
 -- Indexes for dumped tables
