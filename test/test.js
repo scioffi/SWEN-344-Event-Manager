@@ -20,7 +20,6 @@ describe.only('GET API endpoint api/getUsers', function() {
             .then(function(res) {
                 expect(res).to.have.status(200);
                 var output = JSON.parse(res.text);
-                console.log(output);
 
                 expect(output[0]["user_id"]).to.equal(1);
                 expect(output[0]["permission"]).to.equal("admin");
@@ -86,22 +85,23 @@ describe.only("GET API endpoint /getEvents", function(){
 /**
  * Test GET /api/getEvent?eventId=1
  */
-describe("GET API endpoint /getEvent with param id = 1", function(){
+describe.only("GET API endpoint /getEvent with param id = 1", function(){
     it('should return event with id=1', function() {
         return chai.request(app)
             .get('/api/getEvent?eventId=1')
             .then(function(res) {
-                expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body).to.be.an('object');
 
-                expect(res.body["eventId"]).to.equal(1)
-                expect(res.body["title"]).to.equal('RIT Spring Fest')
-                expect(res.body["status"]).to.equal('open')
+                expect(res).to.have.status(200);
+                var output = JSON.parse(res.text);
+
+                expect(output["event_id"]).to.equal(1);
+                expect(output["title"]).to.equal("RIT Spring Fest");
+                expect(output["status"]).to.equal("open");
+
             });
     });
 
-// ERROR CASE: Missing eventId
+    // ERROR CASE: Missing eventId
     it ('should return 400 if missing params', function(){
         return chai.request(app)
             .get('/api/getEvent?eventId=')
@@ -113,74 +113,26 @@ describe("GET API endpoint /getEvent with param id = 1", function(){
 
 
 /**
- * Test GET /api/getAttendees
+ * Test GET /api/getOrder?orderId=1
  */
-describe("GET API endpoint /getAttendees", function(){
-    it('should return all the attendees', function() {
-        return chai.request(app)
-            .get('/api/getAttendees')
-            .then(function(res) {
-                expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body).to.be.an('array');
-
-                expect(res.body[0]["eventId"]).to.equal(1)
-                expect(res.body[0]["name"]).to.equal('John Doe')
-
-                expect(res.body[1]["eventId"]).to.equal(2)
-                expect(res.body[1]["name"]).to.equal('Dan Krutz')
-
-            });
-    });
-});
-
-
-/**
- * Test GET /api/getAttendee?eventId=1
- */
-describe("GET API endpoint /getAttendee with event Id", function(){
-    it('should return attendee in certain event', function() {
-        return chai.request(app)
-            .get('/api/getAttendee?eventId=1')
-            .then(function(res) {
-                expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body).to.be.an('object');
-
-                expect(res.body["eventId"]).to.equal(1)
-                expect(res.body["name"]).to.equal('John Doe')
-            });
-    });
-
-    // ERROR CASE: Missing params
-    it ('should return 400 if missing params', function(){
-        return chai.request(app)
-            .get('/api/getAttendee?eventId=')
-            .then(function(res) {
-                expect(res).to.have.status(400);
-            });
-    });
-});
-
-
-
-
-/**
- * Test GET /api/getOrder?eventId=1&userId=2
- */
-describe("GET API endpoint /getOrder with event id = 1 and user id = 2", function(){
+describe.only("GET API endpoint /getOrder with order id = 1", function(){
     it('should return order as per the params', function() {
         return chai.request(app)
-            .get('/api/getOrder?eventId=1&userId=2')
+            .get('/api/getOrder?orderId=1')
             .then(function(res) {
+
                 expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body["eventId"]).to.equal(1);
+                var output = JSON.parse(res.text);
+
+                expect(output["first_name"]).to.equal("Chris");
+                expect(output["last_name"]).to.equal("Vuong");
+                expect(output["title"]).to.equal("RIT Spring Fest");
+
             });
     });
 
-    // ERROR CASE: Missing params
-    it ('should return 400 if missing params', function(){
+    // ERROR CASE: Invalid params
+    it ('should return 400 if invalid params', function(){
         return chai.request(app)
             .get('/api/getOrder?eventId=1')
             .then(function(res) {
@@ -194,23 +146,22 @@ describe("GET API endpoint /getOrder with event id = 1 and user id = 2", functio
 /**
  * Test GET /api/getOrders
  */
-describe("GET API endpoint /getOrders", function(){
+describe.only("GET API endpoint /getOrders", function(){
     it('should return all the orders ', function() {
         return chai.request(app)
             .get('/api/getOrders')
             .then(function(res) {
+
                 expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body).to.be.an('array');
+                var output = JSON.parse(res.text);
 
+                expect(output[0]["first_name"]).to.equal("Chris");
+                expect(output[0]["last_name"]).to.equal("Vuong");
+                expect(output[0]["title"]).to.equal("RIT Spring Fest");
 
-                expect(res.body[0]["userId"]).to.equal(1)
-                expect(res.body[0]["eventId"]).to.equal(1)
-                expect(res.body[0]["price"]).to.equal(0)
-
-                expect(res.body[1]["userId"]).to.equal(2)
-                expect(res.body[1]["eventId"]).to.equal(2)
-                expect(res.body[1]["price"]).to.equal(25)
+                expect(output[1]["first_name"]).to.equal("John");
+                expect(output[1]["last_name"]).to.equal("Smith");
+                expect(output[1]["title"]).to.equal("Spring Reading Day 2018");
 
             });
     });
@@ -220,14 +171,13 @@ describe("GET API endpoint /getOrders", function(){
 /**
  * Test GET /api/getCurrencyConversion
  */
-describe("GET API endpoint /getCurrencyConversion", function(){
-    it('should respective currency conversion values', function() {
+describe.only("GET API endpoint /getCurrencyConversion", function(){
+    it('should show multiple currency conversion values of 10000 USD', function() {
         return chai.request(app)
-            .get('/api/getCurrencyConversion')
+            .get('/api/getCurrencyConversion?amount=10000')
             .then(function(res) {
                 expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body).to.be.an('object');
+                // checking against results is volatile as it changes constantly!
             });
     });
 });
@@ -237,16 +187,19 @@ describe("GET API endpoint /getCurrencyConversion", function(){
  * Test POST /api/createUser
  */
 describe("POST API endpoint /createUser", function(){
-    it('should create a user given username, name and email', function() {
+    it('should create a user', function() {
         return chai.request(app)
             .post('/api/createUser')
             .send({
-                username: 'someone',
-                name: 'John Doe',
+                first_name: 'someone',
+                last_name: 'John Doe',
                 email: 'johndoe@something.com'
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
+                var output = JSON.parse(res.text);
+                expect(output["id"]).to.not.equal(null);
+                expect(output["id"]).to.not.equal(undefined);
             });
     });
 
@@ -268,17 +221,38 @@ describe("POST API endpoint /createUser", function(){
 /**
  * Test POST /api/editUser
  */
-describe("POST API endpoint /editUser", function(){
-    it('should edit a user given username, name and email', function() {
+describe.only("POST API endpoint /editUser", function(){
+    it('should edit Chris to Kyle', function() {
         return chai.request(app)
             .post('/api/editUser')
             .send({
-                username: 'someone',
-                name: 'John Doe',
-                email: 'johndoe@something.com'
+                first_name: 'Kyle',
+                last_name: 'Scagnelli',
+                email: 'kjs5107@rit.edu',
+                permission: 'admin',
+                userId: 1
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
+                var output = JSON.parse(res.text);
+                console.log(output);
+            });
+    });
+
+    it('should edit Kyle back to Chris', function() {
+        return chai.request(app)
+            .post('/api/editUser')
+            .send({
+                first_name: 'Chris',
+                last_name: 'Vuong',
+                email: 'hnv1002@rit.edu',
+                permission: 'admin',
+                userId: 1
+            })
+            .then(function(res) {
+                expect(res).to.have.status(200);
+                var output = JSON.parse(res.text);
+                console.log(output);
             });
     });
 
