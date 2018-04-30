@@ -7,6 +7,7 @@ chai.use(require('chai-http'));
 
 const app = require('../app.js'); // Our app
 var id_to_delete;
+var order_id_to_delete;
 
 /**
  * Test GET /api/getUsers
@@ -339,15 +340,20 @@ describe("POST API endpoint /createEvent", function(){
             .send({
                 title: 'something1',
                 description: "yep",
-                start_time: '1244',
-                end_time: '1244',
+                start_date: '1244',
+                end_date: '1244',
                 author: 'Doe',
                 location: 'UR',
                 price: 10,
-                tag: 'test'
+                hashtag: 'test',
+                creation_date: "1939"
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
+                console.log(res.status);
+                var output = JSON.parse(res.text);
+                console.log(output);
+                id_to_delete = output["id"];
             });
     });
 
@@ -463,13 +469,12 @@ describe("POST API endpoint /deleteEvent", function(){
 /**
  * Test POST /api/deleteOrder
  */
-describe("POST API endpoint /deleteOrder", function(){
+describe.only("POST API endpoint /deleteOrder", function(){
     it('should delete an order given eventId and userid', function() {
         return chai.request(app)
             .post('/api/deleteOrder')
             .send({
-                eventId: 1,
-                userId:2
+                orderId: order_id_to_delete,
             })
             .then(function(res) {
                 expect(res).to.have.status(200);
@@ -507,7 +512,9 @@ describe.only("POST API endpoint /createOrder", function(){
             .then(function(res) {
                 expect(res).to.have.status(200);
                 var output = JSON.parse(res.text);
-                console.log(output);
+                // console.log(output);
+                order_id_to_delete = output["id"]
+
             });
     });
 
